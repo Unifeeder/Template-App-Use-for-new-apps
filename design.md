@@ -17,15 +17,15 @@ The DP World vertical logo is the primary brand mark across all apps. Two varian
 | Light background | `DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png` | Light theme (`bg-card` is light) |
 | Dark background | `DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png` | Dark theme (`bg-card` is dark) |
 
-Both files should be placed in the project's asset directory (e.g. `attached_assets/`).
+Both files should be placed in the project's asset directory (`public/assets/logos/`).
 
 ### 1.2 Theme-Aware Import
 
 Import both variants and switch based on the current theme:
 
 ```tsx
-import dpWorldLogoLight from "@assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png";
-import dpWorldLogoDark from "@assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png";
+import dpWorldLogoLight from "@assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png";
+import dpWorldLogoDark from "@assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png";
 
 const { theme } = useTheme();
 const dpWorldLogo = theme === "dark" ? dpWorldLogoDark : dpWorldLogoLight;
@@ -905,7 +905,7 @@ Add any app-specific context providers (real-time connections, auth state) as ad
 2. Copy `tailwind.config.ts` with color mappings, border radii, font families, and plugins
 3. Copy `components/ui/` directory (Badge, Button, Card, Dialog, Tooltip, etc.)
 4. Copy `lib/utils.ts` with the `cn()` helper
-5. Place the DP World logo asset and configure the `@assets` import alias
+5. Place the DP World logo assets in `public/assets/logos/` and configure the `@assets` import alias to resolve to `public/assets/`
 6. Place Pilat font files in `public/assets/fonts/` (PilatLight.ttf, PilatDemi.ttf, PilatWideBook.ttf, PilatWideHeavy.ttf)
 7. Implement the `Header` component following Section 9
 8. Implement the `MobileNav` component following Section 10

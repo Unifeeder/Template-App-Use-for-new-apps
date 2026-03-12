@@ -45,7 +45,7 @@ Files synced from GitHub:
 - `design.md` — Full design system specification
 - `documentation.md` — Documentation template
 - `public/assets/fonts/` — All 4 Pilat font files
-- `attached_assets/` — All DP World logo variants
+- `public/assets/logos/` — All DP World logo variants
 
 ## New App Creation Checklist
 
@@ -84,7 +84,6 @@ The complete design system is in `design.md`. Key files:
 | `public/assets/fonts/` | Pilat font files (Light, Demi, Wide Book, Wide Heavy) |
 | `public/assets/logos/` | DP World logo variants (all formats) |
 | `public/assets/*.ai` | DP World gradient background files (Master, Economic Zones, Ports & Terminals — CMYK and RGB) |
-| `attached_assets/DP_World_Logo_*` | DP World logo variants for `@assets/` imports |
 
 ## Stack
 
