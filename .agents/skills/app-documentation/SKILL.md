@@ -1,6 +1,6 @@
 ---
 name: app-documentation
-description: Maintain a documentation.md file at the project root covering features, data model, database, integrations, and roadmap. Use when building a new app, adding/removing features, changing data models, modifying integrations, or when the user asks about documentation. Also renders as a /docs page following design.md.
+description: Maintain a documentation.md file at the project root covering features, data model, database, data sources, integrations, and roadmap. Use when building a new app, adding/removing features, changing data models, modifying data sources or integrations, or when the user asks about documentation. Also renders as a /docs page following design.md.
 ---
 
 # App Documentation
@@ -11,24 +11,25 @@ Use this skill when:
 - Bootstrapping a new application — `documentation.md` MUST be created as part of initial setup
 - Adding or removing a feature
 - Changing database tables, columns, or indexes
+- Adding, modifying, or removing a data source or input file
 - Adding, modifying, or removing an external integration
 - The user asks to document the app or update documentation
 - Reviewing the app's roadmap
-- Completing any task that changes user-facing behavior, data structures, or external connections
+- Completing any task that changes user-facing behavior, data structures, data inputs, or external connections
 
 ## Enforcement
 
 - `documentation.md` MUST exist at the project root for every app. If it does not exist, create it before completing any task.
-- After every feature, schema, or integration change, update the relevant section of `documentation.md` as part of completing the task — do not wait for the user to ask.
+- After every feature, schema, data source, or integration change, update the relevant section of `documentation.md` as part of completing the task — do not wait for the user to ask.
 - Documentation updates are not optional follow-ups. The task is not done until `documentation.md` reflects the current state of the app.
 
 ## Core Principle
 
-`documentation.md` at the project root is the single source of truth for what the app does, what data it uses, and what services it connects to. Keep it concise — implementation details belong in `replit.md`, not here. This file is written for anyone who needs to understand the app without reading code: product owners, new developers, or the agent in a future session.
+`documentation.md` at the project root is the single source of truth for what the app does, what data it uses, where that data comes from, and what services it connects to. Keep it concise — implementation details belong in `replit.md`, not here. This file is written for anyone who needs to understand the app without reading code: product owners, new developers, or the agent in a future session.
 
 ## Template Structure
 
-When creating `documentation.md`, use these 6 sections:
+When creating `documentation.md`, use these 7 sections:
 
 ### 1. Overview
 One paragraph describing what the app does and who it's for, followed by 3-5 key value propositions as bullets.
@@ -92,30 +93,104 @@ Brief section on the storage approach used. Document the engine, ORM (if any), m
 | projects | User-created projects | name, ownerId |
 ```
 
-### 5. Integrations
-Each external service gets its own block with: name, purpose, protocol/URL pattern, auth method, data flow direction, polling/webhook details, and required env vars.
+### 5. Data Sources & Inputs
+Document every source of data that flows into the app. This section makes it clear where data comes from, in what format, and how often it changes — without reading code.
+
+Use the appropriate subsection for each data source type. Remove subsections that don't apply.
+
+#### 5a. File-Based Inputs
+Data loaded from files (Excel, CSV, JSON, XML, etc.) — whether bundled with the app, placed on disk, or provided by an external team.
+
+```markdown
+### File-Based Inputs
+
+| File | Format | Location | Schema / Key Columns | Update Frequency | Provider |
+|------|--------|----------|----------------------|------------------|----------|
+| vessel_schedule.xlsx | Excel (.xlsx) | `data/imports/` | VesselName, ETA, ETD, PortCode | Weekly (Monday) | Operations team via email |
+| port_codes.json | JSON | `data/reference/` | code, name, country, timezone | Rarely — updated when new ports added | Engineering |
+```
+
+#### 5b. API-Sourced Data
+Data fetched from external or internal APIs on a schedule or in response to events.
+
+```markdown
+### API-Sourced Data
+
+| Source | Endpoint / Topic | Protocol | Data Format | Refresh Cadence | Direction |
+|--------|-----------------|----------|-------------|-----------------|-----------|
+| DP World TOS | `https://tos.dpworld.com/api/v2/movements` | REST | JSON | Every 15 min (polling) | Inbound |
+| Weather API | `https://api.openweathermap.org/data/3.0/onecall` | REST | JSON | Hourly | Inbound |
+```
+
+#### 5c. User-Uploaded Data
+Files or data submitted by users through the application UI.
+
+```markdown
+### User-Uploaded Data
+
+| Upload Type | Accepted Formats | Max Size | Processing Pipeline | Destination |
+|-------------|-----------------|----------|---------------------|-------------|
+| Cargo manifest | .xlsx, .csv | 10 MB | Parse → validate schema → insert rows into `cargo` table | PostgreSQL `cargo` table |
+| Supporting docs | .pdf, .png, .jpg | 5 MB | Store in object storage, link to shipment record | Object storage + `documents` table |
+```
+
+#### 5d. Static / Seed Data
+Bundled datasets, lookup tables, or reference data that ship with the app.
+
+```markdown
+### Static / Seed Data
+
+| Dataset | Format | Location | Description | How to Update |
+|---------|--------|----------|-------------|---------------|
+| Country codes | TypeScript const | `src/data/countries.ts` | ISO 3166-1 alpha-2 country list | Edit source file, rebuild |
+| DP World brand assets | Binary (TTF, PNG, AI) | `public/assets/` | Pilat fonts, logo variants, gradient files | Auto-synced daily via `scripts/sync-from-github.sh` |
+```
+
+If the app has no data sources beyond its own database, include the section with a note: _No external data sources. All data originates from user interactions stored in the database._
+
+### 6. Integrations
+Each external service gets its own detailed block. This section should give a complete picture of every external dependency — enough for someone to understand what breaks if the service goes down.
 
 ```markdown
 ## Integrations
 
 ### Stripe
 - **Purpose**: Payment processing and subscription management
+- **Version / Tier**: API v2023-10-16, Growth plan
 - **Protocol**: REST API + Webhooks
-- **Auth**: Secret key via `Authorization` header
-- **Data flow**: Outbound (create charges) + Inbound (webhook events)
+- **Base URL**: `https://api.stripe.com/v1`
+- **Auth**: Secret key via `Authorization: Bearer` header
 - **Env vars**: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
+- **Data flow**: Bidirectional
+  - **Outbound**: Create checkout sessions, update subscriptions
+  - **Inbound**: Webhook events — `checkout.session.completed`, `invoice.payment_failed`, `customer.subscription.updated`
+- **Key endpoints**:
+  - `POST /v1/checkout/sessions` — create payment session
+  - `POST /v1/subscriptions` — manage subscriptions
+  - `POST /v1/webhook` (incoming) — receive event notifications
+- **Error handling**: Webhook retries for 72h; failed payments trigger user notification email
+- **Rate limits**: 100 reads/sec, 100 writes/sec (standard tier)
 
 ### SendGrid
 - **Purpose**: Transactional email delivery
+- **Version / Tier**: API v3, Essentials plan
 - **Protocol**: REST API
-- **Auth**: API key via `Authorization` header
-- **Data flow**: Outbound — sends email on user actions
+- **Base URL**: `https://api.sendgrid.com/v3`
+- **Auth**: API key via `Authorization: Bearer` header
 - **Env vars**: `SENDGRID_API_KEY`
+- **Data flow**: Outbound
+  - Sends welcome email on user signup
+  - Sends password reset emails
+  - Sends weekly digest to subscribed users
+- **Key endpoints**:
+  - `POST /v3/mail/send` — send transactional email
+- **Error handling**: Failed sends logged; user shown inline error; no retry
+- **Rate limits**: 100 emails/day (Essentials)
 ```
 
 If the app has no external integrations, include the section with a note: _No external integrations._
 
-### 6. Roadmap
+### 7. Roadmap
 Two subsections: "Planned" for user-provided items, "Ideas" for agent-generated suggestions.
 
 ```markdown
@@ -139,8 +214,12 @@ When you make changes to the app, update the corresponding section of `documenta
 | New feature added | Features |
 | Feature removed | Features |
 | Database table added/modified | Data Model + Database |
+| New data source (file, API feed, upload) added | Data Sources & Inputs |
+| Data source format, schema, or frequency changed | Data Sources & Inputs |
+| Data source removed | Data Sources & Inputs |
 | New external API integration | Integrations |
 | Integration removed or changed | Integrations |
+| Integration auth, endpoints, or error handling changed | Integrations |
 | Major milestone completed | Roadmap (move from Planned to Features) |
 | App purpose or audience changed | Overview |
 
@@ -162,5 +241,5 @@ Ensure `replit.md` includes a reference to `documentation.md`:
 
 ```markdown
 ## Documentation
-**For app features, data model, database schema, integrations, and roadmap, see `documentation.md`.** This file is the concise reference for what the app does and how its data flows. Keep it updated when features, data, or integrations change.
+**For app features, data model, database schema, data sources, integrations, and roadmap, see `documentation.md`.** This file is the concise reference for what the app does and how its data flows. Keep it updated when features, data sources, or integrations change.
 ```

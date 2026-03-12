@@ -1,103 +1,104 @@
-# [App Name] — Documentation
+# DP World Shipping Solutions Template — Documentation
 
 > Part of the DP World Marine Services Shipping Solutions Suite
 
 ## Overview
 
-[Brief description of what this app does and its role in the Shipping Solutions ecosystem.]
+The Shipping Solutions Template is a standardized starting point for building DP World Marine Services applications. It provides brand-compliant design assets, agent skills for automated brand enforcement, and a daily sync mechanism to keep child apps aligned with the latest standards.
 
-## Architecture
-
-### Tech Stack
-
-- **Frontend**: React + Vite + TypeScript
-- **UI Components**: shadcn/ui with DP World design system
-- **Backend**: Express 5 + TypeScript
-- **Database**: PostgreSQL + Drizzle ORM
-- **API Contract**: OpenAPI 3.1 + Orval codegen
-- **Package Manager**: pnpm (monorepo)
-
-### Project Structure
-
-```text
-artifacts/
-├── [app-slug]/           # Frontend application
-│   └── src/
-│       ├── components/   # UI components
-│       ├── pages/        # Route pages
-│       ├── hooks/        # Custom hooks
-│       └── lib/          # Utilities
-├── api-server/           # Shared backend
-│   └── src/
-│       ├── routes/       # API route handlers
-│       └── middlewares/  # Express middleware
-lib/
-├── api-spec/             # OpenAPI specification
-├── api-client-react/     # Generated React Query hooks
-├── api-zod/              # Generated Zod schemas
-└── db/                   # Database schema & connection
-```
+- Enforces DP World brand compliance (colors, typography, logos) across all child apps
+- Provides a complete design system with Pilat fonts, logo variants, and gradient assets
+- Automates daily syncing of skills, design files, and assets from a central GitHub repository
+- Includes agent skills that guide AI assistants to follow DP World standards
+- Standardizes documentation structure across the Shipping Solutions portfolio
 
 ## Features
 
-### [Feature 1]
-[Description of feature, how it works, key components involved.]
+### Brand Enforcement
+- DP World branding skill (`.agents/skills/dpworld-branding/SKILL.md`) enforces colors, typography, and logo usage
+- Design system specification (`design.md`) with component patterns, spacing, and dark mode
+- Pre-configured Pilat font files (Light, Demi, Wide Book, Wide Heavy)
 
-### [Feature 2]
-[Description of feature, how it works, key components involved.]
+### Documentation Standards
+- App documentation skill (`.agents/skills/app-documentation/SKILL.md`) ensures consistent documentation
+- Template `documentation.md` with 7 standardized sections
+- `/docs` route rendering specification
 
-## API Endpoints
+### Asset Management
+- 8 DP World logo variants (color, black, white — CMYK and RGB)
+- 6 gradient background files (Master, Economic Zones, Ports & Terminals — CMYK and RGB)
+- Daily GitHub sync keeps assets current across all child apps
 
-| Method | Path            | Description           |
-|--------|----------------|-----------------------|
-| GET    | /api/healthz   | Health check          |
-| [...]  | [...]          | [...]                 |
+### GitHub Sync
+- `scripts/sync-from-github.sh` — daily sync from central repository
+- `scripts/setup-shipping-solutions.sh` — one-time onboarding for existing apps
+- 24-hour cooldown with `--force` override
 
-## Database Schema
+## Data Model
 
-[List tables, their columns, and relationships.]
+_This template does not define application data models. Each child app defines its own schema using Drizzle ORM with PostgreSQL._
 
-## Design System Compliance
+## Database
 
-This app follows the DP World Marine Services design system:
+**Engine**: PostgreSQL (provided by Replit)
+**ORM**: Drizzle ORM
+**Migrations**: drizzle-kit push
 
-- **Colors**: Lucky Point (#1E1450), Radical Red (#FF2261), Caribbean Green (#00E68C), Maverick (#F5F3F5), Cinder (#0F0F19)
-- **Typography**: Pilat font family (Wide Heavy for h1/h2, Demi for h3/h4, Light for body)
-- **Components**: shadcn/ui primitives with brand theming
-- **Dark Mode**: Class-based with localStorage persistence
-- **Logo**: Theme-aware DP World logo in header
+_No tables are defined in the template. Child apps create their own schemas in `lib/db/`._
 
-## Environment Variables
+## Data Sources & Inputs
 
-| Variable       | Description                  | Required |
-|---------------|------------------------------|----------|
-| DATABASE_URL  | PostgreSQL connection string | Yes      |
-| PORT          | Server port                  | Yes      |
+### File-Based Inputs
 
-## Development
+_No file-based data inputs in the template itself. Child apps may add Excel, CSV, or JSON imports as needed._
 
-```bash
-# Install dependencies
-pnpm install
+### API-Sourced Data
 
-# Start dev server
-pnpm run dev
+| Source | Endpoint / Topic | Protocol | Data Format | Refresh Cadence | Direction |
+|--------|-----------------|----------|-------------|-----------------|-----------|
+| GitHub (raw content) | `https://raw.githubusercontent.com/Unifeeder/Template-App-Use-for-new-apps/master/...` | HTTPS GET | Binary (fonts, images, AI files) and text (Markdown) | Daily (24h interval, configurable via `--force`) | Inbound |
 
-# Run codegen after OpenAPI changes
-pnpm --filter @workspace/api-spec run codegen
+### User-Uploaded Data
 
-# Push database schema changes
-pnpm --filter @workspace/db run push
-```
+_No user uploads in the template. Child apps may add upload handling as needed._
 
-## Deployment
+### Static / Seed Data
 
-Published via Replit deployments. The build process:
-1. Runs `pnpm run build` (typechecks + bundles)
-2. Serves static frontend + Express API server
+| Dataset | Format | Location | Description | How to Update |
+|---------|--------|----------|-------------|---------------|
+| Pilat font files | Binary (TTF) | `public/assets/fonts/` | PilatLight, PilatDemi, PilatWideBook, PilatWideHeavy | Auto-synced daily via `scripts/sync-from-github.sh` |
+| DP World logos | Binary (PNG) | `public/assets/logos/` | 8 logo variants — color, black, white in CMYK and RGB | Auto-synced daily via `scripts/sync-from-github.sh` |
+| Gradient backgrounds | Binary (AI) | `public/assets/` | 6 Illustrator gradient files — Master, Economic Zones, Ports & Terminals | Auto-synced daily via `scripts/sync-from-github.sh` |
+| Design system spec | Markdown | `design.md` | Complete DP World design system — colors, typography, spacing, components | Auto-synced daily via `scripts/sync-from-github.sh` |
+| Documentation template | Markdown | `documentation.md` | Standardized 7-section documentation structure | Auto-synced daily via `scripts/sync-from-github.sh` |
+| Branding skill | Markdown | `.agents/skills/dpworld-branding/SKILL.md` | Agent instructions for brand compliance | Auto-synced daily via `scripts/sync-from-github.sh` |
+| Documentation skill | Markdown | `.agents/skills/app-documentation/SKILL.md` | Agent instructions for documentation maintenance | Auto-synced daily via `scripts/sync-from-github.sh` |
 
-## Changelog
+## Integrations
 
-| Date       | Change                    | Author |
-|-----------|---------------------------|--------|
-| YYYY-MM-DD | Initial creation          | [name] |
+### GitHub (Unifeeder/Template-App-Use-for-new-apps)
+- **Purpose**: Central repository for brand assets, design system, and agent skills — keeps all child apps aligned with the latest standards
+- **Version / Tier**: GitHub public repository (no auth required)
+- **Protocol**: HTTPS GET (raw content API)
+- **Base URL**: `https://raw.githubusercontent.com/Unifeeder/Template-App-Use-for-new-apps/master`
+- **Auth**: None (public repo)
+- **Env vars**: None required
+- **Data flow**: Inbound
+  - Downloads 22 files: 2 agent skills, 2 design docs, 4 fonts, 8 logos, 6 gradients
+  - Compares each file with local version before overwriting (only updates changed files)
+- **Key endpoints**:
+  - `GET /{path}` — fetch individual file content (fonts, images, markdown)
+- **Error handling**: Files that fail to download (non-200 HTTP) are skipped and counted; sync continues with remaining files; failure count reported at end
+- **Rate limits**: GitHub raw content has no formal rate limit for public repos; script uses `--max-time 15` per file to avoid hangs
+
+## Roadmap
+
+### Planned
+_Items added by the team — update this section as priorities change._
+
+### Ideas
+- Add a health check endpoint to verify all synced assets are present and up-to-date
+- Create a CLI tool to scaffold new child apps from the template with interactive prompts
+- Add automated validation that design.md changes don't break existing child app styles
+- Build a dashboard showing sync status across all child apps in the portfolio
+- Add PNG/SVG exports of gradient files for web use (AI files require Illustrator)
