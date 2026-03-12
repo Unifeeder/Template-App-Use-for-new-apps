@@ -39,7 +39,7 @@ sync_file() {
   DIR=$(dirname "$DEST")
   mkdir -p "$DIR"
   echo "[sync-skills] Fetching $DEST ..."
-  curl -sf -o "$DEST.tmp" "$URL" 2>/dev/null
+  curl -skf -o "$DEST.tmp" "$URL" 2>/dev/null
   if [ $? -eq 0 ] && [ -s "$DEST.tmp" ]; then
     mv "$DEST.tmp" "$DEST"
     echo "[sync-skills]   -> Updated $DEST"
