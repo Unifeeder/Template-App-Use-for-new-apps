@@ -1,0 +1,105 @@
+# Enhance This App — Connect to DP World Shipping Solutions Hub
+
+## What This Does
+This prompt connects your existing app to the DP World Marine Services Shipping Solutions Hub. It pulls the shared design system, documentation templates, and agent skills, then creates a plan to bring your app into full compliance with DP World standards.
+
+## Step 1 — Pull Shared Skills from the Hub
+
+Download and run the skill sync script. This pulls the design system, documentation templates, and agent skills into your project:
+
+```bash
+mkdir -p scripts
+curl -o scripts/sync-skills.sh "https://workspace.marinaalenskaj1.replit.app/api/skills/sync-script"
+sh scripts/sync-skills.sh
+```
+
+This creates the following files:
+- `design.md` — The complete DP World Marine Services design system (official brand colors, Pilat typography)
+- `documentation.md` — Documentation structure template
+- `.agents/skills/dpworld-branding/SKILL.md` — Brand compliance and design enforcement rules
+- `.agents/skills/app-documentation/SKILL.md` — Documentation maintenance rules
+- `.agents/skills/skill-sync/SKILL.md` — How to keep skills in sync with the hub
+- `public/assets/fonts/` — Pilat font files (PilatLight.ttf, PilatDemi.ttf, PilatWideBook.ttf, PilatWideHeavy.ttf)
+
+## Step 2 — Read All Synced Files
+
+Read every file the sync script created:
+1. Read `design.md` — the full design system specification
+2. Read `documentation.md` — documentation structure template
+3. Read `.agents/skills/dpworld-branding/SKILL.md` — brand compliance and design enforcement rules
+4. Read `.agents/skills/app-documentation/SKILL.md` — documentation maintenance rules
+5. Read `.agents/skills/skill-sync/SKILL.md` — hub sync instructions
+
+## Step 3 — Audit the Existing App
+
+Review the entire existing codebase against the design system. Check:
+- **Colors**: Are official DP World brand colors used? Lucky Point (#1E1450), Radical Red (#FF2261), Caribbean Green (#00E68C), Maverick (#F5F3F5), Cinder (#0F0F19). No tints allowed.
+- **Typography**: Is Pilat used for all text? Pilat Wide Heavy for h1/h2, Pilat Demi for h3/h4, Pilat Light for body. No Inter or system fonts as primary.
+- **CSS variables**: Are HSL custom properties defined in index.css for light and dark modes?
+- **Components**: Are shadcn/ui primitives used? Are domain components composing them correctly?
+- **Dark mode**: Is class-based dark mode implemented with localStorage persistence?
+- **Responsive**: Is the layout mobile-first with proper breakpoints?
+- **Header**: Does it include the DP World logo with theme-aware light/dark variants?
+- **Spacing & layout**: Does spacing follow the design system rhythm?
+- **data-testid**: Do all interactive and display elements have descriptive data-testid attributes?
+- **Documentation**: Does a documentation.md exist following the template?
+- **Logo**: Is the DP World logo displayed in the app header? (See logo instructions below.)
+- **/docs page**: Does the app have a `/docs` route? (See /docs instructions below.)
+
+### Logo Application (Required)
+
+The sync script downloads two DP World logo files into `attached_assets/`:
+- `attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png` — **Light logo** (for light/white backgrounds)
+- `attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png` — **Dark logo** (for dark/black backgrounds)
+
+You MUST display the DP World logo in the app header. Use the light logo when the app is in light mode and the dark logo when in dark mode. Import them using the `@assets/` alias:
+```tsx
+import lightLogo from "@assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png";
+import darkLogo from "@assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png";
+```
+Render the appropriate logo based on the current theme. The logo should be visible in the header on every page.
+
+### /docs Page (Required)
+
+You MUST create a `/docs` route in the app that renders `documentation.md` as a styled page. This page should:
+- Read and render the contents of `documentation.md` as formatted HTML
+- Follow the app's design system (colors, typography, spacing, dark mode)
+- Be accessible from the app's navigation or header
+
+## Step 4 — Create an Action Plan
+
+Based on the audit, create a numbered list of specific changes needed. Group them by priority:
+1. **Critical** — Wrong brand colors, missing dark mode, broken layout
+2. **Important** — Missing data-testid attributes, wrong fonts, spacing issues
+3. **Nice to have** — Minor refinements, documentation improvements
+
+## Step 5 — Execute the Plan
+
+Work through the action plan step by step. After each change:
+- Verify the change works correctly
+- Move to the next item
+
+Required deliverables before you finish:
+- **Logo in header**: The DP World logo MUST be displayed in the app header using the files from `attached_assets/` (see Logo Application section above).
+- **/docs route**: A `/docs` page MUST exist that renders `documentation.md` as a styled page (see /docs Page section above).
+- **documentation.md**: Create or update `documentation.md` following the synced template.
+
+## Auto-Sync on Startup
+
+Add the sync script to the app's dev startup so it checks for updates automatically. The script has a built-in 48-hour interval — it only contacts the hub if the last sync was more than 48 hours ago, and only downloads files if the hub version has changed. This means it adds no overhead on most startups.
+
+Add this to your `package.json` scripts:
+```json
+"dev": "sh scripts/sync-skills.sh; your-existing-dev-command"
+```
+
+Or if the app uses a custom start script, prepend the sync check:
+```bash
+sh scripts/sync-skills.sh
+# then start the app
+```
+
+To force an immediate sync regardless of timing, run:
+```bash
+sh scripts/sync-skills.sh --force
+```
