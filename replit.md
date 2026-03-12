@@ -27,7 +27,7 @@ When creating a new app from this template, the following skills are automatical
 **Runs on dev startup.** Keeps skills and design assets in sync with the Shipping Solutions Hub:
 - Auto-syncs on `pnpm run dev` with a 48-hour check interval.
 - Downloads latest design system, documentation template, skills, fonts, and logos.
-- Force sync: `sh scripts/sync-skills.sh --force`
+- Force sync: `bash scripts/sync-skills.sh --force`
 
 ## New App Creation Checklist
 
@@ -36,7 +36,7 @@ When creating a new Shipping Solutions app, the agent MUST:
 1. **Read all three skills** listed above before writing any code
 2. **Read `design.md`** for the complete design system specification
 3. **Read `documentation.md`** for the documentation template
-4. **Run the sync script** (`sh scripts/sync-skills.sh`) to ensure assets are up to date
+4. **Run the sync script** (`bash scripts/sync-skills.sh --force`) to ensure assets are up to date
 5. **Apply the design system** — DP World brand colors, Pilat typography, HSL CSS variables
 6. **Include the DP World logo** in the app header with theme-aware variants
 7. **Implement dark mode** with class-based toggle and localStorage persistence
@@ -61,7 +61,7 @@ The complete design system is in `design.md`. Key files:
 The sync script (`scripts/sync-skills.sh`) is prepended to the dev command. It checks the Shipping Solutions Hub every 48 hours and downloads updated files only if the hub version has changed. To force an immediate sync:
 
 ```bash
-sh scripts/sync-skills.sh --force
+bash scripts/sync-skills.sh --force
 ```
 
 ## Stack
