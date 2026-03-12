@@ -23,20 +23,39 @@ When creating a new app from this template, the following skills are automatical
 - Every app must have a `/docs` route rendering documentation as styled HTML.
 - Documentation must be updated after every feature addition, API change, or schema migration.
 
+## Daily Sync from GitHub
+
+Skills, design files, fonts, and logos are synced daily from the public GitHub repository:
+**https://github.com/Unifeeder/Template-App-Use-for-new-apps**
+
+The sync script (`scripts/sync-from-github.sh`) pulls the latest versions of all shared files from the `master` branch. It checks every 24 hours and only updates files that have changed.
+
+- **Automatic**: Runs on dev startup (prepended to the dev command)
+- **Manual**: `bash scripts/sync-from-github.sh --force`
+
+Files synced from GitHub:
+- `.agents/skills/dpworld-branding/SKILL.md` — Brand compliance rules
+- `.agents/skills/app-documentation/SKILL.md` — Documentation standards
+- `design.md` — Full design system specification
+- `documentation.md` — Documentation template
+- `public/assets/fonts/` — All 4 Pilat font files
+- `attached_assets/` — All DP World logo variants
+
 ## New App Creation Checklist
 
 When creating a new Shipping Solutions app, the agent MUST:
 
-1. **Read both skills** listed above before writing any code
-2. **Read `design.md`** for the complete design system specification
-3. **Read `documentation.md`** for the documentation template
-4. **Apply the design system** — DP World brand colors, Pilat typography, HSL CSS variables
-5. **Include the DP World logo** in the app header with theme-aware variants
-6. **Implement dark mode** with class-based toggle and localStorage persistence
-7. **Add `data-testid`** attributes to all interactive and display elements
-8. **Create `documentation.md`** following the standard template
-9. **Create a `/docs` route** rendering documentation as a styled page
-10. **Audit the result** against the branding skill checklist before delivering
+1. **Run the GitHub sync** (`bash scripts/sync-from-github.sh --force`) to get latest skills and assets
+2. **Read both skills** listed above before writing any code
+3. **Read `design.md`** for the complete design system specification
+4. **Read `documentation.md`** for the documentation template
+5. **Apply the design system** — DP World brand colors, Pilat typography, HSL CSS variables
+6. **Include the DP World logo** in the app header with theme-aware variants
+7. **Implement dark mode** with class-based toggle and localStorage persistence
+8. **Add `data-testid`** attributes to all interactive and display elements
+9. **Create `documentation.md`** following the standard template
+10. **Create a `/docs` route** rendering documentation as a styled page
+11. **Audit the result** against the branding skill checklist before delivering
 
 ## Design System Reference
 
@@ -76,6 +95,7 @@ artifacts-monorepo/
 │   ├── api-zod/            # Generated Zod schemas from OpenAPI
 │   └── db/                 # Drizzle ORM schema + DB connection
 ├── scripts/                # Utility scripts
+│   ├── sync-from-github.sh # Daily sync from GitHub template repo
 │   └── src/                # TypeScript utility scripts
 ├── .agents/                # Agent skills (DP World standards)
 │   └── skills/
