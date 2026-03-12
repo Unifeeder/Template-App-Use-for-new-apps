@@ -96,8 +96,8 @@ Before making any UI changes, read `design.md` at the project root. It is the si
 
 **Theme-aware logos** — import both light and dark logo variants, switch based on `useTheme()`:
 ```tsx
-import dpWorldLogoLight from "@assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png";
-import dpWorldLogoDark from "@assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png";
+import dpWorldLogoLight from "@assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png";
+import dpWorldLogoDark from "@assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png";
 
 const { theme } = useTheme();
 const dpWorldLogo = theme === "dark" ? dpWorldLogoDark : dpWorldLogoLight;
