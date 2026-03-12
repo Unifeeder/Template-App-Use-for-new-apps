@@ -63,6 +63,16 @@ When creating a new Shipping Solutions app, the agent MUST:
 10. **Create a `/docs` route** rendering documentation as a styled page
 11. **Audit the result** against the branding skill checklist before delivering
 
+## Adding Shipping Solutions to an Existing App
+
+For apps that were NOT created from this template, run this one-liner to pull in all skills, design files, fonts, logos, and the daily sync script:
+
+```bash
+curl -s https://raw.githubusercontent.com/Unifeeder/Template-App-Use-for-new-apps/master/scripts/setup-shipping-solutions.sh | bash
+```
+
+After running, follow the "Next steps" printed by the script to update `replit.md` and wire in the daily sync.
+
 ## Design System Reference
 
 The complete design system is in `design.md`. Key files:
