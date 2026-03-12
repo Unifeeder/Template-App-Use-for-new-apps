@@ -30,8 +30,14 @@ Skills, design files, fonts, and logos are synced daily from the public GitHub r
 
 The sync script (`scripts/sync-from-github.sh`) pulls the latest versions of all shared files from the `master` branch. It checks every 24 hours and only updates files that have changed.
 
-- **Automatic**: Runs on dev startup (prepended to the dev command)
+- **Automatic**: Must be wired into dev startup (see below)
 - **Manual**: `bash scripts/sync-from-github.sh --force`
+
+**Important — wire sync into dev startup:** When creating a new frontend artifact, the agent MUST prepend the sync script to the artifact's dev command in its `package.json`. For example:
+```json
+"dev": "bash scripts/sync-from-github.sh; vite --host"
+```
+This ensures skills and assets stay up to date automatically every time the dev server starts.
 
 Files synced from GitHub:
 - `.agents/skills/dpworld-branding/SKILL.md` — Brand compliance rules
