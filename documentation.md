@@ -80,7 +80,7 @@ This app follows the DP World Marine Services design system:
 # Install dependencies
 pnpm install
 
-# Start dev server (auto-syncs skills from hub)
+# Start dev server
 pnpm run dev
 
 # Run codegen after OpenAPI changes
@@ -95,14 +95,6 @@ pnpm --filter @workspace/db run push
 Published via Replit deployments. The build process:
 1. Runs `pnpm run build` (typechecks + bundles)
 2. Serves static frontend + Express API server
-
-## Skill Sync
-
-This app syncs design system and agent skills from the DP World Shipping Solutions Hub. The sync runs automatically on `pnpm run dev` with a 48-hour check interval. To force sync:
-
-```bash
-sh scripts/sync-skills.sh --force
-```
 
 ## Changelog
 

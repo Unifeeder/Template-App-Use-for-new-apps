@@ -73,7 +73,7 @@ Before making any UI changes, read `design.md` at the project root. It is the si
 
 **Rules:**
 - [ ] Pilat is the only font used (no Inter, no system fonts as primary)
-- [ ] `@font-face` declarations load fonts from `/assets/fonts/` or the synced location
+- [ ] `@font-face` declarations load fonts from `/assets/fonts/`
 - [ ] All headings are uppercase
 - [ ] Pilat Wide Heavy and Pilat Demi use font-weight 400, Pilat Light and Pilat Wide Book use font-weight 300
 - [ ] JetBrains Mono is acceptable for monospace/code contexts only
@@ -178,7 +178,7 @@ If the project has no `design.md`, inform the user and ask whether they want one
 
 ## Font Files
 
-Pilat font files are available from the DP World Shipping Solutions Hub and are synced via the skill-sync script. They should be placed in `public/assets/fonts/` (or the equivalent in your project):
+Pilat font files are included in the template at `public/assets/fonts/`:
 
 - `PilatLight.ttf` — Pilat Light (300)
 - `PilatDemi.ttf` — Pilat Demi (400)

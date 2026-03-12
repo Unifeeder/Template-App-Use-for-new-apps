@@ -852,7 +852,7 @@ All apps use the same core stack:
 | Icons | `lucide-react`, `react-icons` |
 | Variant management | `class-variance-authority` |
 | Class merging | `tailwind-merge` via `cn()` utility |
-| Font | Pilat (served from hub, synced via skill-sync) |
+| Font | Pilat (included in template at `public/assets/fonts/`) |
 
 ### 17.1 The `cn()` Utility
 

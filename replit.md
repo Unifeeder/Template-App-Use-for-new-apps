@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is the **DP World Marine Services Shipping Solutions** template. All apps in the Shipping Solutions suite are created from this template and inherit its design system, agent skills, and documentation standards.
+This is the **DP World Marine Services Shipping Solutions** template. All apps in the Shipping Solutions suite are created from this template and inherit its design system, agent skills, and documentation standards. The template and all its files are maintained in GitHub.
 
 ## Shipping Solutions Skills — Run on Every New App
 
@@ -23,27 +23,20 @@ When creating a new app from this template, the following skills are automatical
 - Every app must have a `/docs` route rendering documentation as styled HTML.
 - Documentation must be updated after every feature addition, API change, or schema migration.
 
-### 3. Skill Sync (`.agents/skills/skill-sync/SKILL.md`)
-**Runs on dev startup.** Keeps skills and design assets in sync with the Shipping Solutions Hub:
-- Auto-syncs on `pnpm run dev` with a 48-hour check interval.
-- Downloads latest design system, documentation template, skills, fonts, and logos.
-- Force sync: `bash scripts/sync-skills.sh --force`
-
 ## New App Creation Checklist
 
 When creating a new Shipping Solutions app, the agent MUST:
 
-1. **Read all three skills** listed above before writing any code
+1. **Read both skills** listed above before writing any code
 2. **Read `design.md`** for the complete design system specification
 3. **Read `documentation.md`** for the documentation template
-4. **Run the sync script** (`bash scripts/sync-skills.sh --force`) to ensure assets are up to date
-5. **Apply the design system** — DP World brand colors, Pilat typography, HSL CSS variables
-6. **Include the DP World logo** in the app header with theme-aware variants
-7. **Implement dark mode** with class-based toggle and localStorage persistence
-8. **Add `data-testid`** attributes to all interactive and display elements
-9. **Create `documentation.md`** following the standard template
-10. **Create a `/docs` route** rendering documentation as a styled page
-11. **Audit the result** against the branding skill checklist before delivering
+4. **Apply the design system** — DP World brand colors, Pilat typography, HSL CSS variables
+5. **Include the DP World logo** in the app header with theme-aware variants
+6. **Implement dark mode** with class-based toggle and localStorage persistence
+7. **Add `data-testid`** attributes to all interactive and display elements
+8. **Create `documentation.md`** following the standard template
+9. **Create a `/docs` route** rendering documentation as a styled page
+10. **Audit the result** against the branding skill checklist before delivering
 
 ## Design System Reference
 
@@ -54,15 +47,8 @@ The complete design system is in `design.md`. Key files:
 | `design.md` | Full DP World design system (colors, typography, spacing, components) |
 | `documentation.md` | Documentation structure template |
 | `public/assets/fonts/` | Pilat font files (Light, Demi, Wide Book, Wide Heavy) |
-| `attached_assets/DP_World_Logo_*` | DP World logo variants (light/dark backgrounds) |
-
-## Auto-Sync on Dev Startup
-
-The sync script (`scripts/sync-skills.sh`) is prepended to the dev command. It checks the Shipping Solutions Hub every 48 hours and downloads updated files only if the hub version has changed. To force an immediate sync:
-
-```bash
-bash scripts/sync-skills.sh --force
-```
+| `public/assets/logos/` | DP World logo variants (all formats) |
+| `attached_assets/DP_World_Logo_*` | DP World logo variants for `@assets/` imports |
 
 ## Stack
 
@@ -90,18 +76,17 @@ artifacts-monorepo/
 │   ├── api-zod/            # Generated Zod schemas from OpenAPI
 │   └── db/                 # Drizzle ORM schema + DB connection
 ├── scripts/                # Utility scripts
-│   ├── sync-skills.sh      # Shipping Solutions Hub sync script
 │   └── src/                # TypeScript utility scripts
 ├── .agents/                # Agent skills (DP World standards)
 │   └── skills/
 │       ├── dpworld-branding/   # Brand compliance enforcement
-│       ├── app-documentation/  # Documentation maintenance
-│       └── skill-sync/         # Hub synchronization
+│       └── app-documentation/  # Documentation maintenance
 ├── design.md               # DP World design system specification
 ├── documentation.md         # Documentation template
 ├── public/
 │   └── assets/
-│       └── fonts/           # Pilat font files
+│       ├── fonts/           # Pilat font files
+│       └── logos/           # DP World logo files
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
 ├── tsconfig.json
@@ -145,4 +130,4 @@ Generated React Query hooks and fetch client from the OpenAPI spec.
 
 ### `scripts` (`@workspace/scripts`)
 
-Utility scripts package including the Shipping Solutions Hub sync script.
+Utility scripts package.
