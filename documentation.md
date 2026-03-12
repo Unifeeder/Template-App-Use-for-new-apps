@@ -73,6 +73,7 @@ _No user uploads in the template. Child apps may add upload handling as needed._
 | Documentation template | Markdown | `documentation.md` | Standardized 7-section documentation structure | Auto-synced daily via `scripts/sync-from-github.sh` |
 | Branding skill | Markdown | `.agents/skills/dpworld-branding/SKILL.md` | Agent instructions for brand compliance | Auto-synced daily via `scripts/sync-from-github.sh` |
 | Documentation skill | Markdown | `.agents/skills/app-documentation/SKILL.md` | Agent instructions for documentation maintenance | Auto-synced daily via `scripts/sync-from-github.sh` |
+| OpenAPI specification | YAML | `lib/api-spec/openapi.yaml` | OpenAPI 3.1 contract defining all API endpoints; drives Orval codegen for React Query hooks (`lib/api-client-react/`) and Zod schemas (`lib/api-zod/`) | Edit spec, then run `pnpm --filter @workspace/api-spec run codegen` |
 
 ## Integrations
 
