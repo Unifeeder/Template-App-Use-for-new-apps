@@ -83,6 +83,7 @@ The complete design system is in `design.md`. Key files:
 | `documentation.md` | Documentation structure template |
 | `public/assets/fonts/` | Pilat font files (Light, Demi, Wide Book, Wide Heavy) |
 | `public/assets/logos/` | DP World logo variants (all formats) |
+| `public/assets/*.ai` | DP World gradient background files (Master, Economic Zones, Ports & Terminals — CMYK and RGB) |
 | `attached_assets/DP_World_Logo_*` | DP World logo variants for `@assets/` imports |
 
 ## Stack

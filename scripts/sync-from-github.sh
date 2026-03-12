@@ -59,5 +59,12 @@ sync_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png" "attach
 sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png"
 sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png"
 
+sync_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20CMYK%20(1).ai" "public/assets/DP WORLD MASTER GRADIENT - CMYK (1).ai"
+sync_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20RGB.ai" "public/assets/DP WORLD MASTER GRADIENT - RGB.ai"
+sync_file "public/assets/ECONOMIC%20ZONES%20GRADIENT%20-%20CMYK.ai" "public/assets/ECONOMIC ZONES GRADIENT - CMYK.ai"
+sync_file "public/assets/ECONOMIC%20ZONES%20GRADIENT%20-%20RGB.ai" "public/assets/ECONOMIC ZONES GRADIENT - RGB.ai"
+sync_file "public/assets/PORTS%20AND%20TERMINALS%20GRADIENT%20-%20CMYK.ai" "public/assets/PORTS AND TERMINALS GRADIENT - CMYK.ai"
+sync_file "public/assets/PORTS%20AND%20TERMINALS%20GRADIENT%20-%20RGB.ai" "public/assets/PORTS AND TERMINALS GRADIENT - RGB.ai"
+
 date +%s > "$TIMESTAMP_FILE"
 echo "[github-sync] Done. Updated: $UPDATED, Unchanged: $SKIPPED, Failed: $FAILED"

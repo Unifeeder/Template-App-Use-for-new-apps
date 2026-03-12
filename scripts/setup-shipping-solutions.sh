@@ -66,7 +66,16 @@ download_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png" "a
 download_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png"
 
 echo ""
-echo "[5/6] Downloading daily sync script..."
+echo "[5/7] Downloading gradient background files..."
+download_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20CMYK%20(1).ai" "public/assets/DP WORLD MASTER GRADIENT - CMYK (1).ai"
+download_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20RGB.ai" "public/assets/DP WORLD MASTER GRADIENT - RGB.ai"
+download_file "public/assets/ECONOMIC%20ZONES%20GRADIENT%20-%20CMYK.ai" "public/assets/ECONOMIC ZONES GRADIENT - CMYK.ai"
+download_file "public/assets/ECONOMIC%20ZONES%20GRADIENT%20-%20RGB.ai" "public/assets/ECONOMIC ZONES GRADIENT - RGB.ai"
+download_file "public/assets/PORTS%20AND%20TERMINALS%20GRADIENT%20-%20CMYK.ai" "public/assets/PORTS AND TERMINALS GRADIENT - CMYK.ai"
+download_file "public/assets/PORTS%20AND%20TERMINALS%20GRADIENT%20-%20RGB.ai" "public/assets/PORTS AND TERMINALS GRADIENT - RGB.ai"
+
+echo ""
+echo "[6/7] Downloading daily sync script..."
 mkdir -p scripts
 HTTP_CODE=$(curl -sf -o "scripts/sync-from-github.sh.tmp" -w "%{http_code}" --max-time 15 "$RAW_BASE/scripts/sync-from-github.sh" 2>/dev/null)
 if [ "$HTTP_CODE" = "200" ] && [ -s "scripts/sync-from-github.sh.tmp" ]; then
@@ -137,6 +146,12 @@ sync_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png" "attac
 sync_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png"
 sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png"
 sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png"
+sync_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20CMYK%20(1).ai" "public/assets/DP WORLD MASTER GRADIENT - CMYK (1).ai"
+sync_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20RGB.ai" "public/assets/DP WORLD MASTER GRADIENT - RGB.ai"
+sync_file "public/assets/ECONOMIC%20ZONES%20GRADIENT%20-%20CMYK.ai" "public/assets/ECONOMIC ZONES GRADIENT - CMYK.ai"
+sync_file "public/assets/ECONOMIC%20ZONES%20GRADIENT%20-%20RGB.ai" "public/assets/ECONOMIC ZONES GRADIENT - RGB.ai"
+sync_file "public/assets/PORTS%20AND%20TERMINALS%20GRADIENT%20-%20CMYK.ai" "public/assets/PORTS AND TERMINALS GRADIENT - CMYK.ai"
+sync_file "public/assets/PORTS%20AND%20TERMINALS%20GRADIENT%20-%20RGB.ai" "public/assets/PORTS AND TERMINALS GRADIENT - RGB.ai"
 
 date +%s > "$TIMESTAMP_FILE"
 echo "[github-sync] Done. Updated: $UPDATED, Unchanged: $SKIPPED, Failed: $FAILED"
@@ -147,7 +162,7 @@ fi
 chmod +x scripts/sync-from-github.sh 2>/dev/null
 
 echo ""
-echo "[6/6] Setup complete!"
+echo "[7/7] Setup complete!"
 echo ""
 echo "  Downloaded: $DOWNLOADED files"
 if [ $FAILED -gt 0 ]; then
