@@ -11,7 +11,7 @@ When creating a new app from this template, the following skills are automatical
 ### 1. DP World Branding (`.agents/skills/dpworld-branding/SKILL.md`)
 **Always active.** Enforces brand compliance on every UI change:
 - **Colors**: Only Lucky Point (#1E1450), Radical Red (#FF2261), Caribbean Green (#00E68C), Maverick (#F5F3F5), Cinder (#0F0F19). No other colors allowed.
-- **Typography**: Pilat font family only — Wide Heavy for h1/h2, Demi for h3/h4, Light for body.
+- **Typography**: Pilat for headings (Wide Heavy for h1/h2, Demi for h3/h4), Inter for body text and UI elements.
 - **Dark mode**: Class-based with localStorage persistence.
 - **Logo**: DP World logo in header, theme-aware light/dark variants.
 - **Components**: shadcn/ui primitives with `data-testid` on all elements.
