@@ -55,15 +55,15 @@ download_file "public/assets/fonts/PilatWideHeavy.ttf" "public/assets/fonts/Pila
 
 echo ""
 echo "[4/7] Downloading DP World logos..."
-mkdir -p attached_assets
-download_file "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png" "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png"
-download_file "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png" "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png"
-download_file "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png"
-download_file "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png"
-download_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png" "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png"
-download_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png"
-download_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png"
-download_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png"
+mkdir -p public/assets/logos
+download_file "public/assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png" "public/assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png"
+download_file "public/assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png" "public/assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png"
+download_file "public/assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png"
+download_file "public/assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png"
+download_file "public/assets/logos/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png" "public/assets/logos/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png"
+download_file "public/assets/logos/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png"
+download_file "public/assets/logos/DP_World_Logo_White_BlackBG_Vertical_K-01.png" "public/assets/logos/DP_World_Logo_White_BlackBG_Vertical_K-01.png"
+download_file "public/assets/logos/DP_World_Logo_White_BlackBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_White_BlackBG_Vertical_RGB.png"
 
 echo ""
 echo "[5/7] Downloading gradient background files..."

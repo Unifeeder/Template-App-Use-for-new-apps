@@ -1,6 +1,6 @@
 ---
 name: app-documentation
-description: Maintain a documentation.md file at the project root covering features, data model, database, data sources, integrations, and roadmap. Use when building a new app, adding/removing features, changing data models, modifying data sources or integrations, or when the user asks about documentation. Also renders as a /docs page following design.md.
+description: Maintain a documentation.md file at the project root covering features, data model, database, data sources, integrations, and roadmap. Use when building a new app, adding/removing features, changing data models, modifying data sources or integrations, or when the user asks about documentation.
 ---
 
 # App Documentation
@@ -230,10 +230,6 @@ When creating or refreshing documentation, analyze the codebase and suggest 3-5 
 - Performance or reliability improvements
 - User experience enhancements
 - Data quality or observability gaps
-
-## Rendering as /docs Page
-
-If the app has a frontend, create a `/docs` route that renders the documentation content as a styled page following the app's design system. Use the app's existing component patterns (cards, tabs, sections). The page should be navigable by section and accessible to all authenticated users (or publicly, depending on the app's auth model).
 
 ## replit.md Reference
 

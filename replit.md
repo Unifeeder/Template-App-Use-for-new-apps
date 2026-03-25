@@ -21,7 +21,6 @@ When creating a new app from this template, the following skills are automatical
 ### 2. App Documentation (`.agents/skills/app-documentation/SKILL.md`)
 **Always active.** Ensures documentation stays current:
 - Every app must have `documentation.md` following the standard template.
-- Every app must have a `/docs` route rendering documentation as styled HTML.
 - Documentation must be updated after every feature addition, API change, or schema migration.
 
 ## Daily Sync from GitHub
@@ -46,7 +45,7 @@ Files synced from GitHub:
 - `design.md` — Full design system specification
 - `documentation.md` — Documentation template
 - `public/assets/fonts/` — Pilat font files (Demi, Wide Book, Wide Heavy)
-- `attached_assets/` — All DP World logo variants (8 PNG files)
+- `public/assets/logos/` — All DP World logo variants (8 PNG files)
 - `public/assets/*.ai` — Gradient background files (6 .ai files)
 
 ## New App Creation Checklist
@@ -62,8 +61,7 @@ When creating a new Shipping Solutions app, the agent MUST:
 7. **Implement dark mode** with class-based toggle and localStorage persistence
 8. **Add `data-testid`** attributes to all interactive and display elements
 9. **Create `documentation.md`** following the standard template
-10. **Create a `/docs` route** rendering documentation as a styled page
-11. **Audit the result** against the branding skill checklist before delivering
+10. **Audit the result** against the branding skill checklist before delivering
 
 ## Adding Shipping Solutions to an Existing App
 
@@ -84,7 +82,7 @@ The complete design system is in `design.md`. Key files:
 | `design.md` | Full DP World design system (colors, typography, spacing, components) |
 | `documentation.md` | Documentation structure template |
 | `public/assets/fonts/` | Pilat font files (Demi, Wide Book, Wide Heavy) |
-| `attached_assets/` | DP World logo variants (8 PNG files) |
+| `public/assets/logos/` | DP World logo variants (8 PNG files) |
 | `public/assets/*.ai` | DP World gradient background files (Master, Economic Zones, Ports & Terminals — CMYK and RGB) |
 
 ## Stack
@@ -115,7 +113,6 @@ artifacts-monorepo/
 ├── scripts/                # Utility scripts
 │   ├── sync-from-github.sh # Daily sync from GitHub template repo
 │   └── src/                # TypeScript utility scripts
-├── attached_assets/        # DP World logo PNG files (synced from GitHub)
 ├── .agents/                # Agent skills (DP World standards)
 │   └── skills/
 │       ├── dpworld-branding/   # Brand compliance enforcement
@@ -125,7 +122,8 @@ artifacts-monorepo/
 ├── documentation.md         # Documentation template
 ├── public/
 │   └── assets/
-│       └── fonts/           # Pilat font files (Demi, Wide Book, Wide Heavy)
+│       ├── fonts/           # Pilat font files (Demi, Wide Book, Wide Heavy)
+│       └── logos/           # DP World logo files (8 PNG variants)
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
 ├── tsconfig.json
