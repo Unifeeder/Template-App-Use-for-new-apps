@@ -90,18 +90,64 @@ Before making any UI changes, read `design.md` at the project root. It is the si
 #### Logo Placement
 
 - [ ] DP World vertical logo appears in the header of every app
-- [ ] Light logo variant used on light backgrounds, dark variant on dark backgrounds
+- [ ] Light logo variant (`WhiteBG`) used on light backgrounds, dark variant (`BlackBG`) on dark backgrounds
 - [ ] Logo is the first element in the header (far left)
 - [ ] Logo followed by a vertical divider before app title
-- [ ] Responsive sizing: `h-6` mobile, `h-7` small, `h-10` desktop
+- [ ] Responsive sizing: `h-8` mobile, `h-9 sm:` small, `h-12 lg:` desktop — these exact classes are mandatory
 
-**Theme-aware logos** — import both light and dark logo variants, switch based on `useTheme()`:
+**Theme-aware logos** — import both WhiteBG (light mode) and BlackBG (dark mode) logo variants, switch based on `useTheme()`:
 ```tsx
 import dpWorldLogoLight from "@assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png";
 import dpWorldLogoDark from "@assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png";
 
 const { theme } = useTheme();
 const dpWorldLogo = theme === "dark" ? dpWorldLogoDark : dpWorldLogoLight;
+
+<img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
+```
+
+#### Header Layout
+
+The header follows a standardized layout pattern across all DP World apps:
+
+```
+[Logo] | [Title + Subtitle] | [Nav Items] ... [Theme Toggle] [Mobile Menu]
+```
+
+**Structure:**
+- [ ] Left section: Logo → vertical divider (`h-6 w-px bg-border`) → title block
+- [ ] Title block: app name (Pilat Wide Heavy, NOT uppercase) + optional subtitle (Inter, muted)
+- [ ] Center/right section: navigation items as ghost or secondary `Button` variants with Lucide icons
+- [ ] Far right: theme toggle button + mobile hamburger menu (visible only on small screens)
+- [ ] Nav items use `variant="ghost"` or `variant="secondary"` button styles
+- [ ] Nav items include Lucide icons alongside text labels
+- [ ] Desktop nav items are hidden on mobile (`hidden md:flex`), replaced by mobile menu
+- [ ] Mobile menu is hidden on desktop (`md:hidden`)
+
+**Example:**
+```tsx
+<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+  <div className="container flex h-14 items-center justify-between">
+    <div className="flex items-center gap-3">
+      <img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
+      <div className="h-6 w-px bg-border" />
+      <div>
+        <h1 style={{ fontSize: 'clamp(0.7rem, 1vw + 0.35rem, 1rem)', fontFamily: 'Pilat Wide Heavy' }}>
+          App Name
+        </h1>
+        <p className="text-xs text-muted-foreground font-sans">Subtitle</p>
+      </div>
+    </div>
+    <nav className="hidden md:flex items-center gap-1">
+      <Button variant="ghost" size="sm"><LayoutDashboard className="h-4 w-4 mr-1" /> Dashboard</Button>
+      <Button variant="ghost" size="sm"><Settings className="h-4 w-4 mr-1" /> Settings</Button>
+    </nav>
+    <div className="flex items-center gap-2">
+      <ThemeToggle />
+      <Button variant="ghost" size="icon" className="md:hidden"><Menu className="h-5 w-5" /></Button>
+    </div>
+  </div>
+</header>
 ```
 
 #### Dark Mode

@@ -30,7 +30,7 @@ sync_file() {
   local REMOTE_PATH="$1"; local LOCAL_PATH="$2"
   mkdir -p "$(dirname "$LOCAL_PATH")"
   local TMP="$LOCAL_PATH.tmp"
-  HTTP_CODE=$(curl -sf -o "$TMP" -w "%{http_code}" --max-time 15 "$RAW_BASE/$REMOTE_PATH" 2>/dev/null)
+  HTTP_CODE=$(curl -fsSL -o "$TMP" -w "%{http_code}" --max-time 15 "$RAW_BASE/$REMOTE_PATH" 2>/dev/null)
   if [ "$HTTP_CODE" = "200" ] && [ -s "$TMP" ]; then
     if [ -f "$LOCAL_PATH" ] && cmp -s "$TMP" "$LOCAL_PATH" 2>/dev/null; then
       rm -f "$TMP"; SKIPPED=$((SKIPPED + 1))
@@ -46,19 +46,17 @@ sync_file ".agents/skills/dpworld-branding/SKILL.md" ".agents/skills/dpworld-bra
 sync_file ".agents/skills/app-documentation/SKILL.md" ".agents/skills/app-documentation/SKILL.md"
 sync_file "design.md" "design.md"
 sync_file "documentation.md" "documentation.md"
-sync_file "public/assets/fonts/PilatLight.ttf" "public/assets/fonts/PilatLight.ttf"
 sync_file "public/assets/fonts/PilatDemi.ttf" "public/assets/fonts/PilatDemi.ttf"
 sync_file "public/assets/fonts/PilatWideBook.ttf" "public/assets/fonts/PilatWideBook.ttf"
 sync_file "public/assets/fonts/PilatWideHeavy.ttf" "public/assets/fonts/PilatWideHeavy.ttf"
-# Logos live at attached_assets/ in the GitHub repo but are saved locally to public/assets/logos/
-sync_file "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png" "public/assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png"
-sync_file "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png" "public/assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png"
-sync_file "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png"
-sync_file "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png"
-sync_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png" "public/assets/logos/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png"
-sync_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png"
-sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png" "public/assets/logos/DP_World_Logo_White_BlackBG_Vertical_K-01.png"
-sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png" "public/assets/logos/DP_World_Logo_White_BlackBG_Vertical_RGB.png"
+sync_file "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png" "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png"
+sync_file "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png" "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png"
+sync_file "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_Colour_WhiteBG_Vertical_RGB.png"
+sync_file "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_Colour_BlackBG_Vertical_RGB.png"
+sync_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png" "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_K-01.png"
+sync_file "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_Black_WhiteBG_Vertical_RGB.png"
+sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_K-01.png"
+sync_file "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png" "attached_assets/DP_World_Logo_White_BlackBG_Vertical_RGB.png"
 
 sync_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20CMYK%20(1).ai" "public/assets/DP WORLD MASTER GRADIENT - CMYK (1).ai"
 sync_file "public/assets/DP%20WORLD%20MASTER%20GRADIENT%20-%20RGB.ai" "public/assets/DP WORLD MASTER GRADIENT - RGB.ai"
