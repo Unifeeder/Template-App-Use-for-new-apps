@@ -31,7 +31,7 @@ function Home() {
             Ready to build your ideas
           </h2>
 
-          <p className="text-base sm:text-lg text-muted-foreground mb-10 font-sans max-w-lg mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground mb-10 max-w-lg mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
             Start with a real problem. Think first, build fast.
           </p>
 
