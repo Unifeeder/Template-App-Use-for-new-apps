@@ -27,7 +27,7 @@ Before making any UI changes, read `design.md` at the project root. It is the si
 | Section | Covers |
 |---|---|
 | §1-2 | Logo variants (light/dark), official brand colors, official gradients (§2.10) |
-| §3 | Typography — Pilat font family (Wide Heavy, Demi, Light), fluid `clamp()` for titles |
+| §3 | Typography — Pilat Demi for all headings, Inter for body, fluid `clamp()` for titles |
 | §4-5 | Spacing scale, border radii |
 | §6 | Shadow/elevation system |
 | §7-8 | Badge, Button, Card composability patterns |
@@ -66,16 +66,17 @@ Before making any UI changes, read `design.md` at the project root. It is the si
 
 | Font | Weight | Role |
 |---|---|---|
-| Pilat Wide Heavy | 400 | Page-level headings (h1, h2) — NOT for header bar titles |
-| Pilat Demi | 400 | Header bar app title, sub-headers (h3, h4), badges |
-| Inter | 400 | Body copy, paragraphs, UI text, buttons, form labels |
-| Pilat Wide Book | 300 | Data highlights, statistics |
+| Pilat Demi | 400 | All headings (h1–h4), header bar app title, badges |
+| Inter | 400 | Body copy, paragraphs, UI text, buttons, form labels, all other text |
+| Pilat Wide Book | 300 | Data highlights, large statistics/KPI numbers only |
+
+**Pilat Wide Heavy is NOT used in web apps.** It is too heavy for screen use — it belongs in print materials and presentations only. Do not use it for any heading, title, or label in a web application.
 
 **Rules:**
-- [ ] Headings use Pilat (Wide Heavy for h1/h2, Demi for h3/h4)
+- [ ] All headings (h1–h4) use Pilat Demi — never Pilat Wide Heavy
 - [ ] Body text, UI elements, buttons, and form controls use Inter
 - [ ] `@font-face` declarations load Pilat fonts from `/assets/fonts/`; Inter is loaded from Google Fonts or bundled
-- [ ] Pilat Wide Heavy and Pilat Demi use font-weight 400, Inter uses font-weight 400 for body
+- [ ] Pilat Demi uses font-weight 400, Inter uses font-weight 400 for body
 - [ ] JetBrains Mono is acceptable for monospace/code contexts only
 - [ ] App names in headers should NOT be uppercase — only decorative headings may be uppercase
 
@@ -230,12 +231,15 @@ background: linear-gradient(135deg, #1E1450 0%, #FF2261 100%);
 
 ### 4. Forbidden Patterns
 
+- Using Pilat Wide Heavy in web apps — it is too heavy for screen use (print/presentations only)
 - Using tints or shades of brand colors (e.g., lighter indigo, pastel red)
 - Using non-brand colors for UI elements
 - Using colored text for body copy
 - Using Arial, Helvetica, or system fonts as primary (Inter is the approved body font)
 - Creating custom gradient combinations outside the three official gradients
 - Modifying brand color hex values
+- Adding icons to header navigation buttons (text-only nav)
+- Mixing different font sizes within the same header bar
 
 ### 5. Ensure `replit.md` References `design.md`
 
@@ -254,8 +258,8 @@ If the project has no `design.md`, inform the user and ask whether they want one
 
 Pilat font files should be placed in `public/assets/fonts/` (or the equivalent in your project):
 
-- `PilatDemi.ttf` — Pilat Demi (400) — for h3/h4 headings
-- `PilatWideBook.ttf` — Pilat Wide Book (300) — for data highlights
-- `PilatWideHeavy.ttf` — Pilat Wide Heavy (400) — for h1/h2 headings
+- `PilatDemi.ttf` — Pilat Demi (400) — for all headings (h1–h4), header app title, badges
+- `PilatWideBook.ttf` — Pilat Wide Book (300) — for data highlights and KPI numbers only
+- `PilatWideHeavy.ttf` — **NOT for web apps** — included in the template for print/presentation use only
 
 Inter is used for body text and UI elements. Load it via Google Fonts or bundle it locally.
