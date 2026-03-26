@@ -21,7 +21,7 @@ export function Header() {
           />
           <div className="h-6 w-px bg-border/50" />
           <div>
-            <h1 className="text-sm font-normal leading-tight" style={{ fontFamily: 'Pilat Demi' }}>
+            <h1 className="font-normal text-[16px]" style={{ fontFamily: 'Pilat Demi' }}>
               Shipping Solutions
             </h1>
             <p className="text-xs text-muted-foreground font-sans">
