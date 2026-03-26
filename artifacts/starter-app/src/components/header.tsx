@@ -24,13 +24,13 @@ export function Header() {
             <h1 className="font-normal text-[16px]" style={{ fontFamily: 'Pilat Demi' }}>
               Shipping Solutions
             </h1>
-            <p className="text-xs text-muted-foreground font-sans">
+            <p className="text-xs text-muted-foreground" style={{ fontFamily: 'Inter, sans-serif' }}>
               Marine Services
             </p>
           </div>
           <div className="hidden md:block h-6 w-px bg-border/50" />
           <nav className="hidden md:flex items-center gap-1">
-            <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+            <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
               Menu
             </button>
           </nav>
