@@ -12,7 +12,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-14 items-center justify-between px-3 sm:px-4">
+      <div className="flex h-14 items-center px-3 sm:px-4">
         <div className="flex items-center gap-2">
           <img
             src={logoSrc}
@@ -28,15 +28,15 @@ export function Header() {
               Marine Services
             </p>
           </div>
+          <div className="hidden md:block h-6 w-px bg-border/50" />
+          <nav className="hidden md:flex items-center gap-1">
+            <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+              Menu
+            </button>
+          </nav>
         </div>
 
-        <nav className="hidden md:flex items-center gap-1">
-          <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
-            Menu
-          </button>
-        </nav>
-
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto">
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors"

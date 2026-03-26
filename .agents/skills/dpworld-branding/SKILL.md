@@ -112,27 +112,31 @@ const dpWorldLogo = theme === "dark" ? dpWorldLogoDark : dpWorldLogoLight;
 The header follows a standardized layout pattern across all DP World apps:
 
 ```
-[Logo] | [Title + Subtitle] | [Nav Items] ... [Theme Toggle] [Mobile Menu]
+[Logo] | [Title + Subtitle] | [Nav Items] ........................ [Theme Toggle] [Mobile Menu]
 ```
 
+Nav items are grouped with the logo and title on the LEFT side, separated by a vertical divider. They are NOT centered or floating in the middle of the header. The right side only has the theme toggle and mobile menu.
+
 **Structure:**
-- [ ] Left section: Logo → vertical divider (`h-6 w-px bg-border`) → title block
-- [ ] Title block: app name (Pilat Demi, NOT uppercase, NOT Pilat Wide Heavy — Wide Heavy is too bold for headers) + optional subtitle (Inter, muted)
-- [ ] Center/right section: navigation items as ghost or secondary `Button` variants — **text-only, no icons** in header nav
-- [ ] Far right: theme toggle button + mobile hamburger menu (visible only on small screens)
-- [ ] Nav items use `variant="ghost"` or `variant="secondary"` button styles
+- [ ] Left group: Logo → divider → title block → divider → nav items — all in ONE flex row on the left
+- [ ] Logo sits flush to the left edge — use tight padding (`px-3 sm:px-4`) and small gap (`gap-2`) so the logo stays in the corner, not pushed toward center
+- [ ] First divider: separates logo from title block (`h-6 w-px bg-border/50`)
+- [ ] Title block: app name (Pilat Demi, NOT uppercase, NOT Pilat Wide Heavy) + optional subtitle (Inter, muted)
+- [ ] Second divider: separates title block from nav items (`h-6 w-px bg-border/50`)
+- [ ] Nav items: ghost buttons immediately after the second divider — they sit adjacent to the title, not floating in the center
+- [ ] Nav items use `variant="ghost"` or `variant="secondary"` button styles with Inter font
 - [ ] Nav items are **text-only** — do not add Lucide icons to header nav buttons (icons create visual clutter and redundancy)
+- [ ] Right group (far right, `ml-auto`): theme toggle + mobile hamburger menu only
 - [ ] Desktop nav items are hidden on mobile (`hidden md:flex`), replaced by mobile menu
 - [ ] Mobile menu is hidden on desktop (`md:hidden`)
 - [ ] All header text (title, subtitle, nav items, dropdowns) must use a **uniform font size** — do not mix different sizes within the same header bar
 - [ ] Dropdowns in the header (team selectors, region pickers, etc.) use Inter for all text content and follow the same font size as other header items
-
-- [ ] Logo sits flush to the left edge — use tight padding (`px-3 sm:px-4`) and small gap (`gap-2`) so the logo stays in the corner, not pushed toward center
+- [ ] All interactive elements must have hover, active, and focus-visible states
 
 **Example:**
 ```tsx
 <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur">
-  <div className="flex h-14 items-center justify-between px-3 sm:px-4">
+  <div className="flex h-14 items-center px-3 sm:px-4">
     <div className="flex items-center gap-2">
       <img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
       <div className="h-6 w-px bg-border/50" />
@@ -142,12 +146,13 @@ The header follows a standardized layout pattern across all DP World apps:
         </h1>
         <p className="text-xs text-muted-foreground font-sans">Subtitle</p>
       </div>
+      <div className="hidden md:block h-6 w-px bg-border/50" />
+      <nav className="hidden md:flex items-center gap-1">
+        <Button variant="ghost" size="sm" className="text-sm font-sans">Page One</Button>
+        <Button variant="ghost" size="sm" className="text-sm font-sans">Page Two</Button>
+      </nav>
     </div>
-    <nav className="hidden md:flex items-center gap-1">
-      <Button variant="ghost" size="sm" className="text-sm font-sans">Dashboard</Button>
-      <Button variant="ghost" size="sm" className="text-sm font-sans">Settings</Button>
-    </nav>
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 ml-auto">
       <ThemeToggle />
       <Button variant="ghost" size="icon" className="md:hidden"><Menu className="h-5 w-5" /></Button>
     </div>
