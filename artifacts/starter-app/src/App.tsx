@@ -78,7 +78,7 @@ function Home() {
         </div>
       </main>
 
-      <footer className="py-4 text-center text-xs text-muted-foreground border-t">
+      <footer className="py-4 text-center text-xs text-muted-foreground border-t border-border/50">
         DP World Marine Services &middot; Shipping Solutions
       </footer>
     </div>

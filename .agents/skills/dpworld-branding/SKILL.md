@@ -127,13 +127,15 @@ The header follows a standardized layout pattern across all DP World apps:
 - [ ] All header text (title, subtitle, nav items, dropdowns) must use a **uniform font size** — do not mix different sizes within the same header bar
 - [ ] Dropdowns in the header (team selectors, region pickers, etc.) use Inter for all text content and follow the same font size as other header items
 
+- [ ] Logo sits flush to the left edge — use tight padding (`px-3 sm:px-4`) and small gap (`gap-2`) so the logo stays in the corner, not pushed toward center
+
 **Example:**
 ```tsx
-<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-  <div className="container flex h-14 items-center justify-between">
-    <div className="flex items-center gap-3">
+<header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur">
+  <div className="flex h-14 items-center justify-between px-3 sm:px-4">
+    <div className="flex items-center gap-2">
       <img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
-      <div className="h-6 w-px bg-border" />
+      <div className="h-6 w-px bg-border/50" />
       <div>
         <h1 className="text-sm font-normal" style={{ fontFamily: 'Pilat Demi' }}>
           App Name
@@ -190,6 +192,36 @@ All dropdown components (Select, DropdownMenu, Combobox, Popover menus) must fol
 className="bg-white dark:bg-black text-black dark:text-white"
 ```
 
+#### Visual Weight — Keep It Light
+
+DP World apps should feel clean and airy, not heavy or boxed in. Avoid bulky styling.
+
+**Rules:**
+- [ ] Borders should be subtle — use `border-border/50` or `border-border/40` instead of full-opacity `border-border`
+- [ ] Header bottom border: `border-b border-border/50` — not a heavy solid line
+- [ ] List separators: use `divide-y divide-border/30` or thin `border-b border-border/40` — not full solid borders on every row
+- [ ] Cards: prefer `shadow-sm` with `border border-border/30` over thick solid borders
+- [ ] Tables and data rows: use very light horizontal separators only — no vertical borders, no cell outlines
+- [ ] Avoid wrapping every element in a border — use spacing and subtle background shifts to group content instead
+- [ ] Container dividers (vertical/horizontal): use `bg-border/50` not `bg-border`
+- [ ] When in doubt, reduce border opacity — `border-border/30` is almost always better than `border-border`
+
+**Good:**
+```tsx
+<div className="divide-y divide-border/30">
+  <div className="py-3 px-4">Row content</div>
+  <div className="py-3 px-4">Row content</div>
+</div>
+```
+
+**Bad:**
+```tsx
+<div className="border border-border rounded-lg">
+  <div className="border-b border-border py-3 px-4">Row content</div>
+  <div className="border-b border-border py-3 px-4">Row content</div>
+</div>
+```
+
 #### Color Tokens
 
 Use CSS custom properties defined in `index.css` (HSL format, space-separated). Reference via Tailwind utility classes (`bg-primary`, `text-muted-foreground`, etc.).
@@ -240,6 +272,8 @@ background: linear-gradient(135deg, #1E1450 0%, #FF2261 100%);
 - Modifying brand color hex values
 - Adding icons to header navigation buttons (text-only nav)
 - Mixing different font sizes within the same header bar
+- Using full-opacity borders on lists, tables, or data rows (use `/30` to `/50` opacity)
+- Wrapping every element in solid borders — use spacing and background shifts instead
 
 ### 5. Ensure `replit.md` References `design.md`
 

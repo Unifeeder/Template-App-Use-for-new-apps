@@ -11,15 +11,15 @@ export function Header() {
     : `${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png`;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="flex h-14 items-center justify-between px-3 sm:px-4">
+        <div className="flex items-center gap-2">
           <img
             src={logoSrc}
             alt="DP World"
             className="h-8 sm:h-9 lg:h-12"
           />
-          <div className="h-6 w-px bg-border" />
+          <div className="h-6 w-px bg-border/50" />
           <div>
             <h1 className="text-sm font-normal leading-tight" style={{ fontFamily: 'Pilat Demi' }}>
               Shipping Solutions
