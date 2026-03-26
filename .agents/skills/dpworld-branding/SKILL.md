@@ -75,7 +75,7 @@ Before making any UI changes, read `design.md` at the project root. It is the si
 **Rules:**
 - [ ] All headings (h1–h4) use Pilat Demi — never Pilat Wide Heavy
 - [ ] Body text, UI elements, buttons, and form controls use Inter
-- [ ] `@font-face` declarations load Pilat fonts from `/assets/fonts/`; Inter is loaded from Google Fonts or bundled
+- [ ] `@font-face` declarations load Pilat fonts using a relative path from the CSS file (e.g., `url('./assets/fonts/PilatDemi.ttf')` from `src/index.css` pointing to `src/assets/fonts/`) — never use absolute `/` paths, as they break when Vite uses a base path. Inter is loaded from Google Fonts or bundled
 - [ ] Pilat Demi uses font-weight 400, Inter uses font-weight 400 for body
 - [ ] JetBrains Mono is acceptable for monospace/code contexts only
 - [ ] App names in headers should NOT be uppercase — only decorative headings may be uppercase
@@ -348,7 +348,7 @@ If the project has no `design.md`, inform the user and ask whether they want one
 
 ## Font Files
 
-Pilat font files should be placed in `public/assets/fonts/` (or the equivalent in your project):
+Pilat font files should be placed in `src/assets/fonts/` so Vite can bundle them with the correct base path. Do NOT put them only in `public/assets/fonts/` — absolute URL paths like `/assets/fonts/PilatDemi.ttf` break when the app has a base path. Use relative imports from CSS (e.g., `url('./assets/fonts/PilatDemi.ttf')` in `src/index.css`):
 
 - `PilatDemi.ttf` — Pilat Demi (400) — for all headings (h1–h4), header app title, badges
 - `PilatWideBook.ttf` — Pilat Wide Book (300) — for data highlights and KPI numbers only
