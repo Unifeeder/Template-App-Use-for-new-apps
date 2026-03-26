@@ -117,20 +117,33 @@ The header follows a standardized layout pattern across all DP World apps:
 
 Nav items are grouped with the logo and title on the LEFT side, separated by a vertical divider. They are NOT centered or floating in the middle of the header. The right side only has the theme toggle and mobile menu.
 
+**Exact Sizes (mandatory — do not deviate):**
+
+| Element | Font | Size | Weight | Color | Class/Style |
+|---------|------|------|--------|-------|-------------|
+| Header bar | — | h-14 (56px) | — | — | `h-14` |
+| Logo | — | h-8 / sm:h-9 / lg:h-12 | — | — | `h-8 sm:h-9 lg:h-12` |
+| App name | Pilat Demi | 16px | normal | foreground | `font-normal text-[16px]` + `fontFamily: 'Pilat Demi'` |
+| Subtitle | Inter | 12px (text-xs) | normal | muted | `text-xs text-muted-foreground font-sans` |
+| Nav items | Inter | 14px (text-sm) | normal | muted | `text-sm font-sans text-muted-foreground` |
+| Dividers | — | h-6 w-px | — | border/50 | `h-6 w-px bg-border/50` |
+
+These sizes are fixed across all DP World apps. Do not use `text-sm` for the app name or `text-base` for nav items. The values above are the standard.
+
 **Structure:**
 - [ ] Left group: Logo → divider → title block → divider → nav items — all in ONE flex row on the left
 - [ ] Logo sits flush to the left edge — use tight padding (`px-3 sm:px-4`) and small gap (`gap-2`) so the logo stays in the corner, not pushed toward center
+- [ ] Logo: exactly `h-8 sm:h-9 lg:h-12` — not bigger, not smaller
 - [ ] First divider: separates logo from title block (`h-6 w-px bg-border/50`)
-- [ ] Title block: app name (Pilat Demi, NOT uppercase, NOT Pilat Wide Heavy) + optional subtitle (Inter, muted)
+- [ ] App name: Pilat Demi at exactly `text-[16px]`, `font-normal`, NOT uppercase, NOT Pilat Wide Heavy
+- [ ] Subtitle: Inter at exactly `text-xs` (12px), `text-muted-foreground`
 - [ ] Second divider: separates title block from nav items (`h-6 w-px bg-border/50`)
-- [ ] Nav items: ghost buttons immediately after the second divider — they sit adjacent to the title, not floating in the center
-- [ ] Nav items use `variant="ghost"` or `variant="secondary"` button styles with Inter font
+- [ ] Nav items: ghost buttons at exactly `text-sm` (14px), Inter font, `text-muted-foreground` — they sit adjacent to the title, not floating in the center
 - [ ] Nav items are **text-only** — do not add Lucide icons to header nav buttons (icons create visual clutter and redundancy)
 - [ ] Right group (far right, `ml-auto`): theme toggle + mobile hamburger menu only
 - [ ] Desktop nav items are hidden on mobile (`hidden md:flex`), replaced by mobile menu
 - [ ] Mobile menu is hidden on desktop (`md:hidden`)
-- [ ] All header text (title, subtitle, nav items, dropdowns) must use a **uniform font size** — do not mix different sizes within the same header bar
-- [ ] Dropdowns in the header (team selectors, region pickers, etc.) use Inter for all text content and follow the same font size as other header items
+- [ ] Dropdowns in the header (team selectors, region pickers, etc.) use Inter font at `text-sm` and follow the same sizing as nav items
 - [ ] All interactive elements must have hover, active, and focus-visible states
 
 **Example:**
@@ -141,20 +154,26 @@ Nav items are grouped with the logo and title on the LEFT side, separated by a v
       <img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
       <div className="h-6 w-px bg-border/50" />
       <div>
-        <h1 className="text-sm font-normal" style={{ fontFamily: 'Pilat Demi' }}>
+        <h1 className="font-normal text-[16px]" style={{ fontFamily: 'Pilat Demi' }}>
           App Name
         </h1>
         <p className="text-xs text-muted-foreground font-sans">Subtitle</p>
       </div>
       <div className="hidden md:block h-6 w-px bg-border/50" />
       <nav className="hidden md:flex items-center gap-1">
-        <Button variant="ghost" size="sm" className="text-sm font-sans">Page One</Button>
-        <Button variant="ghost" size="sm" className="text-sm font-sans">Page Two</Button>
+        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+          Page One
+        </button>
+        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+          Page Two
+        </button>
       </nav>
     </div>
     <div className="flex items-center gap-2 ml-auto">
       <ThemeToggle />
-      <Button variant="ghost" size="icon" className="md:hidden"><Menu className="h-5 w-5" /></Button>
+      <button className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors md:hidden">
+        <Menu className="h-5 w-5" />
+      </button>
     </div>
   </div>
 </header>
@@ -309,6 +328,7 @@ background: linear-gradient(135deg, #1E1450 0%, #FF2261 100%);
 - Creating custom gradient combinations outside the three official gradients
 - Modifying brand color hex values
 - Adding icons to header navigation buttons (text-only nav)
+- Changing header element sizes from the mandatory spec (logo: h-8/sm:h-9/lg:h-12, app name: 16px Pilat Demi, subtitle: text-xs Inter, nav: text-sm Inter)
 - Mixing different font sizes within the same header bar
 - Using full-opacity borders on lists, tables, or data rows (use `/30` to `/50` opacity)
 - Wrapping every element in solid borders — use spacing and background shifts instead
