@@ -30,7 +30,12 @@ export function Header() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1">
+            <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+              Menu
+            </button>
+          </nav>
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
