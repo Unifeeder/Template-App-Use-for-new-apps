@@ -5,6 +5,8 @@ description: Create distinctive, production-grade frontend interfaces. Provides 
 
 # Frontend Design
 
+> **Priority: The DP World branding skill (`dpworld-branding`) always takes precedence.** When there is any conflict between this skill and the branding skill on styling, typography, colors, borders, spacing, or layout — the branding skill wins. Always read and apply the branding skill first, then use this skill for anything not covered there (component architecture, accessibility, performance, etc.).
+
 ## When to Use
 
 Use this skill when:
@@ -25,6 +27,7 @@ Establish clear information hierarchy through:
 - **Color contrast** — Reserve high-contrast colors for primary actions and critical info
 - **Spacing** — Use generous whitespace to group related elements and separate sections
 - **Depth** — Use subtle shadows and elevation to indicate interactive or elevated elements
+- **Border weight** — Follow the branding skill's "Visual Weight" rules: use reduced-opacity borders (`border-border/30` to `border-border/50`), prefer spacing over borders to separate content, and use the card-row pattern for data lists
 
 ### 2. Layout Systems
 

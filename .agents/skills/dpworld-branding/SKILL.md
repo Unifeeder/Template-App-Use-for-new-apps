@@ -211,7 +211,40 @@ DP World apps should feel clean and airy, not heavy or boxed in. Avoid bulky sty
 - [ ] Container dividers (vertical/horizontal): use `bg-border/50` not `bg-border`
 - [ ] When in doubt, reduce border opacity — `border-border/30` is almost always better than `border-border`
 
-**Good:**
+**Data Lists & Record Rows:**
+
+The preferred pattern for lists of records (vessels, port calls, shipments, etc.) is standalone card-rows — each record is its own rounded container with very subtle styling. This keeps the UI open and breathable instead of dense and boxed-in.
+
+- [ ] Each record row is a standalone rounded card: `rounded-lg border border-border/30 px-4 py-3`
+- [ ] Rows are separated by vertical spacing (`space-y-2`), NOT by `divide-y` borders between them
+- [ ] Record name/title: Pilat Demi, `text-sm` or `text-base`, foreground color
+- [ ] Record metadata (IDs, dimensions, counts): Inter font, `text-sm text-muted-foreground`, inline after the name
+- [ ] Optional expand/collapse chevron: small muted chevron on the left (`text-muted-foreground`), rotates when expanded
+- [ ] Row hover state: subtle background shift (`hover:bg-accent/50 transition-colors`)
+- [ ] No heavy outer wrapper border around the entire list — just the individual card-rows with spacing
+- [ ] Section headers above lists: Pilat Demi for the title, Inter for breadcrumbs/subtitles, summary stats in a horizontal row
+
+**Good — card-row pattern:**
+```tsx
+<div className="space-y-2">
+  <div className="flex items-center gap-3 rounded-lg border border-border/30 px-4 py-3 hover:bg-accent/50 transition-colors">
+    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+    <span className="font-normal" style={{ fontFamily: 'Pilat Demi' }}>AKACIA</span>
+    <span className="text-sm text-muted-foreground font-sans">IMO 9315028</span>
+    <span className="text-sm text-muted-foreground font-sans">720 TEU</span>
+    <span className="text-sm text-muted-foreground font-sans">10080t</span>
+  </div>
+  <div className="flex items-center gap-3 rounded-lg border border-border/30 px-4 py-3 hover:bg-accent/50 transition-colors">
+    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+    <span className="font-normal" style={{ fontFamily: 'Pilat Demi' }}>ANNABA</span>
+    <span className="text-sm text-muted-foreground font-sans">IMO 9306201</span>
+    <span className="text-sm text-muted-foreground font-sans">1035 TEU</span>
+    <span className="text-sm text-muted-foreground font-sans">14490t</span>
+  </div>
+</div>
+```
+
+**Good — simple divider list (for lighter-weight lists):**
 ```tsx
 <div className="divide-y divide-border/30">
   <div className="py-3 px-4">Row content</div>
@@ -219,7 +252,7 @@ DP World apps should feel clean and airy, not heavy or boxed in. Avoid bulky sty
 </div>
 ```
 
-**Bad:**
+**Bad — heavy bordered wrapper with solid dividers:**
 ```tsx
 <div className="border border-border rounded-lg">
   <div className="border-b border-border py-3 px-4">Row content</div>
