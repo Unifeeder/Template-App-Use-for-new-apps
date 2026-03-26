@@ -66,8 +66,8 @@ Before making any UI changes, read `design.md` at the project root. It is the si
 
 | Font | Weight | Role |
 |---|---|---|
-| Pilat Wide Heavy | 400 | Main headings (h1, h2) |
-| Pilat Demi | 400 | Sub-headers (h3, h4), badges |
+| Pilat Wide Heavy | 400 | Page-level headings (h1, h2) — NOT for header bar titles |
+| Pilat Demi | 400 | Header bar app title, sub-headers (h3, h4), badges |
 | Inter | 400 | Body copy, paragraphs, UI text, buttons, form labels |
 | Pilat Wide Book | 300 | Data highlights, statistics |
 
@@ -116,13 +116,15 @@ The header follows a standardized layout pattern across all DP World apps:
 
 **Structure:**
 - [ ] Left section: Logo → vertical divider (`h-6 w-px bg-border`) → title block
-- [ ] Title block: app name (Pilat Wide Heavy, NOT uppercase) + optional subtitle (Inter, muted)
-- [ ] Center/right section: navigation items as ghost or secondary `Button` variants with Lucide icons
+- [ ] Title block: app name (Pilat Demi, NOT uppercase, NOT Pilat Wide Heavy — Wide Heavy is too bold for headers) + optional subtitle (Inter, muted)
+- [ ] Center/right section: navigation items as ghost or secondary `Button` variants — **text-only, no icons** in header nav
 - [ ] Far right: theme toggle button + mobile hamburger menu (visible only on small screens)
 - [ ] Nav items use `variant="ghost"` or `variant="secondary"` button styles
-- [ ] Nav items include Lucide icons alongside text labels
+- [ ] Nav items are **text-only** — do not add Lucide icons to header nav buttons (icons create visual clutter and redundancy)
 - [ ] Desktop nav items are hidden on mobile (`hidden md:flex`), replaced by mobile menu
 - [ ] Mobile menu is hidden on desktop (`md:hidden`)
+- [ ] All header text (title, subtitle, nav items, dropdowns) must use a **uniform font size** — do not mix different sizes within the same header bar
+- [ ] Dropdowns in the header (team selectors, region pickers, etc.) use Inter for all text content and follow the same font size as other header items
 
 **Example:**
 ```tsx
@@ -132,15 +134,15 @@ The header follows a standardized layout pattern across all DP World apps:
       <img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
       <div className="h-6 w-px bg-border" />
       <div>
-        <h1 style={{ fontSize: 'clamp(0.7rem, 1vw + 0.35rem, 1rem)', fontFamily: 'Pilat Wide Heavy' }}>
+        <h1 className="text-sm font-normal" style={{ fontFamily: 'Pilat Demi' }}>
           App Name
         </h1>
         <p className="text-xs text-muted-foreground font-sans">Subtitle</p>
       </div>
     </div>
     <nav className="hidden md:flex items-center gap-1">
-      <Button variant="ghost" size="sm"><LayoutDashboard className="h-4 w-4 mr-1" /> Dashboard</Button>
-      <Button variant="ghost" size="sm"><Settings className="h-4 w-4 mr-1" /> Settings</Button>
+      <Button variant="ghost" size="sm" className="text-sm font-sans">Dashboard</Button>
+      <Button variant="ghost" size="sm" className="text-sm font-sans">Settings</Button>
     </nav>
     <div className="flex items-center gap-2">
       <ThemeToggle />
@@ -148,6 +150,31 @@ The header follows a standardized layout pattern across all DP World apps:
     </div>
   </div>
 </header>
+```
+
+#### Dropdowns & Select Menus
+
+All dropdown components (Select, DropdownMenu, Combobox, Popover menus) must follow these rules:
+
+- [ ] Dropdown trigger text uses Inter font, same size as surrounding header/UI text
+- [ ] Dropdown menu items use Inter font at a consistent size (`text-sm`, 14px)
+- [ ] No Pilat fonts inside dropdown menus — Pilat is only for headings
+- [ ] Dropdown items should not have icons unless they serve a distinct purpose (e.g., a check mark for selected state)
+- [ ] Selected item indicator: use a check mark (`✓` or Lucide `Check`) — not bold text, not colored text
+- [ ] Dropdown borders, shadows, and radii follow the design system (see `design.md` §4-6)
+
+**Example dropdown:**
+```tsx
+<Select>
+  <SelectTrigger className="text-sm font-sans border-0 bg-transparent">
+    <SelectValue placeholder="Select team" />
+  </SelectTrigger>
+  <SelectContent className="font-sans">
+    <SelectItem value="central" className="text-sm">Central OPS</SelectItem>
+    <SelectItem value="baltic" className="text-sm">Baltic OPS</SelectItem>
+    <SelectItem value="scandinavian" className="text-sm">Scandinavian OPS</SelectItem>
+  </SelectContent>
+</Select>
 ```
 
 #### Dark Mode
