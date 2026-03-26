@@ -7,148 +7,163 @@ description: Enforces official DP World brand compliance. Mandates Pilat fonts, 
 
 ## When to Use
 
-Use this skill before any task involving:
-- Styling, colors, or theming (light/dark mode)
-- Typography or font sizing
-- Layout, spacing, or responsive design
-- Creating or modifying components (buttons, cards, badges, headers, nav)
-- Building new pages or views
-- Branding, logo placement, or visual identity
-- Reviewing existing apps for brand compliance
-- Mobile optimization
-- Shadows, borders, elevation, or visual effects
+Use this skill before any task involving styling, colors, theming, typography, layout, components, pages, branding, logo placement, or visual identity.
 
-## Instructions
+---
 
-### 1. Read `design.md`
+## 1. Design Philosophy — Read This First
 
-Before making any UI changes, read `design.md` at the project root. It is the single source of truth for all visual design decisions based on the official DP World brand guidelines. Key sections:
+DP World apps are **clean, smooth, and airy**. They breathe. The UI feels open, not boxed in.
 
-| Section | Covers |
-|---|---|
-| §1-2 | Logo variants (light/dark), official brand colors, official gradients (§2.10) |
-| §3 | Typography — Pilat Demi for all headings, Inter for body, fluid `clamp()` for titles |
-| §4-5 | Spacing scale, border radii |
-| §6 | Shadow/elevation system |
-| §7-8 | Badge, Button, Card composability patterns |
-| §9 | Header structure (left/right layout, fluid title sizing) |
-| §10-11 | Mobile navigation, mobile optimization |
-| §12-13 | Dark mode conventions, scrollbar styling |
-| §14-17 | Icons, data-testid conventions, dependencies, provider stack |
-| §19-20 | Animations, new-app checklist |
+**The golden rule: when in doubt, add NOTHING.** No border, no shadow, no divider, no wrapper. Let whitespace and spacing do the work. Every visual element you add (a border, a shadow, a divider line) makes the UI heavier. Only add one when it serves a clear, specific purpose.
 
-### 2. Brand Compliance Checklist
+**Principles:**
+- **Space over borders** — Group content with padding and margin, not by wrapping things in bordered containers
+- **Less is more** — A clean page with generous whitespace always looks better than a dense page with lots of visual elements
+- **Flat over elevated** — Avoid stacking shadows and borders. If you use a shadow, skip the border. If you use a border, skip the shadow.
+- **Subtle over bold** — When you do need a visual separator, make it barely visible. `border-border/30` is better than `border-border`. Most of the time you need neither.
+- **Content speaks** — Good typography and spacing create hierarchy. You should not need borders and boxes to make content readable.
 
-#### Colors — Five Official Colors Only
+**How this applies in practice:**
+- A list of items? Use `space-y-3` between them. No borders, no dividers, no card wrappers needed.
+- A section of content? Use `mt-8` or `pt-8` to separate it from the previous section. No `<hr>`, no `border-t`.
+- A card that needs to stand out? Use `rounded-lg bg-card p-4` with maybe `shadow-sm`. No border needed.
+- A data table? Light horizontal separators only (`divide-y divide-border/20`). No vertical lines, no cell borders, no outer border.
+
+---
+
+## 2. Typography — Pilat Demi + Inter
+
+| Font | Weight | Role |
+|---|---|---|
+| Pilat Demi | 400 | All headings (h1–h4), header app title |
+| Inter | 400 | Everything else — body, buttons, labels, nav, metadata, form controls |
+| Pilat Wide Book | 300 | Large KPI numbers only (optional, sparingly) |
+
+**Pilat Wide Heavy is BANNED in web apps.** It is for print only.
+
+### Font application rules
+
+**Critical: Do NOT rely on Tailwind's `font-sans` class.** It does not reliably resolve to Inter in all setups. Instead:
+
+- Set Inter explicitly on the body in CSS:
+  ```css
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  ```
+- For headings, use inline styles:
+  ```tsx
+  <h1 style={{ fontFamily: 'Pilat Demi' }}>Heading</h1>
+  ```
+- For body text that inherits from body, no extra style needed. If you need to be explicit:
+  ```tsx
+  <p style={{ fontFamily: 'Inter, sans-serif' }}>Body text</p>
+  ```
+- Global heading rule in CSS:
+  ```css
+  h1, h2, h3, h4 {
+    font-family: 'Pilat Demi', sans-serif;
+  }
+  ```
+
+### Font files
+
+Pilat fonts go in `src/assets/fonts/` (NOT `public/`). Load with relative CSS paths:
+```css
+@font-face {
+  font-family: 'Pilat Demi';
+  src: url('./assets/fonts/PilatDemi.ttf') format('truetype');
+  font-weight: 400;
+}
+```
+Never use absolute `/` paths — they break when Vite uses a base path.
+
+Inter: load via Google Fonts `<link>` in `index.html`, or bundle locally.
+
+### Other typography rules
+- App names in headers: NOT uppercase (only decorative headings may be uppercase)
+- Monospace (code blocks): JetBrains Mono is acceptable
+- Fluid title sizing — never use `truncate` on app titles. Use `clamp()`:
+  ```tsx
+  <h1 style={{ fontSize: 'clamp(0.7rem, 1vw + 0.35rem, 1rem)', fontFamily: 'Pilat Demi' }}>
+    App Title
+  </h1>
+  ```
+
+---
+
+## 3. Colors — Five Official Colors Only
 
 | Name | Hex | Usage |
 |---|---|---|
 | Lucky Point | `#1E1450` | Primary brand indigo — buttons, links, primary actions |
-| Radical Red | `#FF2261` | Signature accent — alerts, destructive actions, highlights |
-| Caribbean Green | `#00E68C` | Signature accent — success, positive status, secondary actions |
-| Maverick | `#F5F3F5` | Light neutral — text on dark backgrounds, light mode backgrounds |
-| Cinder | `#0F0F19` | Dark neutral — text on light backgrounds, dark mode backgrounds |
+| Radical Red | `#FF2261` | Accent — alerts, destructive actions, highlights |
+| Caribbean Green | `#00E68C` | Accent — success, positive status, secondary actions |
+| Maverick | `#F5F3F5` | Light neutral — light mode backgrounds, text on dark |
+| Cinder | `#0F0F19` | Dark neutral — dark mode backgrounds, text on light |
 
 **Rules:**
-- [ ] No tints, shades, or variations of these colors are ever used
-- [ ] No colors outside this palette appear in the UI (except opacity-based variants for surfaces)
-- [ ] Where lighter/darker variants are needed (cards, borders, surfaces), use opacity on the brand colors — never create new color values
+- No tints, shades, or variations of these colors (no pastel red, no lighter indigo)
+- No colors outside this palette in the UI
+- For lighter/darker surface variants, use opacity on brand colors — never invent new hex values
+- All text is either Cinder or Maverick. No colored body text (no green text, no red text). Status is shown via badges or icons, not colored text.
+- Use CSS custom properties (HSL) for theme tokens. Reference via Tailwind: `bg-primary`, `text-muted-foreground`, etc.
 
-#### Text Color — Cinder or Maverick Only
+### Dark mode
+- Dark mode: Cinder (`#0F0F19`) background, Maverick (`#F5F3F5`) text
+- Light mode: Maverick/white background, Cinder text
+- Brand accent colors stay the same in both modes
 
-- [ ] All text uses either Cinder (`#0F0F19`) or Maverick (`#F5F3F5`)
-- [ ] Light mode: Cinder text on Maverick/white backgrounds
-- [ ] Dark mode: Maverick text on Cinder/dark backgrounds
-- [ ] No colored text (no green text, no red text, no blue text for body copy)
-- [ ] Status indicators use badges or icons with brand accent colors, not colored text
+### Official gradients (use sparingly — hero sections and decorative accents only)
 
-#### Typography — Pilat + Inter
-
-| Font | Weight | Role |
-|---|---|---|
-| Pilat Demi | 400 | All headings (h1–h4), header bar app title, badges |
-| Inter | 400 | Body copy, paragraphs, UI text, buttons, form labels, all other text |
-| Pilat Wide Book | 300 | Data highlights, large statistics/KPI numbers only |
-
-**Pilat Wide Heavy is NOT used in web apps.** It is too heavy for screen use — it belongs in print materials and presentations only. Do not use it for any heading, title, or label in a web application.
-
-**Rules:**
-- [ ] All headings (h1–h4) use Pilat Demi — never Pilat Wide Heavy
-- [ ] Body text, UI elements, buttons, and form controls use Inter
-- [ ] `@font-face` declarations load Pilat fonts using a relative path from the CSS file (e.g., `url('./assets/fonts/PilatDemi.ttf')` from `src/index.css` pointing to `src/assets/fonts/`) — never use absolute `/` paths, as they break when Vite uses a base path. Inter is loaded from Google Fonts or bundled
-- [ ] Pilat Demi uses font-weight 400, Inter uses font-weight 400 for body
-- [ ] JetBrains Mono is acceptable for monospace/code contexts only
-- [ ] App names in headers should NOT be uppercase — only decorative headings may be uppercase
-
-**Fluid title typography** — never use `truncate` on app titles. Use CSS `clamp()`:
-```tsx
-<h1 style={{ fontSize: 'clamp(0.7rem, 1vw + 0.35rem, 1rem)' }}>
-  <span className="sm:hidden">Short</span>
-  <span className="hidden sm:inline">Full Title</span>
-</h1>
+```css
+/* DP World Master — corporate */
+background: linear-gradient(135deg, #1E1450 0%, #FF2261 50%, #00E68C 100%);
+/* Ports and Terminals */
+background: linear-gradient(135deg, #1E1450 0%, #00E68C 100%);
+/* Economic Zones */
+background: linear-gradient(135deg, #1E1450 0%, #FF2261 100%);
 ```
 
-#### Logo Placement
+No custom gradient combinations. No gradients on text. Solid colors for interactive elements.
 
-- [ ] DP World vertical logo appears in the header of every app
-- [ ] Light logo variant (`WhiteBG`) used on light backgrounds, dark variant (`BlackBG`) on dark backgrounds
-- [ ] Logo is the first element in the header (far left)
-- [ ] Logo followed by a vertical divider before app title
-- [ ] Responsive sizing: `h-8` mobile, `h-9 sm:` small, `h-12 lg:` desktop — these exact classes are mandatory
+---
 
-**Theme-aware logos** — import both WhiteBG (light mode) and BlackBG (dark mode) logo variants, switch based on `useTheme()`:
+## 4. Header — Mandatory Layout
+
+Every DP World app has this exact header structure:
+
+```
+[Logo] | [Title + Subtitle] | [Nav Items] .............. [Theme Toggle] [Mobile Menu]
+```
+
+Nav items are grouped LEFT with logo and title. Right side has only theme toggle and mobile menu.
+
+### Exact sizes (do not deviate)
+
+| Element | Spec |
+|---------|------|
+| Header bar | `h-14` (56px) |
+| Logo | `h-8 sm:h-9 lg:h-12` |
+| App name | 16px, Pilat Demi, `font-normal` |
+| Subtitle | `text-xs`, Inter, `text-muted-foreground` |
+| Nav items | `text-sm`, Inter, `text-muted-foreground` |
+| Dividers | `h-6 w-px bg-border/50` |
+
+### Theme-aware logo
+
 ```tsx
-import dpWorldLogoLight from "@assets/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png";
-import dpWorldLogoDark from "@assets/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png";
-
 const { theme } = useTheme();
 const dpWorldLogo = theme === "dark" ? dpWorldLogoDark : dpWorldLogoLight;
-
-<img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
 ```
 
-#### Header Layout
+Import both `WhiteBG` (light mode) and `BlackBG` (dark mode) variants. Switch with React state, NOT CSS `dark:hidden` classes (unreliable).
 
-The header follows a standardized layout pattern across all DP World apps:
+### Copy-paste header
 
-```
-[Logo] | [Title + Subtitle] | [Nav Items] ........................ [Theme Toggle] [Mobile Menu]
-```
-
-Nav items are grouped with the logo and title on the LEFT side, separated by a vertical divider. They are NOT centered or floating in the middle of the header. The right side only has the theme toggle and mobile menu.
-
-**Exact Sizes (mandatory — do not deviate):**
-
-| Element | Font | Size | Weight | Color | Class/Style |
-|---------|------|------|--------|-------|-------------|
-| Header bar | — | h-14 (56px) | — | — | `h-14` |
-| Logo | — | h-8 / sm:h-9 / lg:h-12 | — | — | `h-8 sm:h-9 lg:h-12` |
-| App name | Pilat Demi | 16px | normal | foreground | `font-normal text-[16px]` + `fontFamily: 'Pilat Demi'` |
-| Subtitle | Inter | 12px (text-xs) | normal | muted | `text-xs text-muted-foreground font-sans` |
-| Nav items | Inter | 14px (text-sm) | normal | muted | `text-sm font-sans text-muted-foreground` |
-| Dividers | — | h-6 w-px | — | border/50 | `h-6 w-px bg-border/50` |
-
-These sizes are fixed across all DP World apps. Do not use `text-sm` for the app name or `text-base` for nav items. The values above are the standard.
-
-**Structure:**
-- [ ] Left group: Logo → divider → title block → divider → nav items — all in ONE flex row on the left
-- [ ] Logo sits flush to the left edge — use tight padding (`px-3 sm:px-4`) and small gap (`gap-2`) so the logo stays in the corner, not pushed toward center
-- [ ] Logo: exactly `h-8 sm:h-9 lg:h-12` — not bigger, not smaller
-- [ ] First divider: separates logo from title block (`h-6 w-px bg-border/50`)
-- [ ] App name: Pilat Demi at exactly `text-[16px]`, `font-normal`, NOT uppercase, NOT Pilat Wide Heavy
-- [ ] Subtitle: Inter at exactly `text-xs` (12px), `text-muted-foreground`
-- [ ] Second divider: separates title block from nav items (`h-6 w-px bg-border/50`)
-- [ ] Nav items: ghost buttons at exactly `text-sm` (14px), Inter font, `text-muted-foreground` — they sit adjacent to the title, not floating in the center
-- [ ] Nav items are **text-only** — do not add Lucide icons to header nav buttons (icons create visual clutter and redundancy)
-- [ ] Right group (far right, `ml-auto`): theme toggle + mobile hamburger menu only
-- [ ] Desktop nav items are hidden on mobile (`hidden md:flex`), replaced by mobile menu
-- [ ] Mobile menu is hidden on desktop (`md:hidden`)
-- [ ] Dropdowns in the header (team selectors, region pickers, etc.) use Inter font at `text-sm` and follow the same sizing as nav items
-- [ ] All interactive elements must have hover, active, and focus-visible states
-
-**Example:**
 ```tsx
-<header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur">
+<header className="sticky top-0 z-50 w-full border-b border-border/30 bg-background/95 backdrop-blur">
   <div className="flex h-14 items-center px-3 sm:px-4">
     <div className="flex items-center gap-2">
       <img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
@@ -157,201 +172,77 @@ These sizes are fixed across all DP World apps. Do not use `text-sm` for the app
         <h1 className="font-normal text-[16px]" style={{ fontFamily: 'Pilat Demi' }}>
           App Name
         </h1>
-        <p className="text-xs text-muted-foreground font-sans">Subtitle</p>
+        <p className="text-xs text-muted-foreground" style={{ fontFamily: 'Inter, sans-serif' }}>
+          Marine Services
+        </p>
       </div>
       <div className="hidden md:block h-6 w-px bg-border/50" />
       <nav className="hidden md:flex items-center gap-1">
-        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
           Page One
-        </button>
-        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-sans text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
-          Page Two
         </button>
       </nav>
     </div>
     <div className="flex items-center gap-2 ml-auto">
       <ThemeToggle />
-      <button className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors md:hidden">
-        <Menu className="h-5 w-5" />
-      </button>
+      <MobileMenuButton className="md:hidden" />
     </div>
   </div>
 </header>
 ```
 
-#### Dropdowns & Select Menus
+### Header rules
+- Nav items are **text-only** — no icons in header nav buttons
+- Desktop nav hidden on mobile (`hidden md:flex`), mobile menu hidden on desktop (`md:hidden`)
+- All interactive elements have hover and focus-visible states
+- Dropdowns in header (team selectors, etc.): Inter at `text-sm`, no Pilat fonts in menus
 
-All dropdown components (Select, DropdownMenu, Combobox, Popover menus) must follow these rules:
+---
 
-- [ ] Dropdown trigger text uses Inter font, same size as surrounding header/UI text
-- [ ] Dropdown menu items use Inter font at a consistent size (`text-sm`, 14px)
-- [ ] No Pilat fonts inside dropdown menus — Pilat is only for headings
-- [ ] Dropdown items should not have icons unless they serve a distinct purpose (e.g., a check mark for selected state)
-- [ ] Selected item indicator: use a check mark (`✓` or Lucide `Check`) — not bold text, not colored text
-- [ ] Dropdown borders, shadows, and radii follow the design system (see `design.md` §4-6)
+## 5. Forbidden Patterns
 
-**Example dropdown:**
-```tsx
-<Select>
-  <SelectTrigger className="text-sm font-sans border-0 bg-transparent">
-    <SelectValue placeholder="Select team" />
-  </SelectTrigger>
-  <SelectContent className="font-sans">
-    <SelectItem value="central" className="text-sm">Central OPS</SelectItem>
-    <SelectItem value="baltic" className="text-sm">Baltic OPS</SelectItem>
-    <SelectItem value="scandinavian" className="text-sm">Scandinavian OPS</SelectItem>
-  </SelectContent>
-</Select>
-```
+These are **never** acceptable in a DP World app:
 
-#### Dark Mode
+### Typography violations
+- Using Pilat Wide Heavy in web apps (print only)
+- Using Arial, Helvetica, or system fonts as primary body font
+- Using Tailwind `font-sans` class instead of explicit `fontFamily: 'Inter, sans-serif'`
+- Changing header element sizes from the mandatory spec
+- Making app names uppercase in headers
 
-- [ ] Dark mode uses Cinder (`#0F0F19`) as background
-- [ ] Dark mode uses Maverick (`#F5F3F5`) as text
-- [ ] Light mode uses Maverick/white as background
-- [ ] Light mode uses Cinder as text
-- [ ] Brand colors (Lucky Point, Radical Red, Caribbean Green) remain the same in both modes
-- [ ] Use explicit light/dark variants for all visual properties when not using pre-configured Tailwind utility classes:
-```tsx
-className="bg-white dark:bg-black text-black dark:text-white"
-```
+### Color violations
+- Using tints or shades of brand colors
+- Using non-brand colors anywhere in the UI
+- Using colored text for body copy (use badges/icons for status)
+- Inventing new gradient combinations
 
-#### Visual Weight — Keep It Light
+### Visual weight violations — THE MOST COMMON PROBLEM
+- **Adding borders to cards, sections, or containers by default** — only add a border when there is a specific reason (e.g., a form input field needs a visible boundary)
+- **Using `border-border` at full opacity** — if you must use a border, use `border-border/30` maximum
+- **Wrapping lists in bordered containers** — use spacing between items instead
+- **Using `divide-y` as a default list separator** — use `space-y` gap instead
+- **Adding shadows AND borders to the same element** — pick one or neither
+- **Using heavy horizontal rules or `<hr>` to separate sections** — use vertical spacing (`mt-8`, `pt-8`)
+- **Creating dense, boxed-in layouts** where every piece of content is inside a bordered rectangle
+- **Using solid background colors to create visual sections** when whitespace would suffice
+- **Adding icons to header navigation** — text-only nav
 
-DP World apps should feel clean and airy, not heavy or boxed in. Avoid bulky styling.
+### The test
+Look at your UI and ask: "Could I remove this border/shadow/divider and still understand the layout?" If yes, remove it.
 
-**Rules:**
-- [ ] Borders should be subtle — use `border-border/50` or `border-border/40` instead of full-opacity `border-border`
-- [ ] Header bottom border: `border-b border-border/50` — not a heavy solid line
-- [ ] List separators: use `divide-y divide-border/30` or thin `border-b border-border/40` — not full solid borders on every row
-- [ ] Cards: prefer `shadow-sm` with `border border-border/30` over thick solid borders
-- [ ] Tables and data rows: use very light horizontal separators only — no vertical borders, no cell outlines
-- [ ] Avoid wrapping every element in a border — use spacing and subtle background shifts to group content instead
-- [ ] Container dividers (vertical/horizontal): use `bg-border/50` not `bg-border`
-- [ ] When in doubt, reduce border opacity — `border-border/30` is almost always better than `border-border`
+---
 
-**Data Lists & Record Rows:**
+## 6. Ensure `replit.md` References This Skill
 
-The preferred pattern for lists of records (vessels, port calls, shipments, etc.) is standalone card-rows — each record is its own rounded container with very subtle styling. This keeps the UI open and breathable instead of dense and boxed-in.
-
-- [ ] Each record row is a standalone rounded card: `rounded-lg border border-border/30 px-4 py-3`
-- [ ] Rows are separated by vertical spacing (`space-y-2`), NOT by `divide-y` borders between them
-- [ ] Record name/title: Pilat Demi, `text-sm` or `text-base`, foreground color
-- [ ] Record metadata (IDs, dimensions, counts): Inter font, `text-sm text-muted-foreground`, inline after the name
-- [ ] Optional expand/collapse chevron: small muted chevron on the left (`text-muted-foreground`), rotates when expanded
-- [ ] Row hover state: subtle background shift (`hover:bg-accent/50 transition-colors`)
-- [ ] No heavy outer wrapper border around the entire list — just the individual card-rows with spacing
-- [ ] Section headers above lists: Pilat Demi for the title, Inter for breadcrumbs/subtitles, summary stats in a horizontal row
-
-**Good — card-row pattern:**
-```tsx
-<div className="space-y-2">
-  <div className="flex items-center gap-3 rounded-lg border border-border/30 px-4 py-3 hover:bg-accent/50 transition-colors">
-    <ChevronRight className="h-4 w-4 text-muted-foreground" />
-    <span className="font-normal" style={{ fontFamily: 'Pilat Demi' }}>AKACIA</span>
-    <span className="text-sm text-muted-foreground font-sans">IMO 9315028</span>
-    <span className="text-sm text-muted-foreground font-sans">720 TEU</span>
-    <span className="text-sm text-muted-foreground font-sans">10080t</span>
-  </div>
-  <div className="flex items-center gap-3 rounded-lg border border-border/30 px-4 py-3 hover:bg-accent/50 transition-colors">
-    <ChevronRight className="h-4 w-4 text-muted-foreground" />
-    <span className="font-normal" style={{ fontFamily: 'Pilat Demi' }}>ANNABA</span>
-    <span className="text-sm text-muted-foreground font-sans">IMO 9306201</span>
-    <span className="text-sm text-muted-foreground font-sans">1035 TEU</span>
-    <span className="text-sm text-muted-foreground font-sans">14490t</span>
-  </div>
-</div>
-```
-
-**Good — simple divider list (for non-record lists like settings, menu items, or simple text rows where card-rows would be too heavy):**
-```tsx
-<div className="divide-y divide-border/30">
-  <div className="py-3 px-4">Row content</div>
-  <div className="py-3 px-4">Row content</div>
-</div>
-```
-
-**Bad — heavy bordered wrapper with solid dividers:**
-```tsx
-<div className="border border-border rounded-lg">
-  <div className="border-b border-border py-3 px-4">Row content</div>
-  <div className="border-b border-border py-3 px-4">Row content</div>
-</div>
-```
-
-#### Color Tokens
-
-Use CSS custom properties defined in `index.css` (HSL format, space-separated). Reference via Tailwind utility classes (`bg-primary`, `text-muted-foreground`, etc.).
-
-### 3. Official Gradients
-
-DP World has three official gradient sets, each tied to a specific business division. Source .ai files are stored in `public/assets/gradients/` (both CMYK and RGB variants).
-
-| Gradient | Division | Colors |
-|---|---|---|
-| **DP World Master** | Corporate / brand-wide | Lucky Point → Radical Red → Caribbean Green |
-| **Ports and Terminals** | Ports & Terminals division | Lucky Point → Caribbean Green |
-| **Economic Zones** | Economic Zones division | Lucky Point → Radical Red |
-
-**CSS equivalents** (use these for web implementations):
-
-```css
-/* DP World Master Gradient */
-background: linear-gradient(135deg, #1E1450 0%, #FF2261 50%, #00E68C 100%);
-
-/* Ports and Terminals Gradient */
-background: linear-gradient(135deg, #1E1450 0%, #00E68C 100%);
-
-/* Economic Zones Gradient */
-background: linear-gradient(135deg, #1E1450 0%, #FF2261 100%);
-```
-
-**Rules:**
-- [ ] Only use the three official gradients above — do not invent new gradient combinations
-- [ ] Gradients use brand colors only (Lucky Point, Radical Red, Caribbean Green)
-- [ ] Use gradients sparingly — for hero sections, feature highlights, or decorative accents
-- [ ] Do not use gradients on text (readability concern)
-- [ ] Solid brand colors are preferred for interactive elements (buttons, links)
-
-**Source files:**
-- `public/assets/gradients/DP_World_Master_Gradient_CMYK.ai` / `_RGB.ai`
-- `public/assets/gradients/Ports_And_Terminals_Gradient_CMYK.ai` / `_RGB.ai`
-- `public/assets/gradients/Economic_Zones_Gradient_CMYK.ai` / `_RGB.ai`
-
-### 4. Forbidden Patterns
-
-- Using Pilat Wide Heavy in web apps — it is too heavy for screen use (print/presentations only)
-- Using tints or shades of brand colors (e.g., lighter indigo, pastel red)
-- Using non-brand colors for UI elements
-- Using colored text for body copy
-- Using Arial, Helvetica, or system fonts as primary (Inter is the approved body font)
-- Creating custom gradient combinations outside the three official gradients
-- Modifying brand color hex values
-- Adding icons to header navigation buttons (text-only nav)
-- Changing header element sizes from the mandatory spec (logo: h-8/sm:h-9/lg:h-12, app name: 16px Pilat Demi, subtitle: text-xs Inter, nav: text-sm Inter)
-- Mixing different font sizes within the same header bar
-- Using full-opacity borders on lists, tables, or data rows (use `/30` to `/50` opacity)
-- Wrapping every element in solid borders — use spacing and background shifts instead
-
-### 5. Ensure `replit.md` References `design.md`
-
-When bootstrapping a new project, add this section to `replit.md` (after Branding or Overview):
+When bootstrapping a new project, add to `replit.md`:
 
 ```markdown
-## Design System
-**Before making any UI, styling, layout, or component changes, read `design.md` at the project root.** It is the authoritative reference for the official DP World brand colors (Lucky Point, Radical Red, Caribbean Green, Maverick, Cinder), Pilat typography, spacing, border radii, shadows, component composability, header/nav structure, dark mode, responsive patterns, and mobile optimization. All visual decisions must follow `design.md`. Also read `.agents/skills/dpworld-branding/SKILL.md` for brand compliance rules.
+## Branding
+Read `.agents/skills/dpworld-branding/SKILL.md` before making any UI changes. It defines the official DP World brand colors, Pilat/Inter typography, header layout, and design philosophy (clean, airy, minimal borders).
 ```
 
-### 6. If `design.md` Does Not Exist
+## Font Files Reference
 
-If the project has no `design.md`, inform the user and ask whether they want one created from the standard template. Do not proceed with ad-hoc styling decisions — the design system ensures consistency across all apps.
-
-## Font Files
-
-Pilat font files should be placed in `src/assets/fonts/` so Vite can bundle them with the correct base path. Do NOT put them only in `public/assets/fonts/` — absolute URL paths like `/assets/fonts/PilatDemi.ttf` break when the app has a base path. Use relative imports from CSS (e.g., `url('./assets/fonts/PilatDemi.ttf')` in `src/index.css`):
-
-- `PilatDemi.ttf` — Pilat Demi (400) — for all headings (h1–h4), header app title, badges
-- `PilatWideBook.ttf` — Pilat Wide Book (300) — for data highlights and KPI numbers only
-- `PilatWideHeavy.ttf` — **NOT for web apps** — included in the template for print/presentation use only
-
-Inter is used for body text and UI elements. Load it via Google Fonts or bundle it locally.
+- `src/assets/fonts/PilatDemi.ttf` — Pilat Demi (400) — headings, app title
+- `src/assets/fonts/PilatWideBook.ttf` — Pilat Wide Book (300) — KPI numbers only
+- `src/assets/fonts/PilatWideHeavy.ttf` — **NOT for web apps** (print/presentations only)
