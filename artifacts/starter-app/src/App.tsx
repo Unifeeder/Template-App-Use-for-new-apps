@@ -2,26 +2,27 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider, useTheme } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
 
 function Home() {
+  const { theme } = useTheme();
+
+  const centerLogoSrc = theme === "dark"
+    ? `${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png`
+    : `${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png`;
+
   return (
     <div className="flex flex-col min-h-[calc(100vh-3.5rem)]">
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="text-center max-w-2xl mx-auto">
           <img
-            src={`${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png`}
+            src={centerLogoSrc}
             alt="DP World"
-            className="h-16 mx-auto mb-6 dark:hidden"
-          />
-          <img
-            src={`${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png`}
-            alt="DP World"
-            className="h-16 mx-auto mb-6 hidden dark:block"
+            className="h-16 mx-auto mb-6"
           />
 
           <h2
