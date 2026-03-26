@@ -244,7 +244,7 @@ The preferred pattern for lists of records (vessels, port calls, shipments, etc.
 </div>
 ```
 
-**Good — simple divider list (for lighter-weight lists):**
+**Good — simple divider list (for non-record lists like settings, menu items, or simple text rows where card-rows would be too heavy):**
 ```tsx
 <div className="divide-y divide-border/30">
   <div className="py-3 px-4">Row content</div>
