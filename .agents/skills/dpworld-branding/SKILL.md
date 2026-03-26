@@ -178,7 +178,7 @@ Import both `WhiteBG` (light mode) and `BlackBG` (dark mode) variants. Switch wi
       </div>
       <div className="hidden md:block h-6 w-px bg-border/50" />
       <nav className="hidden md:flex items-center gap-1">
-        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
+        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
           Page One
         </button>
       </nav>
