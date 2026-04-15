@@ -130,7 +130,26 @@ No custom gradient combinations. No gradients on text. Solid colors for interact
 
 ---
 
-## 4. Header — Mandatory Layout
+## 4. Interactive Elements — Hover & Cursor
+
+**Every clickable element must show `cursor-pointer` on hover.** This includes buttons, links, nav items, toggles, dropdowns, card rows with click handlers, tabs, and any other interactive element. Users must always see the pointer cursor when hovering over something they can click.
+
+**Rules:**
+- Add `cursor-pointer` to ALL interactive elements (buttons, links, nav items, toggle switches, dropdown triggers, clickable cards, tabs)
+- Add `hover:bg-accent hover:text-accent-foreground` for background hover feedback on ghost-style buttons and nav items
+- Add `active:bg-accent/80` for press/active feedback
+- Add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring` for keyboard focus
+- Add `transition-colors` for smooth hover transitions
+- Links (`<a>`) inherit cursor-pointer by default, but buttons and custom clickable elements need it explicitly
+
+**Standard interactive element class pattern:**
+```tsx
+className="cursor-pointer hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors"
+```
+
+---
+
+## 5. Header — Mandatory Layout
 
 Every DP World app has this exact header structure:
 
@@ -140,33 +159,40 @@ Every DP World app has this exact header structure:
 
 Nav items are grouped LEFT with logo and title. Right side has only theme toggle and mobile menu.
 
-### Exact sizes (do not deviate)
+### Exact element specs (do not deviate)
 
-| Element | Spec |
-|---------|------|
-| Header bar | `h-14` (56px) |
-| Logo | `h-8 sm:h-9 lg:h-12` |
-| App name | 16px, Pilat Demi, `font-normal` |
-| Subtitle | `text-xs`, Inter, `text-muted-foreground` |
-| Nav items | `text-sm`, Inter, `text-muted-foreground` |
-| Dividers | `h-6 w-px bg-border/50` |
+These are the **exact** className and style values. Copy them verbatim.
+
+| Element | className | style (inline) | Result |
+|---------|-----------|-----------------|--------|
+| **Header bar** | `sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60` | — | 56px sticky header with subtle border |
+| **Header inner** | `flex h-14 items-center px-3 sm:px-4` | — | Fixed height, tight padding |
+| **Logo** | `h-8 sm:h-9 lg:h-12` | — | Responsive logo sizing |
+| **Dividers** | `h-6 w-px bg-border/50` | — | Thin vertical separators |
+| **App name (h1)** | `font-normal text-[16px]` | `{{ fontFamily: 'Pilat Demi' }}` | 16px Pilat Demi, weight 400 |
+| **Subtitle (p)** | `text-xs text-muted-foreground` | `{{ fontFamily: 'Inter, sans-serif' }}` | 12px Inter, weight 400, muted color |
+| **Nav button** | `cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors` | `{{ fontFamily: 'Inter, sans-serif' }}` | 14px Inter, weight 400, muted, with hover/focus states and pointer cursor |
+| **Theme toggle** | `cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors` | — | Square icon button with pointer cursor |
+| **Mobile menu btn** | Same as theme toggle + `md:hidden` | — | Hidden on desktop |
 
 ### Theme-aware logo
 
 ```tsx
 const { theme } = useTheme();
-const dpWorldLogo = theme === "dark" ? dpWorldLogoDark : dpWorldLogoLight;
+const logoSrc = theme === "dark"
+  ? `${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png`
+  : `${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png`;
 ```
 
-Import both `WhiteBG` (light mode) and `BlackBG` (dark mode) variants. Switch with React state, NOT CSS `dark:hidden` classes (unreliable).
+Switch with React state via `useTheme()`, NOT CSS `dark:hidden` classes (unreliable).
 
 ### Copy-paste header
 
 ```tsx
-<header className="sticky top-0 z-50 w-full border-b border-border/30 bg-background/95 backdrop-blur">
+<header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
   <div className="flex h-14 items-center px-3 sm:px-4">
     <div className="flex items-center gap-2">
-      <img src={dpWorldLogo} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
+      <img src={logoSrc} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
       <div className="h-6 w-px bg-border/50" />
       <div>
         <h1 className="font-normal text-[16px]" style={{ fontFamily: 'Pilat Demi' }}>
@@ -178,14 +204,26 @@ Import both `WhiteBG` (light mode) and `BlackBG` (dark mode) variants. Switch wi
       </div>
       <div className="hidden md:block h-6 w-px bg-border/50" />
       <nav className="hidden md:flex items-center gap-1">
-        <button className="inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
+        <button className="cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
           Page One
         </button>
       </nav>
     </div>
     <div className="flex items-center gap-2 ml-auto">
-      <ThemeToggle />
-      <MobileMenuButton className="md:hidden" />
+      <button
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors"
+        aria-label="Toggle theme"
+      >
+        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      </button>
+      <button
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors md:hidden"
+        aria-label="Toggle menu"
+      >
+        {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
     </div>
   </div>
 </header>
@@ -194,12 +232,12 @@ Import both `WhiteBG` (light mode) and `BlackBG` (dark mode) variants. Switch wi
 ### Header rules
 - Nav items are **text-only** — no icons in header nav buttons
 - Desktop nav hidden on mobile (`hidden md:flex`), mobile menu hidden on desktop (`md:hidden`)
-- All interactive elements have hover and focus-visible states
+- All interactive elements must have `cursor-pointer`, hover, active, and focus-visible states
 - Dropdowns in header (team selectors, etc.): Inter at `text-sm`, no Pilat fonts in menus
 
 ---
 
-## 5. Forbidden Patterns
+## 6. Forbidden Patterns
 
 These are **never** acceptable in a DP World app:
 
@@ -216,9 +254,14 @@ These are **never** acceptable in a DP World app:
 - Using colored text for body copy (use badges/icons for status)
 - Inventing new gradient combinations
 
+### Interactive element violations
+- **Missing `cursor-pointer` on clickable elements** — every button, link, nav item, toggle, and clickable card must show pointer cursor on hover
+- **Missing hover states** — every interactive element needs visible hover feedback (`hover:bg-accent` or similar)
+- **Missing focus-visible states** — keyboard users must see focus rings
+
 ### Visual weight violations — THE MOST COMMON PROBLEM
 - **Adding borders to cards, sections, or containers by default** — only add a border when there is a specific reason (e.g., a form input field needs a visible boundary)
-- **Using `border-border` at full opacity** — if you must use a border, use `border-border/30` maximum
+- **Using `border-border` at full opacity** — if you must use a border, use `border-border/30` maximum (exception: the header uses `border-border/50` as specified in the mandatory header spec)
 - **Wrapping lists in bordered containers** — use spacing between items instead
 - **Using `divide-y` as a default list separator** — use `space-y` gap instead
 - **Adding shadows AND borders to the same element** — pick one or neither
@@ -232,7 +275,7 @@ Look at your UI and ask: "Could I remove this border/shadow/divider and still un
 
 ---
 
-## 6. Ensure `replit.md` References This Skill
+## 7. Ensure `replit.md` References This Skill
 
 When bootstrapping a new project, add to `replit.md`:
 
