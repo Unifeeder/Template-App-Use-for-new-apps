@@ -12,7 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 
 if (process.env.NODE_ENV === "production") {
-  const staticDir = path.resolve(process.cwd(), "dist", "public");
+  const bundleDir = path.dirname(process.argv[1]);
+  const staticDir = path.resolve(bundleDir, "public");
   app.use(express.static(staticDir));
 
   app.get("/{*splat}", (_req, res) => {
