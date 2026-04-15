@@ -11,7 +11,7 @@ version = "1.0.0"
 
 [[services]]
 name = "web"
-paths = [ "/" ]
+paths = [ "/", "/api" ]
 localPort = 25071
 
 [services.development]
@@ -19,12 +19,15 @@ run = "pnpm --filter @workspace/starter-app run dev"
 
 [services.production]
 build = [ "pnpm", "--filter", "@workspace/starter-app", "run", "build" ]
-publicDir = "artifacts/starter-app/dist/public"
-serve = "static"
 
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
+[services.production.run]
+args = ["node", "artifacts/starter-app/dist/index.cjs"]
+
+[services.production.run.env]
+PORT = "25071"
+
+[services.production.health.startup]
+path = "/api/healthz"
 
 [services.env]
 PORT = "25071"

@@ -10,18 +10,20 @@ When creating a new app from this template, the following skills are automatical
 
 ### 1. DP World Branding (`.agents/skills/dpworld-branding/SKILL.md`)
 **Always active.** Enforces brand compliance on every UI change:
+- **Design philosophy**: Clean, smooth, airy. Whitespace over borders. When in doubt, add nothing.
 - **Colors**: Only Lucky Point (#1E1450), Radical Red (#FF2261), Caribbean Green (#00E68C), Maverick (#F5F3F5), Cinder (#0F0F19). No other colors allowed.
-- **Typography**: Pilat for headings (Wide Heavy for h1/h2, Demi for h3/h4), Inter for body text and UI elements.
+- **Typography**: Pilat Demi for headings, Inter for everything else. Use inline `style={{ fontFamily: 'Pilat Demi' }}` for headings and `style={{ fontFamily: 'Inter, sans-serif' }}` for body text. Do NOT rely on Tailwind's `font-sans` class.
 - **Dark mode**: Class-based with localStorage persistence.
-- **Logo**: DP World logo in header, theme-aware light/dark variants (WhiteBG/BlackBG), responsive sizing `h-8 sm:h-9 lg:h-12`.
+- **Logo**: DP World logo in header, theme-aware light/dark variants (WhiteBG/BlackBG) via `useTheme()` React hook, responsive sizing `h-8 sm:h-9 lg:h-12`.
 - **Header layout**: `[Logo] | [Title + Subtitle] | [Nav Items] ... [Theme Toggle] [Mobile Menu]`
-- **Components**: shadcn/ui primitives with `data-testid` on all elements.
-- **Layout**: Mobile-first, 4px spacing rhythm, 1280px max container.
 
 ### 2. App Documentation (`.agents/skills/app-documentation/SKILL.md`)
 **Always active.** Ensures documentation stays current:
 - Every app must have `documentation.md` following the standard template.
 - Documentation must be updated after every feature addition, API change, or schema migration.
+
+## Branding
+Read `.agents/skills/dpworld-branding/SKILL.md` before making any UI changes. It defines the official DP World brand colors, Pilat/Inter typography, header layout, and design philosophy (clean, airy, minimal borders).
 
 ## Daily Sync from GitHub
 
@@ -53,15 +55,13 @@ Files synced from GitHub:
 When creating a new Shipping Solutions app, the agent MUST:
 
 1. **Run the GitHub sync** (`bash scripts/sync-from-github.sh --force`) to get latest skills and assets
-2. **Read both skills** listed above before writing any code
+2. **Read the branding skill** before writing any code
 3. **Read `design.md`** for the complete design system specification
-4. **Read `documentation.md`** for the documentation template
-5. **Apply the design system** — DP World brand colors, Pilat typography, HSL CSS variables
-6. **Include the DP World logo** in the app header with theme-aware variants
-7. **Implement dark mode** with class-based toggle and localStorage persistence
-8. **Add `data-testid`** attributes to all interactive and display elements
-9. **Create `documentation.md`** following the standard template
-10. **Audit the result** against the branding skill checklist before delivering
+4. **Apply the design system** — DP World brand colors, Pilat typography, HSL CSS variables
+5. **Include the DP World logo** in the app header with theme-aware variants
+6. **Implement dark mode** with class-based toggle and localStorage persistence
+7. **Create `documentation.md`** following the standard template
+8. **Audit the result** against the branding skill checklist before delivering
 
 ## Adding Shipping Solutions to an Existing App
 
@@ -87,24 +87,43 @@ The complete design system is in `design.md`. Key files:
 
 ## Stack
 
+- **Frontend**: React + TypeScript + Vite + Tailwind CSS
+- **Backend**: Node.js / Express 5 (TypeScript)
+- **Architecture**: Unified full-stack — Express serves the React frontend and API routes from a single artifact
 - **Monorepo tool**: pnpm workspaces
 - **Node.js version**: 24
 - **Package manager**: pnpm
 - **TypeScript version**: 5.9
-- **API framework**: Express 5
 - **Database**: PostgreSQL + Drizzle ORM
 - **Validation**: Zod (`zod/v4`), `drizzle-zod`
 - **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+- **Build**: Vite (frontend) + esbuild (server, CJS bundle)
 - **UI Components**: shadcn/ui
-- **Design System**: DP World Marine Services (Pilat fonts, brand colors)
+- **Design System**: DP World Marine Services (Pilat fonts, brand colors, clean airy design)
 
 ## Structure
 
 ```text
 artifacts-monorepo/
 ├── artifacts/              # Deployable applications
-│   └── api-server/         # Express API server
+│   └── starter-app/        # Unified full-stack app
+│       ├── src/             # React frontend source
+│       │   ├── components/  # React components (header, theme-provider, ui/)
+│       │   ├── pages/       # Page components
+│       │   ├── hooks/       # Custom React hooks
+│       │   ├── lib/         # Utilities
+│       │   ├── assets/fonts/# Pilat font files (bundled by Vite)
+│       │   ├── App.tsx      # Main app with routing
+│       │   ├── main.tsx     # Entry point
+│       │   └── index.css    # Global styles + Tailwind
+│       ├── server/          # Express backend
+│       │   ├── index.ts     # Server entry point
+│       │   ├── app.ts       # Express app setup + static serving
+│       │   └── routes/      # API route handlers
+│       ├── public/          # Static assets (logos, favicon)
+│       ├── index.html       # HTML entry point
+│       ├── vite.config.ts   # Vite config (with /api proxy to Express)
+│       └── package.json     # Unified dependencies
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks
@@ -130,6 +149,28 @@ artifacts-monorepo/
 └── package.json
 ```
 
+## Development
+
+In development mode, two processes run concurrently:
+1. **Vite dev server** on PORT (25071) — serves the React frontend with HMR
+2. **Express server** on port 3001 — handles API routes
+
+Vite proxies `/api` requests to Express, so the frontend can call API endpoints seamlessly.
+
+```bash
+pnpm --filter @workspace/starter-app run dev
+```
+
+## Production
+
+In production, Express serves everything:
+1. **Static files** from the Vite build output (`dist/public/`)
+2. **API routes** under `/api`
+3. **SPA fallback** — all non-API, non-static requests return `index.html`
+
+Build: `pnpm --filter @workspace/starter-app run build`
+Start: `pnpm --filter @workspace/starter-app run start`
+
 ## TypeScript & Composite Projects
 
 Every package extends `tsconfig.base.json` which sets `composite: true`. The root `tsconfig.json` lists all packages as project references. This means:
@@ -145,9 +186,9 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 
 ## Packages
 
-### `artifacts/api-server` (`@workspace/api-server`)
+### `artifacts/starter-app` (`@workspace/starter-app`)
 
-Express 5 API server. Routes in `src/routes/`, uses `@workspace/api-zod` for validation and `@workspace/db` for persistence.
+Unified full-stack app. React + Vite frontend with Express API backend in a single package. In development, Vite serves the frontend and proxies `/api` to Express. In production, Express serves both the static frontend build and API routes.
 
 ### `lib/db` (`@workspace/db`)
 
