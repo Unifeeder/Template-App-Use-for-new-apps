@@ -196,62 +196,50 @@ background: linear-gradient(135deg, #1E1450 0%, #FF2261 100%);
 
 ## 3. Typography
 
-### 3.1 Font Family — Pilat by General Type Studio
+> **Authority note:** The `.agents/skills/dpworld-branding/SKILL.md` is the authoritative source for typography rules in web apps. If anything in this section conflicts with that skill, the skill takes precedence.
 
-DP World uses the Pilat font family exclusively. The font files are served from `public/assets/fonts/` and must be loaded via `@font-face` declarations.
+### 3.1 Font Families — Web App Usage
 
-| Font | Weight | CSS Family | Role |
-|---|---|---|---|
-| Pilat Wide Heavy | 400 | `'Pilat Wide'` | Main headings (h1, h2) — uppercase, bold presence |
-| Pilat Wide Book | 300 | `'Pilat Wide'` | Data highlights, statistics — left-aligned |
-| Pilat Demi | 400 | `'Pilat'` | Sub headers (h3, h4) — uppercase |
-| Pilat Light | 300 | `'Pilat'` | Body copy, paragraphs, UI text |
+Web apps use **Inter** for body text and **Pilat Demi** for headings. Font files are served from `src/assets/fonts/` (bundled by Vite with relative paths).
 
-Tailwind font classes:
-
-| Role | Variable | Stack |
+| Font | Weight | Role |
 |---|---|---|
-| Display (headings) | `--font-display` | `'Pilat Wide', sans-serif` |
-| Sans (body/UI) | `--font-sans` | `'Pilat', sans-serif` |
-| Mono (data/codes) | `--font-mono` | `'JetBrains Mono', monospace` |
+| Pilat Demi | 400 | All headings (h1–h4), header app title |
+| Inter | 400 | Body text, buttons, labels, nav, metadata, form controls |
+| Pilat Wide Book | 300 | Large KPI numbers only (optional, sparingly) |
+| Pilat Wide Heavy | 400 | **Print/presentations only — NOT for web apps** |
 
-Tailwind classes: `font-display`, `font-sans`, `font-mono`.
+**Critical:** Do NOT use Tailwind's `font-sans` or `font-display` classes for font assignment. They do not reliably resolve in Tailwind v4. Instead, use inline styles:
+
+```tsx
+<h1 style={{ fontFamily: 'Pilat Demi' }}>Heading</h1>
+<p style={{ fontFamily: 'Inter, sans-serif' }}>Body text</p>
+```
+
+Set Inter on the body in CSS:
+```css
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+```
 
 ### 3.2 @font-face Declarations
 
+Font files go in `src/assets/fonts/` (NOT `public/`). Use relative CSS paths so Vite handles them correctly with any base path:
+
 ```css
 @font-face {
-  font-family: 'Pilat';
-  src: url('/assets/fonts/PilatLight.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pilat';
-  src: url('/assets/fonts/PilatDemi.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pilat Wide';
-  src: url('/assets/fonts/PilatWideBook.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pilat Wide';
-  src: url('/assets/fonts/PilatWideHeavy.ttf') format('truetype');
+  font-family: 'Pilat Demi';
+  src: url('./assets/fonts/PilatDemi.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 ```
+
+Inter: load via Google Fonts `<link>` in `index.html`, or bundle locally.
+
+Never use absolute `/` paths for fonts — they break when Vite uses a base path.
 
 ### 3.3 Text Scale Patterns
 
@@ -276,20 +264,19 @@ Prefer `clamp()` for any text that must scale fluidly across a wide range of vie
 
 ### 3.4 Font Weight Conventions
 
-| Purpose | Weight | Font |
-|---|---|---|
-| Page/section titles (h1, h2) | `font-normal` (400) | Pilat Wide Heavy (`font-display`), uppercase |
-| Sub-headers (h3, h4) | `font-normal` (400) | Pilat Demi (`font-sans`), uppercase |
-| Body copy / UI text | `font-light` (300) | Pilat Light (`font-sans`) |
-| Data values / statistics | `font-light` (300) | Pilat Wide Book (`font-display font-light`) |
-| Badges | `font-normal` (400) | Pilat Demi (`font-sans`) |
-| Buttons | `font-normal` (400) | Pilat Demi (`font-sans`) |
+| Purpose | Weight | Font | How to apply |
+|---|---|---|---|
+| Page/section titles (h1, h2) | 400 | Pilat Demi | `style={{ fontFamily: 'Pilat Demi' }}` |
+| Sub-headers (h3, h4) | 400 | Pilat Demi | `style={{ fontFamily: 'Pilat Demi' }}` |
+| Body copy / UI text | 400 | Inter | Inherited from body CSS |
+| Buttons / labels / nav | 400 | Inter | `style={{ fontFamily: 'Inter, sans-serif' }}` if explicit |
+| Data values / statistics | 300 | Pilat Wide Book | Sparingly, for large KPI numbers only |
 
 ### 3.5 Heading Rules
 
-- All headings (h1-h4) should be **uppercase** following DP World brand guidelines
-- Main headings use `font-display font-normal uppercase`
-- Sub-headings use `font-sans font-normal uppercase`
+- App names in headers are NOT uppercase (only decorative headings may be uppercase)
+- Use inline `style={{ fontFamily: 'Pilat Demi' }}` for all headings
+- Do NOT use `font-display` or `font-sans` Tailwind classes for font assignment
 
 ### 3.6 Numeric Data
 

@@ -90,6 +90,7 @@ The complete design system is in `design.md`. Key files:
 - **Frontend**: React + TypeScript + Vite + Tailwind CSS
 - **Backend**: Node.js / Express 5 (TypeScript)
 - **Architecture**: Unified full-stack — Express serves the React frontend and API routes from a single artifact
+- **Database**: PostgreSQL (Replit-managed) with Drizzle ORM via `@workspace/db`
 - **Monorepo tool**: pnpm workspaces
 - **Node.js version**: 24
 - **Package manager**: pnpm
@@ -188,7 +189,7 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 
 ### `artifacts/starter-app` (`@workspace/starter-app`)
 
-Unified full-stack app. React + Vite frontend with Express API backend in a single package. In development, Vite serves the frontend and proxies `/api` to Express. In production, Express serves both the static frontend build and API routes.
+Unified full-stack app. React + Vite frontend with Express API backend in a single package. In development, Vite serves the frontend and proxies `/api` to Express. In production, Express serves both the static frontend build and API routes. PostgreSQL database is wired via `@workspace/db` dependency — import `{ db }` in server routes to query.
 
 ### `lib/db` (`@workspace/db`)
 

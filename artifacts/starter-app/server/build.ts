@@ -10,9 +10,13 @@ const rootDir = path.resolve(__dirname, "..");
 const allowlist = [
   "cors",
   "express",
-  "cookie-parser",
   "drizzle-orm",
+  "pg",
   "zod",
+];
+
+const forceExternal = [
+  "pg-native",
 ];
 
 async function buildServer() {
@@ -41,7 +45,7 @@ async function buildServer() {
       "process.env.NODE_ENV": '"production"',
     },
     minify: true,
-    external: externals,
+    external: [...externals, ...forceExternal],
     logLevel: "info",
   });
 }

@@ -67,3 +67,7 @@ sync_file "public/assets/PORTS%20AND%20TERMINALS%20GRADIENT%20-%20RGB.ai" "publi
 
 date +%s > "$TIMESTAMP_FILE"
 echo "[github-sync] Done. Updated: $UPDATED, Unchanged: $SKIPPED, Failed: $FAILED"
+
+if [ "$FAILED" -gt 0 ]; then
+  exit 1
+fi

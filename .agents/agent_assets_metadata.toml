@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "N0mG4HJP_gROA33EUfBuR"
+uri = "file://migration-prompts.md"
+type = "text"
+title = "Migration Prompts — Convert Vite-Only Apps to Unified Architecture"
