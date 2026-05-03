@@ -74,6 +74,8 @@ for d in "${UI_TARGET_DIRS[@]}"; do
   sync_file "artifacts/starter-app/src/components/ui/badge.tsx" "$d/badge.tsx"
   sync_file "artifacts/starter-app/src/components/ui/checkbox.tsx" "$d/checkbox.tsx"
   sync_file "artifacts/starter-app/src/components/ui/radio-group.tsx" "$d/radio-group.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/slider.tsx" "$d/slider.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/select.tsx" "$d/select.tsx"
 done
 sync_file "public/assets/fonts/PilatDemi.ttf" "public/assets/fonts/PilatDemi.ttf"
 sync_file "public/assets/fonts/PilatWideBook.ttf" "public/assets/fonts/PilatWideBook.ttf"

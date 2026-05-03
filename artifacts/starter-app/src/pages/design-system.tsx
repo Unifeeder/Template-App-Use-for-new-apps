@@ -576,7 +576,7 @@ function ToastDemo() {
         <Button variant="outline" onClick={() => push("error", "Couldn't reach AIS feed", "We'll retry automatically.")}>Error</Button>
         <span className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Toasts auto-dismiss after 3.5s. Use for confirmations, not for blocking decisions.</span>
       </div>
-      <div aria-live="polite" className="mt-4 space-y-2">
+      <div aria-live="polite" className="mt-4 space-y-3">
         {items.length === 0 ? (
           <div className="text-xs text-muted-foreground italic" style={{ fontFamily: "Inter, sans-serif" }}>No active toasts.</div>
         ) : items.map((t) => {
@@ -619,7 +619,7 @@ function DonutChartDemo() {
           return <circle key={i} cx="50" cy="50" r={r} fill="none" stroke={s.color} strokeWidth="14" strokeDasharray={dasharray} strokeDashoffset={offset} />;
         })}
       </svg>
-      <div className="space-y-2">
+      <div className="space-y-3">
         {segments.map((s) => (
           <div key={s.label} className="flex items-center gap-2 text-xs" style={{ fontFamily: "Inter, sans-serif" }}>
             <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: s.color }} />
@@ -868,17 +868,17 @@ export default function DesignSystem() {
                 <SectionHeader index="07" eyebrow="Forms" title="Forms that don't fight back." lede="Labels above inputs, hint text below, error text replaces hint. Always validate on blur, never on every keystroke." />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="rounded-xl bg-card p-6 space-y-5">
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <Label htmlFor="ds-vessel">Vessel name</Label>
                       <Input id="ds-vessel" placeholder="e.g. Atlantic Pioneer" />
                       <p className="text-xs text-muted-foreground">Use the registered name on the vessel certificate.</p>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <Label htmlFor="ds-imo">IMO number</Label>
                       <Input id="ds-imo" placeholder="9999999" defaultValue="123" aria-invalid />
                       <p className="text-xs" style={{ color: BRAND.red }}>IMO must be exactly 7 digits.</p>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <Label htmlFor="ds-port">Port of call</Label>
                       <Select>
                         <SelectTrigger id="ds-port"><SelectValue placeholder="Choose a port" /></SelectTrigger>
@@ -890,7 +890,7 @@ export default function DesignSystem() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <Label htmlFor="ds-notes">Notes</Label>
                       <Textarea id="ds-notes" placeholder="Anything the harbour master should know…" />
                     </div>
@@ -922,7 +922,7 @@ export default function DesignSystem() {
                       </div>
                     </div>
                     <Separator />
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <Label>Berth number</Label>
                         <span className="text-xs font-mono text-muted-foreground">7</span>
@@ -933,17 +933,17 @@ export default function DesignSystem() {
                 </div>
                 <Subsection label="Combobox · date picker · OTP">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="rounded-xl bg-card p-6 space-y-2">
+                    <div className="rounded-xl bg-card p-6 space-y-3">
                       <Label>Origin port</Label>
                       <ComboboxDemo />
                       <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Searchable single-select. Use this any time the list has &gt; 6 options.</p>
                     </div>
-                    <div className="rounded-xl bg-card p-6 space-y-2">
+                    <div className="rounded-xl bg-card p-6 space-y-3">
                       <Label>ETA window opens</Label>
                       <DatePickerDemo />
                       <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Calendar in a popover. Closes on selection.</p>
                     </div>
-                    <div className="rounded-xl bg-card p-6 space-y-2">
+                    <div className="rounded-xl bg-card p-6 space-y-3">
                       <Label>Verification code</Label>
                       <InputOTP maxLength={6}>
                         <InputOTPGroup>
@@ -1081,7 +1081,7 @@ export default function DesignSystem() {
                       <Loader2 className="h-5 w-5 animate-spin" style={{ color: BRAND.lucky }} />
                       <span className="text-sm text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Fetching positions…</span>
                     </div>
-                    <div className="rounded-xl bg-card p-6 space-y-2">
+                    <div className="rounded-xl bg-card p-6 space-y-3">
                       <Skeleton className="h-4 w-3/4" />
                       <Skeleton className="h-4 w-1/2" />
                       <Skeleton className="h-4 w-2/3" />
@@ -1284,9 +1284,9 @@ export default function DesignSystem() {
                         <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>New voyage</div>
                         <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Schedule a sailing</div>
                       </div>
-                      <div className="space-y-2"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" /></div>
-                      <div className="space-y-2"><Label>Origin</Label><ComboboxDemo /></div>
-                      <div className="space-y-2"><Label>Departure</Label><DatePickerDemo /></div>
+                      <div className="space-y-3"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" /></div>
+                      <div className="space-y-3"><Label>Origin</Label><ComboboxDemo /></div>
+                      <div className="space-y-3"><Label>Departure</Label><DatePickerDemo /></div>
                       <div className="flex items-center justify-end gap-2 pt-2">
                         <Button variant="ghost">Cancel</Button>
                         <Button>Schedule</Button>
