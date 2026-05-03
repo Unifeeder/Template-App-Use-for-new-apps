@@ -145,7 +145,7 @@ function SectionHeader({ index, eyebrow, title, lede }: { index: string; eyebrow
 
 function Subsection({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="mb-12 last:mb-0">
+    <div className="mt-12 mb-12 first:mt-0 last:mb-0">
       <div className="text-[11px] uppercase tracking-widest text-muted-foreground mb-4" style={{ fontFamily: "Inter, sans-serif" }}>
         {label}
       </div>
