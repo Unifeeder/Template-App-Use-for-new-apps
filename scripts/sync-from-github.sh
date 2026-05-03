@@ -46,6 +46,19 @@ sync_file ".agents/skills/dpworld-branding/SKILL.md" ".agents/skills/dpworld-bra
 sync_file ".agents/skills/app-documentation/SKILL.md" ".agents/skills/app-documentation/SKILL.md"
 sync_file "design.md" "design.md"
 sync_file "documentation.md" "documentation.md"
+
+# Design system reference page — single self-contained file. Apps still need to
+# wire the route + header link once (see migration-prompts.md "v1.1").
+# Looks for src/pages/ in any artifact; falls back to root src/pages/.
+DS_TARGETS=()
+if compgen -G "artifacts/*/src/pages" > /dev/null; then
+  for d in artifacts/*/src/pages; do DS_TARGETS+=("$d/design-system.tsx"); done
+elif [ -d "src/pages" ]; then
+  DS_TARGETS+=("src/pages/design-system.tsx")
+fi
+for target in "${DS_TARGETS[@]}"; do
+  sync_file "artifacts/starter-app/src/pages/design-system.tsx" "$target"
+done
 sync_file "public/assets/fonts/PilatDemi.ttf" "public/assets/fonts/PilatDemi.ttf"
 sync_file "public/assets/fonts/PilatWideBook.ttf" "public/assets/fonts/PilatWideBook.ttf"
 sync_file "public/assets/fonts/PilatWideHeavy.ttf" "public/assets/fonts/PilatWideHeavy.ttf"

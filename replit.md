@@ -42,13 +42,20 @@ The sync script (`scripts/sync-from-github.sh`) pulls the latest versions of all
 This ensures skills and assets stay up to date automatically every time the dev server starts.
 
 Files synced from GitHub:
-- `.agents/skills/dpworld-branding/SKILL.md` — Brand compliance rules
+- `.agents/skills/dpworld-branding/SKILL.md` — Brand compliance + UX pattern rules
 - `.agents/skills/app-documentation/SKILL.md` — Documentation standards
 - `design.md` — Full design system specification
 - `documentation.md` — Documentation template
+- `src/pages/design-system.tsx` — Live `/designsystem` reference page (single self-contained file; auto-delivered to any artifact with `src/pages/`). Apps wire the route + header link once — see `migration-prompts.md` "Prompt v1.1". Apps may delete the file, route, and header link after launch; comment out the block in `scripts/sync-from-github.sh` to opt out of re-delivery.
 - `public/assets/fonts/` — Pilat font files (Demi, Wide Book, Wide Heavy)
 - `public/assets/logos/` — All DP World logo variants (8 PNG files)
 - `public/assets/*.ai` — Gradient background files (6 .ai files)
+
+## Design System Reference Page (`/designsystem`)
+
+Every Shipping Solutions app exposes a `/designsystem` route backed by `src/pages/design-system.tsx`. It is the canonical, live specimen for the brand: colors, typography, spacing, radius, shadow, buttons, forms, cards, tables (with the canonical search-left/filter-right toolbar), navigation, feedback (loading/empty/error trio), overlays, charts, and UX patterns (cursor-pointer/hover/focus/active, color contrast, no grey-on-grey).
+
+**Open it before designing or building any new screen.** Copy patterns from it instead of inventing. The page is single-file and only imports from `@/components/ui/*` and `lucide-react`, so it's portable across every app the daily sync touches.
 
 ## New App Creation Checklist
 

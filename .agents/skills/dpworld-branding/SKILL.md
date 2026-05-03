@@ -1,13 +1,25 @@
 ---
 name: dpworld-branding
-description: Enforces official DP World brand compliance. Mandates Pilat fonts, the five official brand colors, no tints, and Cinder/Maverick-only text. Use before any styling, color, typography, or branding decision.
+description: Enforces official DP World brand compliance. Mandates Pilat fonts, the five official brand colors, no tints, Cinder/Maverick-only text, and the strict UX patterns (cursor-pointer, hover/focus/active, search-left/filter-right, the loading/empty/error trio, no grey-on-grey). Use before any styling, color, typography, layout, component, or interaction decision.
 ---
 
-# DP World Branding Enforcement
+# DP World Branding & UX Enforcement
 
 ## When to Use
 
-Use this skill before any task involving styling, colors, theming, typography, layout, components, pages, branding, logo placement, or visual identity.
+Before **any** task that touches: styling, colors, theming, typography, layout, interactive elements, components, pages, branding, logo placement, visual identity, hover/focus/active states, table toolbars, search/filter UI, loading/empty/error states, or charts.
+
+## The Canonical Reference: `/designsystem`
+
+Every Shipping Solutions app ships a single-file reference page at `/designsystem` (source: `src/pages/design-system.tsx`). It is the authoritative live specimen for:
+
+- All five brand colors and the semantic surfaces derived from them
+- Heading and body type scale (Pilat Demi + Inter)
+- Spacing, radius, and shadow scales
+- Buttons, forms, cards, tables, navigation, feedback, overlays, charts
+- The mandatory UX patterns (filtering, search, hover affordance, color contrast, the loading/empty/error trio)
+
+**Before designing or building any new screen, open `/designsystem` and copy the patterns from it.** It is delivered to every app via the daily GitHub sync. If a pattern is not on `/designsystem`, you are inventing — push back to the user before you ship.
 
 ---
 
@@ -48,9 +60,7 @@ DP World apps are **clean, smooth, and airy**. They breathe. The UI feels open, 
 
 - Set Inter explicitly on the body in CSS:
   ```css
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
+  body { font-family: 'Inter', system-ui, sans-serif; }
   ```
 - For headings, use inline styles:
   ```tsx
@@ -62,9 +72,7 @@ DP World apps are **clean, smooth, and airy**. They breathe. The UI feels open, 
   ```
 - Global heading rule in CSS:
   ```css
-  h1, h2, h3, h4 {
-    font-family: 'Pilat Demi', sans-serif;
-  }
+  h1, h2, h3, h4 { font-family: 'Pilat Demi', sans-serif; }
   ```
 
 ### Font files
@@ -83,7 +91,7 @@ Inter: load via Google Fonts `<link>` in `index.html`, or bundle locally.
 
 ### Other typography rules
 - App names in headers: NOT uppercase (only decorative headings may be uppercase)
-- Monospace (code blocks): JetBrains Mono is acceptable
+- Monospace (code blocks): JetBrains Mono is acceptable; use mono for IDs, codes, timestamps
 - Fluid title sizing — never use `truncate` on app titles. Use `clamp()`:
   ```tsx
   <h1 style={{ fontSize: 'clamp(0.7rem, 1vw + 0.35rem, 1rem)', fontFamily: 'Pilat Demi' }}>
@@ -98,7 +106,7 @@ Inter: load via Google Fonts `<link>` in `index.html`, or bundle locally.
 | Name | Hex | Usage |
 |---|---|---|
 | Lucky Point | `#1E1450` | Primary brand indigo — buttons, links, primary actions |
-| Radical Red | `#FF2261` | Accent — alerts, destructive actions, highlights |
+| Radical Red | `#FF2261` | Accent — alerts, destructive actions, anomalies |
 | Caribbean Green | `#00E68C` | Accent — success, positive status, secondary actions |
 | Maverick | `#F5F3F5` | Light neutral — light mode backgrounds, text on dark |
 | Cinder | `#0F0F19` | Dark neutral — dark mode backgrounds, text on light |
@@ -107,7 +115,7 @@ Inter: load via Google Fonts `<link>` in `index.html`, or bundle locally.
 - No tints, shades, or variations of these colors (no pastel red, no lighter indigo)
 - No colors outside this palette in the UI
 - For lighter/darker surface variants, use opacity on brand colors — never invent new hex values
-- All text is either Cinder or Maverick. No colored body text (no green text, no red text). Status is shown via badges or icons, not colored text.
+- All text is either Cinder or Maverick. **No colored body text** (no green text, no red text). Status is shown via badges or icons, not colored text. The one accepted exception is short status microcopy inside a colored badge (e.g. dark green text on a green-tinted badge background) — this is a badge, not body copy.
 - Use CSS custom properties (HSL) for theme tokens. Reference via Tailwind: `bg-primary`, `text-muted-foreground`, etc.
 
 ### Dark mode
@@ -115,7 +123,7 @@ Inter: load via Google Fonts `<link>` in `index.html`, or bundle locally.
 - Light mode: Maverick/white background, Cinder text
 - Brand accent colors stay the same in both modes
 
-### Official gradients (use sparingly — hero sections and decorative accents only)
+### Official gradients (sparingly — hero sections and decorative accents only)
 
 ```css
 /* DP World Master — corporate */
@@ -130,22 +138,26 @@ No custom gradient combinations. No gradients on text. Solid colors for interact
 
 ---
 
-## 4. Interactive Elements — Hover & Cursor
+## 4. Interactive Elements — Cursor, Hover, Focus, Active (Non-Negotiable)
 
-**Every clickable element must show `cursor-pointer` on hover.** This includes buttons, links, nav items, toggles, dropdowns, card rows with click handlers, tabs, and any other interactive element. Users must always see the pointer cursor when hovering over something they can click.
+**Every clickable element MUST have all four states.** A button without these is a bug, not a stylistic choice.
 
-**Rules:**
-- Add `cursor-pointer` to ALL interactive elements (buttons, links, nav items, toggle switches, dropdown triggers, clickable cards, tabs)
-- Add `hover:bg-accent hover:text-accent-foreground` for background hover feedback on ghost-style buttons and nav items
-- Add `active:bg-accent/80` for press/active feedback
-- Add `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring` for keyboard focus
-- Add `transition-colors` for smooth hover transitions
-- Links (`<a>`) inherit cursor-pointer by default, but buttons and custom clickable elements need it explicitly
+| State | Required class | Why |
+|---|---|---|
+| Cursor | `cursor-pointer` | Users see they can click — `<button>` does NOT do this on its own |
+| Hover | `hover:bg-accent hover:text-accent-foreground` (or equivalent) | Visible feedback before clicking |
+| Focus (keyboard) | `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2` | Keyboard users must see focus |
+| Active (press) | `active:bg-accent/80` (or `active:translate-y-0` for lift buttons) | Confirms the click landed |
+| Transition | `transition-colors` | Smooth, not jumpy |
 
-**Standard interactive element class pattern:**
+**Standard interactive class pattern:**
 ```tsx
-className="cursor-pointer hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors"
+className="cursor-pointer hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors"
 ```
+
+**This applies to:** buttons, links, nav items, toggles, tab triggers, dropdown items, accordion triggers, sortable column headers, clickable table rows, swatch tiles, filter chips, icon buttons, pagination links, dropdown triggers, dialog/sheet/popover triggers, theme toggles, mobile menu buttons.
+
+If you find yourself building a clickable element, **before you submit**, manually check on `/designsystem`: hover with the mouse, then tab to it with the keyboard. If you can't see what's interactive, you've shipped a bug.
 
 ---
 
@@ -157,23 +169,20 @@ Every DP World app has this exact header structure:
 [Logo] | [Title + Subtitle] | [Nav Items] .............. [Theme Toggle] [Mobile Menu]
 ```
 
-Nav items are grouped LEFT with logo and title. Right side has only theme toggle and mobile menu.
+Nav items are grouped LEFT with logo and title. Right side has only theme toggle and mobile menu. **Every Shipping Solutions app must include a "Design System" nav link to `/designsystem`** so the canonical reference is one click away.
 
 ### Exact element specs (do not deviate)
 
-These are the **exact** className and style values. Copy them verbatim.
-
-| Element | className | style (inline) | Result |
-|---------|-----------|-----------------|--------|
-| **Header bar** | `sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60` | — | 56px sticky header with subtle border |
-| **Header inner** | `flex h-14 items-center px-3 sm:px-4` | — | Fixed height, tight padding |
-| **Logo** | `h-8 sm:h-9 lg:h-12` | — | Responsive logo sizing |
-| **Dividers** | `h-6 w-px bg-border/50` | — | Thin vertical separators |
-| **App name (h1)** | `font-normal text-[16px]` | `{{ fontFamily: 'Pilat Demi' }}` | 16px Pilat Demi, weight 400 |
-| **Subtitle (p)** | `text-xs text-muted-foreground` | `{{ fontFamily: 'Inter, sans-serif' }}` | 12px Inter, weight 400, muted color |
-| **Nav button** | `cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors` | `{{ fontFamily: 'Inter, sans-serif' }}` | 14px Inter, weight 400, muted, with hover/focus states and pointer cursor |
-| **Theme toggle** | `cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors` | — | Square icon button with pointer cursor |
-| **Mobile menu btn** | Same as theme toggle + `md:hidden` | — | Hidden on desktop |
+| Element | className | style (inline) |
+|---------|-----------|-----------------|
+| **Header bar** | `sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60` | — |
+| **Header inner** | `flex h-14 items-center px-3 sm:px-4` | — |
+| **Logo** | `h-8 sm:h-9 lg:h-12` | — |
+| **Dividers** | `h-6 w-px bg-border/50` | — |
+| **App name (h1)** | `font-normal text-[16px]` | `{{ fontFamily: 'Pilat Demi' }}` |
+| **Subtitle (p)** | `text-xs text-muted-foreground` | `{{ fontFamily: 'Inter, sans-serif' }}` |
+| **Nav button / link** | `cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors` | `{{ fontFamily: 'Inter, sans-serif' }}` |
+| **Theme toggle / mobile btn** | Same as nav button + `w-9 justify-center` (mobile btn adds `md:hidden`) | — |
 
 ### Theme-aware logo
 
@@ -186,58 +195,88 @@ const logoSrc = theme === "dark"
 
 Switch with React state via `useTheme()`, NOT CSS `dark:hidden` classes (unreliable).
 
-### Copy-paste header
-
-```tsx
-<header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-  <div className="flex h-14 items-center px-3 sm:px-4">
-    <div className="flex items-center gap-2">
-      <img src={logoSrc} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
-      <div className="h-6 w-px bg-border/50" />
-      <div>
-        <h1 className="font-normal text-[16px]" style={{ fontFamily: 'Pilat Demi' }}>
-          App Name
-        </h1>
-        <p className="text-xs text-muted-foreground" style={{ fontFamily: 'Inter, sans-serif' }}>
-          Marine Services
-        </p>
-      </div>
-      <div className="hidden md:block h-6 w-px bg-border/50" />
-      <nav className="hidden md:flex items-center gap-1">
-        <button className="cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: 'Inter, sans-serif' }}>
-          Page One
-        </button>
-      </nav>
-    </div>
-    <div className="flex items-center gap-2 ml-auto">
-      <button
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors"
-        aria-label="Toggle theme"
-      >
-        {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-      </button>
-      <button
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors md:hidden"
-        aria-label="Toggle menu"
-      >
-        {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </button>
-    </div>
-  </div>
-</header>
-```
-
 ### Header rules
 - Nav items are **text-only** — no icons in header nav buttons
 - Desktop nav hidden on mobile (`hidden md:flex`), mobile menu hidden on desktop (`md:hidden`)
 - All interactive elements must have `cursor-pointer`, hover, active, and focus-visible states
-- Dropdowns in header (team selectors, etc.): Inter at `text-sm`, no Pilat fonts in menus
+- Dropdowns in header: Inter at `text-sm`, no Pilat fonts in menus
 
 ---
 
-## 6. Forbidden Patterns
+## 6. UX Patterns — How the System Behaves (Not Optional)
+
+These patterns are enforced. The live specimen for each is on `/designsystem`. Copy from there.
+
+### 6.1 Filtering & Search — the canonical layout
+
+For any data view (table, list, grid):
+
+- **Search input top-left** of the data region, with a `Search` icon inside on the left
+- **Filter chips top-right** of the data region (status pills, category toggles)
+- **Active filters are visible** as chips with an `X` to remove individually
+- **"Clear all"** link appears only when at least one filter or query is active
+- **Empty results** show an explicit "no match" state — never an empty table with no message
+- **Inline filtering** (client-side, ≤500 items): filter on every keystroke, no debounce
+- **Inline filtering** (client-side, >500 items): debounce 150ms
+- **Server-backed search**: debounce 300ms; show a subtle spinner inside the input while loading
+- **Global cross-app search** belongs in the ⌘K command palette, not in inline search
+
+Don't:
+- Hide all filters behind a single "Filters" button by default — surface the common ones
+- Mount a filter sheet for ≤4 filter dimensions; chips inline are better
+- Show an empty table when nothing matches — show the no-match state
+
+### 6.2 The required trio: loading · empty · error
+
+Any view that fetches data MUST implement all three states. A blank screen during fetch is a bug. A blank screen on no-data is a bug. An unhandled error is a bug.
+
+| State | Pattern |
+|---|---|
+| **Loading** | Skeleton rows for tables/lists, `Progress` for known-duration jobs, centered `Loader2` spinner with label for short fetches |
+| **Empty** | Icon + headline (Pilat Demi) + one-line lede (Inter, muted) + primary CTA |
+| **Error** | Top-border accent (`border-t-2` Radical Red) + icon + headline + lede + retry button |
+
+See `/designsystem` § Feedback for the canonical implementations. Copy them; don't invent.
+
+### 6.3 Color contrast — earn the accent (no grey-on-grey)
+
+Grey-on-grey is the most common failure mode. A KPI card with muted text on a muted background is invisible.
+
+**Rules:**
+- Primary numbers and headlines: `color: Cinder` (light mode) — never `text-muted-foreground`
+- Use one accent (Lucky Point border-left, or a green/red status pill) per card to earn attention
+- Muted text is for *secondary* labels only ("vs last week", "updated 5m ago") — never for the primary value
+- If the eye doesn't land on the most important number within 200ms, the contrast is wrong
+
+See `/designsystem` § UX Patterns → "Color contrast — earn the accent" for a side-by-side example.
+
+### 6.4 Whitespace over borders
+
+Already covered in § 1, repeated here because it's the most violated rule:
+
+- Group with `space-y-3`, not bordered containers
+- If you must have a border, use `border-border/30` or lighter
+- The header is the only place that uses `border-border/50`
+- Cards: pick `shadow-sm` OR a border, never both. Most cards need neither — use `bg-card` and let it sit on the muted page background
+
+### 6.5 Hover affordance for non-button interactive elements
+
+- **Sortable column headers**: `cursor-pointer` + `hover:text-foreground` + show direction arrow when active
+- **Clickable table rows**: `cursor-pointer` + `hover:bg-muted/40` + entire row clickable, not just one cell
+- **Swatch / preview tiles**: `cursor-pointer` + `hover:-translate-y-0.5 hover:shadow-md transition-all`
+- **Dropdown / accordion triggers**: same four states as buttons (cursor, hover, focus, active)
+
+### 6.6 Forms
+
+- Label **above** the input, not floating
+- Hint text **below** in `text-xs text-muted-foreground`
+- Error text **replaces** hint on validation failure, in Radical Red, `text-xs`
+- Validate on **blur**, never on every keystroke (except for length/format hints like "0/280")
+- Required indicator: asterisk after label in Radical Red — never replace the label with an icon
+
+---
+
+## 7. Forbidden Patterns
 
 These are **never** acceptable in a DP World app:
 
@@ -249,39 +288,56 @@ These are **never** acceptable in a DP World app:
 - Making app names uppercase in headers
 
 ### Color violations
-- Using tints or shades of brand colors
+- Using tints or shades of brand colors (no pastel red, no lighter indigo)
 - Using non-brand colors anywhere in the UI
 - Using colored text for body copy (use badges/icons for status)
 - Inventing new gradient combinations
+- **Grey-on-grey** primary content (muted-foreground value on muted background)
 
 ### Interactive element violations
-- **Missing `cursor-pointer` on clickable elements** — every button, link, nav item, toggle, and clickable card must show pointer cursor on hover
-- **Missing hover states** — every interactive element needs visible hover feedback (`hover:bg-accent` or similar)
+- **Missing `cursor-pointer`** on any clickable element — every button, link, nav item, toggle, sortable header, clickable card, swatch, chip, tab trigger, accordion trigger
+- **Missing hover states** — every interactive element needs visible hover feedback
 - **Missing focus-visible states** — keyboard users must see focus rings
+- **Missing active/press states** — clicks need confirmation feedback
 
-### Visual weight violations — THE MOST COMMON PROBLEM
-- **Adding borders to cards, sections, or containers by default** — only add a border when there is a specific reason (e.g., a form input field needs a visible boundary)
-- **Using `border-border` at full opacity** — if you must use a border, use `border-border/30` maximum (exception: the header uses `border-border/50` as specified in the mandatory header spec)
-- **Wrapping lists in bordered containers** — use spacing between items instead
-- **Using `divide-y` as a default list separator** — use `space-y` gap instead
-- **Adding shadows AND borders to the same element** — pick one or neither
-- **Using heavy horizontal rules or `<hr>` to separate sections** — use vertical spacing (`mt-8`, `pt-8`)
-- **Creating dense, boxed-in layouts** where every piece of content is inside a bordered rectangle
-- **Using solid background colors to create visual sections** when whitespace would suffice
-- **Adding icons to header navigation** — text-only nav
+### UX pattern violations
+- Data view without **loading state** (blank during fetch)
+- Data view without **empty state** (blank when no data)
+- Data view without **error state** (silent failure)
+- Filter UI without an **active-filter chip + clear-all** affordance
+- Search input not in the top-left of its data region
+- Filter chips not in the top-right of their data region
+- Tables that hide their toolbar entirely behind a button when ≤4 filter dimensions exist
+- Form validation that fires on every keystroke
 
-### The test
-Look at your UI and ask: "Could I remove this border/shadow/divider and still understand the layout?" If yes, remove it.
+### Visual weight violations — THE MOST COMMON PROBLEMS
+- Adding borders to cards, sections, or containers by default — only add a border when there is a specific reason
+- Using `border-border` at full opacity — if you must use a border, use `border-border/30` (header is the one exception at `/50`)
+- Wrapping lists in bordered containers — use spacing between items instead
+- Using `divide-y` as a default list separator — use `space-y` gap instead
+- Adding shadows AND borders to the same element — pick one or neither
+- Using heavy horizontal rules or `<hr>` to separate sections — use vertical spacing (`mt-8`, `pt-8`)
+- Creating dense, boxed-in layouts where every piece of content is inside a bordered rectangle
+- Using solid background colors to create visual sections when whitespace would suffice
+- Adding icons to header navigation — text-only nav
+
+### The tests
+Before shipping any screen:
+1. **Open `/designsystem` side by side.** Does my screen look like it belongs to the same product?
+2. **Hover every clickable element.** Does the cursor change? Does anything visibly respond?
+3. **Tab through with the keyboard.** Can you see where focus is at every step?
+4. **Disable the network.** Do all data views show loading, then either content, empty, or error?
+5. **Could I remove this border/shadow/divider** and still understand the layout? If yes, remove it.
 
 ---
 
-## 7. Ensure `replit.md` References This Skill
+## 8. Ensure `replit.md` References This Skill
 
 When bootstrapping a new project, add to `replit.md`:
 
 ```markdown
 ## Branding
-Read `.agents/skills/dpworld-branding/SKILL.md` before making any UI changes. It defines the official DP World brand colors, Pilat/Inter typography, header layout, and design philosophy (clean, airy, minimal borders).
+Read `.agents/skills/dpworld-branding/SKILL.md` before making any UI changes. It defines the official DP World brand colors, Pilat/Inter typography, header layout, mandatory interactive states (cursor-pointer + hover + focus + active), and UX patterns (filtering, the loading/empty/error trio, color contrast). Open `/designsystem` in the running app for the live reference specimen.
 ```
 
 ## Font Files Reference

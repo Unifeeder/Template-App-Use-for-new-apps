@@ -6,6 +6,7 @@ import { ThemeProvider, useTheme } from "@/components/theme-provider";
 import { ErrorBoundary } from "@/components/error-boundary";
 import { Header } from "@/components/header";
 import NotFound from "@/pages/not-found";
+import DesignSystem from "@/pages/design-system";
 
 const queryClient = new QueryClient();
 
@@ -91,6 +92,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/designsystem" component={DesignSystem} />
       <Route component={NotFound} />
     </Switch>
   );

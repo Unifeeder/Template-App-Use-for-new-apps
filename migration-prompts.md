@@ -128,6 +128,25 @@ This app has API routes in a separate package/service. Merge them into the unifi
 
 ---
 
+## Prompt v1.1: Wire Up the Synced `/designsystem` Reference Page
+
+The daily GitHub sync (`scripts/sync-from-github.sh`) drops `design-system.tsx` into `src/pages/`. It's a self-contained, single-file reference for DP World colors, typography, components, and UX patterns — every developer (and every agent) should be able to open `/designsystem` to see the canonical look and behaviour of the system.
+
+Paste this once per app to wire it in:
+
+---
+
+A file `src/pages/design-system.tsx` has been delivered by the daily sync. It is a self-contained reference page (only imports from `@/components/ui/*` and `lucide-react`). Wire it up:
+
+1. In `src/App.tsx`, import it: `import DesignSystem from "@/pages/design-system";`
+2. Add a route: `<Route path="/designsystem" component={DesignSystem} />` (or your router's equivalent).
+3. In `src/components/header.tsx`, add a desktop nav link to `/designsystem` labelled "Design System" using the canonical nav button class (cursor-pointer, hover, focus-visible — see `.agents/skills/dpworld-branding/SKILL.md` §5).
+4. Verify in the browser: load `/designsystem`, scroll all 14 sections, click swatches to copy hex codes, exercise the vessel table search/filter/sort.
+5. Treat this page as the canonical reference. When you build a new screen, open `/designsystem` first and copy patterns from it.
+6. Apps may keep or delete this page after launch. To remove: delete the file, the route, and the header link. The sync will re-deliver the file on next run; if you want to opt out permanently, comment out the `design-system.tsx` block in `scripts/sync-from-github.sh`.
+
+---
+
 ## Prompt 4: Add PostgreSQL to an App That Already Has Express But No Database
 
 Paste this when an app has the unified architecture but is missing the database:
