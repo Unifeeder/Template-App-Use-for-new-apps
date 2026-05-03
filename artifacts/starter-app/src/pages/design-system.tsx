@@ -127,7 +127,7 @@ function useActiveSection() {
 
 function SectionHeader({ index, eyebrow, title, lede }: { index: string; eyebrow: string; title: string; lede: string }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-10">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mb-14 md:mb-16">
       <div className="md:col-span-2">
         <div className="text-xs uppercase tracking-widest text-muted-foreground mb-3" style={{ fontFamily: "Inter, sans-serif" }}>
           {index} — {eyebrow}
@@ -896,23 +896,23 @@ export default function DesignSystem() {
                     </div>
                   </div>
                   <div className="rounded-xl bg-card p-6 space-y-6">
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <Label>Cargo type</Label>
-                      <RadioGroup defaultValue="container">
+                      <RadioGroup defaultValue="container" className="gap-3">
                         {["container", "bulk", "ro-ro"].map((v) => (
-                          <div key={v} className="flex items-center gap-2">
+                          <div key={v} className="flex items-center gap-3">
                             <RadioGroupItem id={`r-${v}`} value={v} />
-                            <Label htmlFor={`r-${v}`} className="font-normal capitalize cursor-pointer">{v}</Label>
+                            <Label htmlFor={`r-${v}`} className="font-normal capitalize cursor-pointer leading-none">{v}</Label>
                           </div>
                         ))}
                       </RadioGroup>
                     </div>
                     <Separator />
                     <div className="space-y-3">
-                      <div className="flex items-start gap-2">
-                        <Checkbox id="ds-haz" />
+                      <div className="flex items-start gap-3">
+                        <Checkbox id="ds-haz" className="mt-0.5" />
                         <div className="space-y-1">
-                          <Label htmlFor="ds-haz" className="font-normal cursor-pointer">Hazardous cargo declared</Label>
+                          <Label htmlFor="ds-haz" className="font-normal cursor-pointer leading-tight">Hazardous cargo declared</Label>
                           <p className="text-xs text-muted-foreground">Triggers IMDG handling workflow.</p>
                         </div>
                       </div>

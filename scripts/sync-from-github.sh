@@ -72,6 +72,8 @@ fi
 for d in "${UI_TARGET_DIRS[@]}"; do
   sync_file "artifacts/starter-app/src/components/ui/button.tsx" "$d/button.tsx"
   sync_file "artifacts/starter-app/src/components/ui/badge.tsx" "$d/badge.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/checkbox.tsx" "$d/checkbox.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/radio-group.tsx" "$d/radio-group.tsx"
 done
 sync_file "public/assets/fonts/PilatDemi.ttf" "public/assets/fonts/PilatDemi.ttf"
 sync_file "public/assets/fonts/PilatWideBook.ttf" "public/assets/fonts/PilatWideBook.ttf"
