@@ -619,7 +619,7 @@ function DonutChartDemo() {
           return <circle key={i} cx="50" cy="50" r={r} fill="none" stroke={s.color} strokeWidth="14" strokeDasharray={dasharray} strokeDashoffset={offset} />;
         })}
       </svg>
-      <div className="space-y-4">
+      <div className="space-y-5">
         {segments.map((s) => (
           <div key={s.label} className="flex items-center gap-2 text-xs" style={{ fontFamily: "Inter, sans-serif" }}>
             <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: s.color }} />
@@ -868,17 +868,17 @@ export default function DesignSystem() {
                 <SectionHeader index="07" eyebrow="Forms" title="Forms that don't fight back." lede="Labels above inputs, hint text below, error text replaces hint. Always validate on blur, never on every keystroke." />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="rounded-xl bg-card p-6 space-y-5">
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <Label htmlFor="ds-vessel">Vessel name</Label>
                       <Input id="ds-vessel" placeholder="e.g. Atlantic Pioneer" />
                       <p className="text-xs text-muted-foreground">Use the registered name on the vessel certificate.</p>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <Label htmlFor="ds-imo">IMO number</Label>
                       <Input id="ds-imo" placeholder="9999999" defaultValue="123" aria-invalid />
                       <p className="text-xs" style={{ color: BRAND.red }}>IMO must be exactly 7 digits.</p>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <Label htmlFor="ds-port">Port of call</Label>
                       <Select>
                         <SelectTrigger id="ds-port"><SelectValue placeholder="Choose a port" /></SelectTrigger>
@@ -890,13 +890,13 @@ export default function DesignSystem() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <Label htmlFor="ds-notes">Notes</Label>
                       <Textarea id="ds-notes" placeholder="Anything the harbour master should know…" />
                     </div>
                   </div>
                   <div className="rounded-xl bg-card p-6 space-y-6">
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <Label>Cargo type</Label>
                       <RadioGroup defaultValue="container" className="gap-3">
                         {["container", "bulk", "ro-ro"].map((v) => (
@@ -908,7 +908,7 @@ export default function DesignSystem() {
                       </RadioGroup>
                     </div>
                     <Separator />
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <div className="flex items-start gap-3">
                         <Checkbox id="ds-haz" className="mt-0.5" />
                         <div className="space-y-1">
@@ -922,7 +922,7 @@ export default function DesignSystem() {
                       </div>
                     </div>
                     <Separator />
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <div className="flex items-center justify-between">
                         <Label>Berth number</Label>
                         <span className="text-xs font-mono text-muted-foreground">7</span>
@@ -933,17 +933,17 @@ export default function DesignSystem() {
                 </div>
                 <Subsection label="Combobox · date picker · OTP">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="rounded-xl bg-card p-6 space-y-4">
+                    <div className="rounded-xl bg-card p-6 space-y-5">
                       <Label>Origin port</Label>
                       <ComboboxDemo />
                       <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Searchable single-select. Use this any time the list has &gt; 6 options.</p>
                     </div>
-                    <div className="rounded-xl bg-card p-6 space-y-4">
+                    <div className="rounded-xl bg-card p-6 space-y-5">
                       <Label>ETA window opens</Label>
                       <DatePickerDemo />
                       <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Calendar in a popover. Closes on selection.</p>
                     </div>
-                    <div className="rounded-xl bg-card p-6 space-y-4">
+                    <div className="rounded-xl bg-card p-6 space-y-5">
                       <Label>Verification code</Label>
                       <InputOTP maxLength={6}>
                         <InputOTPGroup>
@@ -1060,7 +1060,7 @@ export default function DesignSystem() {
               <section id="feedback" className="scroll-mt-24 mt-32">
                 <SectionHeader index="11" eyebrow="Feedback" title="Tell users what's happening." lede="Loading, empty, and error states are not optional. They are the contract." />
                 <Subsection label="Alerts">
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <Alert><Info className="h-4 w-4" /><AlertTitle>Heads up</AlertTitle><AlertDescription>The schedule refreshes every 5 minutes from AIS data.</AlertDescription></Alert>
                     <Alert variant="destructive"><AlertCircle className="h-4 w-4" /><AlertTitle>Permission denied</AlertTitle><AlertDescription>You can view this voyage but not edit it.</AlertDescription></Alert>
                     <Alert style={{ backgroundColor: "rgba(0,230,140,0.08)", borderColor: "rgba(0,230,140,0.3)" }}>
@@ -1081,7 +1081,7 @@ export default function DesignSystem() {
                       <Loader2 className="h-5 w-5 animate-spin" style={{ color: BRAND.lucky }} />
                       <span className="text-sm text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Fetching positions…</span>
                     </div>
-                    <div className="rounded-xl bg-card p-6 space-y-4">
+                    <div className="rounded-xl bg-card p-6 space-y-5">
                       <Skeleton className="h-4 w-3/4" />
                       <Skeleton className="h-4 w-1/2" />
                       <Skeleton className="h-4 w-2/3" />
@@ -1218,7 +1218,7 @@ export default function DesignSystem() {
                   <MiniSidebarDemo />
                 </Subsection>
                 <Subsection label="Dashboard grid — KPI row + chart + list">
-                  <div className="rounded-xl bg-card p-6 space-y-4">
+                  <div className="rounded-xl bg-card p-6 space-y-5">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {[
                         { l: "Vessels at sea", v: "24", d: "+3" },
@@ -1284,9 +1284,9 @@ export default function DesignSystem() {
                         <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>New voyage</div>
                         <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Schedule a sailing</div>
                       </div>
-                      <div className="space-y-4"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" /></div>
-                      <div className="space-y-4"><Label>Origin</Label><ComboboxDemo /></div>
-                      <div className="space-y-4"><Label>Departure</Label><DatePickerDemo /></div>
+                      <div className="space-y-5"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" /></div>
+                      <div className="space-y-5"><Label>Origin</Label><ComboboxDemo /></div>
+                      <div className="space-y-5"><Label>Departure</Label><DatePickerDemo /></div>
                       <div className="flex items-center justify-end gap-2 pt-2">
                         <Button variant="ghost">Cancel</Button>
                         <Button>Schedule</Button>
@@ -1323,7 +1323,7 @@ export default function DesignSystem() {
                 </Subsection>
 
                 <Subsection label="Search — debounce and feedback">
-                  <div className="rounded-xl bg-card p-6 space-y-4">
+                  <div className="rounded-xl bg-card p-6 space-y-5">
                     <p className="text-sm" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
                       Inline list filters: filter on every keystroke (debounce 150ms if the list is &gt;500 items). Server-backed search: debounce 300ms and show a subtle spinner inside the input.
                     </p>
