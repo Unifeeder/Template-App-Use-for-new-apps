@@ -1,23 +1,14 @@
 /**
  * /designsystem — DP World Shipping Solutions canonical design reference.
  *
- * IMPORT CONTRACT (do not break — this file is delivered to every app by
- * scripts/sync-from-github.sh and must work in any shadcn-based DP World
- * template app):
+ * STRICT IMPORT CONTRACT (do not break — this file is delivered to every app
+ * by scripts/sync-from-github.sh and must work in any shadcn-based template
+ * with zero extra dependencies):
  *   - react
- *   - lucide-react           (universal in all template apps)
  *   - @/components/ui/*      (shadcn primitives — present in every app)
- *   - @/hooks/use-toast      (paired with <Toaster /> in App.tsx — universal)
- * No other imports. No app-specific components, no data layer, no router.
+ * No other imports. Icons are inline SVG. Toasts are local state.
  */
-import { useEffect, useState, useMemo } from "react";
-import {
-  Search, Filter, X, ChevronRight, ChevronDown, Check, Plus, Trash2, Settings,
-  AlertCircle, Info, CheckCircle2, AlertTriangle, Loader2, Inbox, ArrowUpRight,
-  ArrowUp, ArrowDown, MoreHorizontal, Anchor, Ship, Package, Globe,
-  Calendar as CalendarIcon, UploadCloud, FileText, Command as CommandIcon,
-  Map, BarChart3, Users, LayoutDashboard, Bell,
-} from "lucide-react";
+import { useEffect, useState, useMemo, type SVGProps } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -50,7 +41,42 @@ import { Calendar } from "@/components/ui/calendar";
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "@/components/ui/input-otp";
 import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "@/components/ui/context-menu";
-import { toast } from "@/hooks/use-toast";
+
+// ─── Inline SVG icon set (no lucide-react dependency) ────────────────────────
+type IconProps = SVGProps<SVGSVGElement>;
+const Svg = ({ children, className, ...p }: IconProps & { children: React.ReactNode }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className ?? "h-4 w-4"} aria-hidden="true" {...p}>{children}</svg>
+);
+const Search = (p: IconProps) => <Svg {...p}><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></Svg>;
+const Filter = (p: IconProps) => <Svg {...p}><path d="M3 5h18M6 12h12M10 19h4" /></Svg>;
+const X = (p: IconProps) => <Svg {...p}><path d="M18 6 6 18M6 6l12 12" /></Svg>;
+const ChevronRight = (p: IconProps) => <Svg {...p}><path d="m9 6 6 6-6 6" /></Svg>;
+const ChevronDown = (p: IconProps) => <Svg {...p}><path d="m6 9 6 6 6-6" /></Svg>;
+const Check = (p: IconProps) => <Svg {...p}><path d="M20 6 9 17l-5-5" /></Svg>;
+const Plus = (p: IconProps) => <Svg {...p}><path d="M12 5v14M5 12h14" /></Svg>;
+const Trash2 = (p: IconProps) => <Svg {...p}><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6" /></Svg>;
+const Settings = (p: IconProps) => <Svg {...p}><circle cx="12" cy="12" r="3" /><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4.9a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.5a7 7 0 0 0-2 1.2l-2.4-.9-2 3.5 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.5 2.4-.9a7 7 0 0 0 2 1.2L10 21h4l.5-2.5a7 7 0 0 0 2-1.2l2.4.9 2-3.5-2-1.5c.1-.4.1-.8.1-1.2Z" /></Svg>;
+const AlertCircle = (p: IconProps) => <Svg {...p}><circle cx="12" cy="12" r="10" /><path d="M12 8v4M12 16h.01" /></Svg>;
+const Info = (p: IconProps) => <Svg {...p}><circle cx="12" cy="12" r="10" /><path d="M12 16v-4M12 8h.01" /></Svg>;
+const CheckCircle2 = (p: IconProps) => <Svg {...p}><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></Svg>;
+const AlertTriangle = (p: IconProps) => <Svg {...p}><path d="M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.4 0Z" /><path d="M12 9v4M12 17h.01" /></Svg>;
+const Loader2 = (p: IconProps) => <Svg {...p}><path d="M21 12a9 9 0 1 1-6.2-8.55" /></Svg>;
+const Inbox = (p: IconProps) => <Svg {...p}><path d="M22 12h-6l-2 3h-4l-2-3H2" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z" /></Svg>;
+const ArrowUpRight = (p: IconProps) => <Svg {...p}><path d="M7 17 17 7M7 7h10v10" /></Svg>;
+const ArrowUp = (p: IconProps) => <Svg {...p}><path d="M12 19V5M5 12l7-7 7 7" /></Svg>;
+const ArrowDown = (p: IconProps) => <Svg {...p}><path d="M12 5v14M19 12l-7 7-7-7" /></Svg>;
+const MoreHorizontal = (p: IconProps) => <Svg {...p}><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></Svg>;
+const Anchor = (p: IconProps) => <Svg {...p}><circle cx="12" cy="5" r="3" /><path d="M12 22V8M5 12H2a10 10 0 0 0 20 0h-3" /></Svg>;
+const Ship = (p: IconProps) => <Svg {...p}><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /><path d="M19.5 14 22 11l-3-1V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v5l-3 1 2.5 3" /><path d="M12 10V3" /></Svg>;
+const Package = (p: IconProps) => <Svg {...p}><path d="M16.5 9.4 7.5 4.21M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5M12 22V12" /></Svg>;
+const Globe = (p: IconProps) => <Svg {...p}><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" /></Svg>;
+const CalendarIcon = (p: IconProps) => <Svg {...p}><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></Svg>;
+const UploadCloud = (p: IconProps) => <Svg {...p}><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2" /><path d="m12 12-4 4M12 12l4 4M12 12v9" /></Svg>;
+const FileText = (p: IconProps) => <Svg {...p}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" /></Svg>;
+const Map = (p: IconProps) => <Svg {...p}><path d="M9 4 3 6v15l6-2 6 2 6-2V4l-6 2-6-2Z" /><path d="M9 4v15M15 6v15" /></Svg>;
+const BarChart3 = (p: IconProps) => <Svg {...p}><path d="M3 3v18h18M8 17V9M13 17V5M18 17v-7" /></Svg>;
+const Users = (p: IconProps) => <Svg {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></Svg>;
+const LayoutDashboard = (p: IconProps) => <Svg {...p}><rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" /><rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" /></Svg>;
 
 const BRAND = {
   lucky: "#1E1450",
@@ -525,6 +551,49 @@ function MiniSidebarDemo() {
           <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Marine operations</div>
           <p className="text-sm text-muted-foreground mt-2" style={{ fontFamily: "Inter, sans-serif" }}>Side nav left, content right. Nav items use the canonical four-state interactive class.</p>
         </main>
+      </div>
+    </div>
+  );
+}
+
+type ToastKind = "info" | "success" | "error";
+function ToastDemo() {
+  const [items, setItems] = useState<{ id: number; kind: ToastKind; title: string; body: string }[]>([]);
+  const push = (kind: ToastKind, title: string, body: string) => {
+    const id = Date.now() + Math.random();
+    setItems((s) => [...s, { id, kind, title, body }]);
+    setTimeout(() => setItems((s) => s.filter((t) => t.id !== id)), 3500);
+  };
+  const tone = (k: ToastKind) =>
+    k === "success" ? { borderColor: BRAND.green, accent: "#006d4a" } :
+    k === "error" ? { borderColor: BRAND.red, accent: BRAND.red } :
+    { borderColor: BRAND.lucky, accent: BRAND.lucky };
+  return (
+    <div className="rounded-xl bg-card p-6">
+      <div className="flex flex-wrap items-center gap-3">
+        <Button variant="outline" onClick={() => push("info", "Schedule saved", "Atlantic Pioneer · departs May 14, 2026 14:00 UTC.")}>Show toast</Button>
+        <Button variant="outline" onClick={() => push("success", "Berthed", "Slot 7B at 14:32 UTC.")}>Success</Button>
+        <Button variant="outline" onClick={() => push("error", "Couldn't reach AIS feed", "We'll retry automatically.")}>Error</Button>
+        <span className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Toasts auto-dismiss after 3.5s. Use for confirmations, not for blocking decisions.</span>
+      </div>
+      <div aria-live="polite" className="mt-4 space-y-2">
+        {items.length === 0 ? (
+          <div className="text-xs text-muted-foreground italic" style={{ fontFamily: "Inter, sans-serif" }}>No active toasts.</div>
+        ) : items.map((t) => {
+          const c = tone(t.kind);
+          return (
+            <div key={t.id} role="status" className="rounded-md border bg-background px-4 py-3 shadow-sm flex items-start gap-3" style={{ borderLeft: `3px solid ${c.borderColor}` }}>
+              {t.kind === "success" ? <CheckCircle2 className="h-4 w-4 mt-0.5" style={{ color: c.accent }} /> :
+               t.kind === "error" ? <AlertTriangle className="h-4 w-4 mt-0.5" style={{ color: c.accent }} /> :
+               <Info className="h-4 w-4 mt-0.5" style={{ color: c.accent }} />}
+              <div className="flex-1 min-w-0">
+                <div className="text-sm" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>{t.title}</div>
+                <div className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>{t.body}</div>
+              </div>
+              <button type="button" onClick={() => setItems((s) => s.filter((x) => x.id !== t.id))} className="cursor-pointer text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded transition-colors" aria-label="Dismiss"><X className="h-4 w-4" /></button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -1020,12 +1089,7 @@ export default function DesignSystem() {
                   </div>
                 </Subsection>
                 <Subsection label="Toast notifications">
-                  <div className="rounded-xl bg-card p-6 flex flex-wrap items-center gap-3">
-                    <Button variant="outline" onClick={() => toast({ title: "Schedule saved", description: "Atlantic Pioneer · departs May 14, 2026 14:00 UTC." })}>Show toast</Button>
-                    <Button variant="outline" onClick={() => toast({ title: "Berthed", description: "Slot 7B at 14:32 UTC." })}>Success</Button>
-                    <Button variant="outline" onClick={() => toast({ variant: "destructive", title: "Couldn't reach AIS feed", description: "We'll retry automatically." })}>Error</Button>
-                    <span className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Toasts auto-dismiss. Use for confirmations, not for blocking decisions.</span>
-                  </div>
+                  <ToastDemo />
                 </Subsection>
                 <Subsection label="Empty & error states">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
