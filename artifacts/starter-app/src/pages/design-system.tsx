@@ -910,10 +910,10 @@ export default function DesignSystem() {
                     <Separator />
                     <div className="space-y-5">
                       <div className="flex items-start gap-3">
-                        <Checkbox id="ds-haz" className="mt-0.5" />
-                        <div className="space-y-1">
-                          <Label htmlFor="ds-haz" className="font-normal cursor-pointer leading-tight">Hazardous cargo declared</Label>
-                          <p className="text-xs text-muted-foreground">Triggers IMDG handling workflow.</p>
+                        <Checkbox id="ds-haz" className="mt-[3px]" />
+                        <div>
+                          <Label htmlFor="ds-haz" className="font-normal cursor-pointer leading-[18px] block">Hazardous cargo declared</Label>
+                          <p className="text-xs text-muted-foreground mt-1.5">Triggers IMDG handling workflow.</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
