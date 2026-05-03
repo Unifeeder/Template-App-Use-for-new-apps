@@ -870,13 +870,17 @@ export default function DesignSystem() {
                   <div className="rounded-xl bg-card p-6 space-y-8">
                     <div className="space-y-8">
                       <Label htmlFor="ds-vessel">Vessel name</Label>
-                      <Input id="ds-vessel" placeholder="e.g. Atlantic Pioneer" />
-                      <p className="text-xs text-muted-foreground">Use the registered name on the vessel certificate.</p>
+                      <div className="space-y-2">
+                        <Input id="ds-vessel" placeholder="e.g. Atlantic Pioneer" />
+                        <p className="text-xs text-muted-foreground">Use the registered name on the vessel certificate.</p>
+                      </div>
                     </div>
                     <div className="space-y-8">
                       <Label htmlFor="ds-imo">IMO number</Label>
-                      <Input id="ds-imo" placeholder="9999999" defaultValue="123" aria-invalid />
-                      <p className="text-xs" style={{ color: BRAND.red }}>IMO must be exactly 7 digits.</p>
+                      <div className="space-y-2">
+                        <Input id="ds-imo" placeholder="9999999" defaultValue="123" aria-invalid />
+                        <p className="text-xs" style={{ color: BRAND.red }}>IMO must be exactly 7 digits.</p>
+                      </div>
                     </div>
                     <div className="space-y-8">
                       <Label htmlFor="ds-port">Port of call</Label>
@@ -898,7 +902,7 @@ export default function DesignSystem() {
                   <div className="rounded-xl bg-card p-6 space-y-8">
                     <div className="space-y-8">
                       <Label>Cargo type</Label>
-                      <RadioGroup defaultValue="container" className="gap-3">
+                      <RadioGroup defaultValue="container" className="gap-3 pt-2">
                         {["container", "bulk", "ro-ro"].map((v) => (
                           <div key={v} className="flex items-center gap-3">
                             <RadioGroupItem id={`r-${v}`} value={v} />
