@@ -582,7 +582,7 @@ function ToastDemo() {
         ) : items.map((t) => {
           const c = tone(t.kind);
           return (
-            <div key={t.id} role="status" className="rounded-md border bg-background px-4 py-3 shadow-sm flex items-start gap-3" style={{ borderLeft: `3px solid ${c.borderColor}` }}>
+            <div key={t.id} role="status" className="rounded-2xl bg-background px-5 py-4 shadow-[0_8px_24px_-8px_rgba(15,23,42,0.18),0_2px_6px_-2px_rgba(15,23,42,0.08)] ring-1 ring-border/40 flex items-start gap-3" style={{ borderLeft: `3px solid ${c.borderColor}` }}>
               {t.kind === "success" ? <CheckCircle2 className="h-4 w-4 mt-0.5" style={{ color: c.accent }} /> :
                t.kind === "error" ? <AlertTriangle className="h-4 w-4 mt-0.5" style={{ color: c.accent }} /> :
                <Info className="h-4 w-4 mt-0.5" style={{ color: c.accent }} />}
