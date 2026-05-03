@@ -870,14 +870,14 @@ export default function DesignSystem() {
                   <div className="rounded-xl bg-card p-6 space-y-8">
                     <div className="space-y-8">
                       <Label htmlFor="ds-vessel">Vessel name</Label>
-                      <div className="space-y-2">
+                      <div className="space-y-2 pt-2">
                         <Input id="ds-vessel" placeholder="e.g. Atlantic Pioneer" />
                         <p className="text-xs text-muted-foreground">Use the registered name on the vessel certificate.</p>
                       </div>
                     </div>
                     <div className="space-y-8">
                       <Label htmlFor="ds-imo">IMO number</Label>
-                      <div className="space-y-2">
+                      <div className="space-y-2 pt-2">
                         <Input id="ds-imo" placeholder="9999999" defaultValue="123" aria-invalid />
                         <p className="text-xs" style={{ color: BRAND.red }}>IMO must be exactly 7 digits.</p>
                       </div>
@@ -885,7 +885,7 @@ export default function DesignSystem() {
                     <div className="space-y-8">
                       <Label htmlFor="ds-port">Port of call</Label>
                       <Select>
-                        <SelectTrigger id="ds-port"><SelectValue placeholder="Choose a port" /></SelectTrigger>
+                        <SelectTrigger id="ds-port" className="mt-2"><SelectValue placeholder="Choose a port" /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="rotterdam">Rotterdam</SelectItem>
                           <SelectItem value="singapore">Singapore</SelectItem>
@@ -896,7 +896,7 @@ export default function DesignSystem() {
                     </div>
                     <div className="space-y-8">
                       <Label htmlFor="ds-notes">Notes</Label>
-                      <Textarea id="ds-notes" placeholder="Anything the harbour master should know…" />
+                      <Textarea id="ds-notes" placeholder="Anything the harbour master should know…" className="mt-2" />
                     </div>
                   </div>
                   <div className="rounded-xl bg-card p-6 space-y-8">
@@ -931,7 +931,7 @@ export default function DesignSystem() {
                         <Label>Berth number</Label>
                         <span className="text-xs font-mono text-muted-foreground">7</span>
                       </div>
-                      <Slider defaultValue={[7]} max={20} min={1} step={1} />
+                      <Slider defaultValue={[7]} max={20} min={1} step={1} className="pt-2" />
                     </div>
                   </div>
                 </div>
@@ -939,17 +939,21 @@ export default function DesignSystem() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="rounded-xl bg-card p-6 space-y-8">
                       <Label>Origin port</Label>
-                      <ComboboxDemo />
-                      <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Searchable single-select. Use this any time the list has &gt; 6 options.</p>
+                      <div className="space-y-2 pt-2">
+                        <ComboboxDemo />
+                        <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Searchable single-select. Use this any time the list has &gt; 6 options.</p>
+                      </div>
                     </div>
                     <div className="rounded-xl bg-card p-6 space-y-8">
                       <Label>ETA window opens</Label>
-                      <DatePickerDemo />
-                      <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Calendar in a popover. Closes on selection.</p>
+                      <div className="space-y-2 pt-2">
+                        <DatePickerDemo />
+                        <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Calendar in a popover. Closes on selection.</p>
+                      </div>
                     </div>
                     <div className="rounded-xl bg-card p-6 space-y-8">
                       <Label>Verification code</Label>
-                      <InputOTP maxLength={6}>
+                      <InputOTP maxLength={6} containerClassName="pt-2">
                         <InputOTPGroup>
                           <InputOTPSlot index={0} />
                           <InputOTPSlot index={1} />
@@ -962,7 +966,7 @@ export default function DesignSystem() {
                           <InputOTPSlot index={5} />
                         </InputOTPGroup>
                       </InputOTP>
-                      <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>One-time codes. Auto-advance, paste-friendly.</p>
+                      <p className="text-xs text-muted-foreground -mt-6" style={{ fontFamily: "Inter, sans-serif" }}>One-time codes. Auto-advance, paste-friendly.</p>
                     </div>
                   </div>
                 </Subsection>
@@ -1288,9 +1292,9 @@ export default function DesignSystem() {
                         <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>New voyage</div>
                         <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Schedule a sailing</div>
                       </div>
-                      <div className="space-y-8"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" /></div>
-                      <div className="space-y-8"><Label>Origin</Label><ComboboxDemo /></div>
-                      <div className="space-y-8"><Label>Departure</Label><DatePickerDemo /></div>
+                      <div className="space-y-8"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" className="mt-2" /></div>
+                      <div className="space-y-8"><Label>Origin</Label><div className="pt-2"><ComboboxDemo /></div></div>
+                      <div className="space-y-8"><Label>Departure</Label><div className="pt-2"><DatePickerDemo /></div></div>
                       <div className="flex items-center justify-end gap-2 pt-2">
                         <Button variant="ghost">Cancel</Button>
                         <Button>Schedule</Button>
