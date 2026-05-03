@@ -8,7 +8,7 @@
  *   - @/components/ui/*      (shadcn primitives — present in every app)
  * No other imports. Icons are inline SVG. Toasts are local state.
  */
-import { useEffect, useState, useMemo, type SVGProps } from "react";
+import { useEffect, useState, useMemo, useRef, type SVGProps, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -343,6 +343,35 @@ function VesselTable() {
           </PaginationContent>
         </Pagination>
       </div>
+    </div>
+  );
+}
+
+// Replay child animations every time the wrapper scrolls into view.
+function InView({ children, className }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [key, setKey] = useState(0);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          setKey((k) => k + 1);
+        } else {
+          setVisible(false);
+        }
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={className}>
+      {visible ? <div key={key}>{children}</div> : <div style={{ visibility: "hidden" }}>{children}</div>}
     </div>
   );
 }
@@ -1210,15 +1239,15 @@ export default function DesignSystem() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card>
                     <CardHeader className="pb-2"><CardDescription>Voyages this year</CardDescription><CardTitle className="text-2xl" style={{ fontFamily: "Pilat Demi" }}>1,284</CardTitle></CardHeader>
-                    <CardContent><LineChartDemo /></CardContent>
+                    <CardContent><InView><LineChartDemo /></InView></CardContent>
                   </Card>
                   <Card>
                     <CardHeader className="pb-2"><CardDescription>Throughput by week</CardDescription><CardTitle className="text-2xl" style={{ fontFamily: "Pilat Demi" }}>72.4k <span className="text-sm text-muted-foreground font-sans">TEU</span></CardTitle></CardHeader>
-                    <CardContent><BarChartDemo /></CardContent>
+                    <CardContent><InView><BarChartDemo /></InView></CardContent>
                   </Card>
                   <Card>
                     <CardHeader className="pb-2"><CardDescription>Fleet status</CardDescription><CardTitle className="text-2xl" style={{ fontFamily: "Pilat Demi" }}>184 <span className="text-sm text-muted-foreground font-sans">vessels</span></CardTitle></CardHeader>
-                    <CardContent><DonutChartDemo /></CardContent>
+                    <CardContent><InView><DonutChartDemo /></InView></CardContent>
                   </Card>
                 </div>
               </section>
@@ -1248,11 +1277,11 @@ export default function DesignSystem() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div className="md:col-span-2 rounded-lg bg-muted/30 p-3">
                         <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Voyages — last 30 days</div>
-                        <BarChartDemo />
+                        <InView><BarChartDemo /></InView>
                       </div>
                       <div className="rounded-lg bg-muted/30 p-3">
                         <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Berth utilization</div>
-                        <DonutChartDemo />
+                        <InView><DonutChartDemo /></InView>
                       </div>
                     </div>
                   </div>
