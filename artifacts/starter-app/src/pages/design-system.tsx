@@ -354,9 +354,9 @@ function LineChartDemo() {
   const w = 320, h = 100, pad = 6;
   const points = data.map((v, i) => `${pad + (i * (w - pad * 2)) / (data.length - 1)},${h - pad - ((v / max) * (h - pad * 2))}`).join(" ");
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="w-full">
-      <polyline fill="none" stroke={BRAND.lucky} strokeWidth="2" points={points} />
-      <polygon fill={BRAND.lucky} fillOpacity="0.08" points={`${pad},${h - pad} ${points} ${w - pad},${h - pad}`} />
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full overflow-visible">
+      <polygon className="ds-area" fill={BRAND.lucky} fillOpacity="0.08" points={`${pad},${h - pad} ${points} ${w - pad},${h - pad}`} />
+      <polyline className="ds-line-path" fill="none" stroke={BRAND.lucky} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" points={points} style={{ ["--ds-line-len" as string]: "800" }} />
     </svg>
   );
 }
@@ -367,7 +367,11 @@ function BarChartDemo() {
   return (
     <div className="flex items-end gap-2 h-[100px]">
       {data.map((v, i) => (
-        <div key={i} className="flex-1 rounded-t-md transition-all hover:opacity-80 cursor-pointer" style={{ height: `${(v / max) * 100}%`, backgroundColor: i === 3 ? BRAND.green : BRAND.lucky }} />
+        <div
+          key={i}
+          className="ds-bar flex-1 rounded-t-md transition-transform duration-300 hover:scale-y-105 hover:opacity-90 cursor-pointer origin-bottom"
+          style={{ height: `${(v / max) * 100}%`, backgroundColor: i === 3 ? BRAND.green : BRAND.lucky, animationDelay: `${i * 70}ms` }}
+        />
       ))}
     </div>
   );
@@ -616,7 +620,7 @@ function DonutChartDemo() {
           const dasharray = `${len} ${c - len}`;
           const offset = -((acc / total) * c);
           acc += s.value;
-          return <circle key={i} cx="50" cy="50" r={r} fill="none" stroke={s.color} strokeWidth="14" strokeDasharray={dasharray} strokeDashoffset={offset} />;
+          return <circle key={i} className="ds-donut-seg" cx="50" cy="50" r={r} fill="none" stroke={s.color} strokeWidth="14" strokeLinecap="butt" strokeDasharray={dasharray} strokeDashoffset={offset} style={{ animationDelay: `${i * 180}ms` }} />;
         })}
       </svg>
       <div className="space-y-8">
