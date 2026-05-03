@@ -78,6 +78,9 @@ for d in "${UI_TARGET_DIRS[@]}"; do
   sync_file "artifacts/starter-app/src/components/ui/select.tsx" "$d/select.tsx"
   sync_file "artifacts/starter-app/src/components/ui/tabs.tsx" "$d/tabs.tsx"
   sync_file "artifacts/starter-app/src/components/ui/card.tsx" "$d/card.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/dialog.tsx" "$d/dialog.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/sheet.tsx" "$d/sheet.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/toast.tsx" "$d/toast.tsx"
 done
 sync_file "public/assets/fonts/PilatDemi.ttf" "public/assets/fonts/PilatDemi.ttf"
 sync_file "public/assets/fonts/PilatWideBook.ttf" "public/assets/fonts/PilatWideBook.ttf"
