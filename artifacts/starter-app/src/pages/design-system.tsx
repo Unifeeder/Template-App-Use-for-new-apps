@@ -38,6 +38,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "@/components/ui/input-otp";
 import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "@/components/ui/context-menu";
+import { toast } from "sonner";
 
 const BRAND = {
   lucky: "#1E1450",
@@ -769,6 +770,16 @@ export default function DesignSystem() {
                     <Button variant="outline" disabled>Disabled outline</Button>
                   </div>
                 </Subsection>
+                <Subsection label="Button group — segmented actions">
+                  <div className="rounded-xl bg-card p-6">
+                    <div className="inline-flex rounded-md shadow-sm" role="group" aria-label="View density">
+                      <button type="button" className="cursor-pointer px-3 py-1.5 text-sm rounded-l-md border border-input hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif", color: BRAND.lucky, backgroundColor: "rgba(30,20,80,0.08)" }}>Compact</button>
+                      <button type="button" className="cursor-pointer px-3 py-1.5 text-sm border-y border-input bg-background hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>Cozy</button>
+                      <button type="button" className="cursor-pointer px-3 py-1.5 text-sm rounded-r-md border border-input bg-background hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>Comfortable</button>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-3" style={{ fontFamily: "Inter, sans-serif" }}>One state visibly selected. Use for mutually exclusive view modes.</p>
+                  </div>
+                </Subsection>
               </section>
 
               {/* FORMS */}
@@ -994,6 +1005,14 @@ export default function DesignSystem() {
                       <Skeleton className="h-4 w-1/2" />
                       <Skeleton className="h-4 w-2/3" />
                     </div>
+                  </div>
+                </Subsection>
+                <Subsection label="Toast notifications">
+                  <div className="rounded-xl bg-card p-6 flex flex-wrap items-center gap-3">
+                    <Button variant="outline" onClick={() => toast("Schedule saved", { description: "Atlantic Pioneer · departs May 14, 2026 14:00 UTC." })}>Show toast</Button>
+                    <Button variant="outline" onClick={() => toast.success("Berthed", { description: "Slot 7B at 14:32 UTC." })}>Success</Button>
+                    <Button variant="outline" onClick={() => toast.error("Couldn't reach AIS feed", { description: "We'll retry automatically." })}>Error</Button>
+                    <span className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Toasts auto-dismiss. Use for confirmations, not for blocking decisions.</span>
                   </div>
                 </Subsection>
                 <Subsection label="Empty & error states">
