@@ -3,6 +3,8 @@ import {
   Search, Filter, X, ChevronRight, ChevronDown, Check, Plus, Trash2, Settings,
   AlertCircle, Info, CheckCircle2, AlertTriangle, Loader2, Inbox, ArrowUpRight,
   ArrowUp, ArrowDown, MoreHorizontal, Anchor, Ship, Package, Globe,
+  Calendar as CalendarIcon, UploadCloud, FileText, Command as CommandIcon,
+  Map, BarChart3, Users, LayoutDashboard, Bell,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +33,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, CommandDialog } from "@/components/ui/command";
+import { Calendar } from "@/components/ui/calendar";
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "@/components/ui/input-otp";
+import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "@/components/ui/context-menu";
 
 const BRAND = {
   lucky: "#1E1450",
@@ -53,7 +60,8 @@ const SECTIONS = [
   { id: "navigation", label: "Navigation" },
   { id: "feedback", label: "Feedback" },
   { id: "overlays", label: "Overlays" },
-  { id: "charts", label: "Charts" },
+  { id: "charts", label: "Data Display" },
+  { id: "layouts", label: "Page Layouts" },
   { id: "patterns", label: "UX Patterns" },
 ];
 
@@ -322,6 +330,189 @@ function BarChartDemo() {
       {data.map((v, i) => (
         <div key={i} className="flex-1 rounded-t-md transition-all hover:opacity-80 cursor-pointer" style={{ height: `${(v / max) * 100}%`, backgroundColor: i === 3 ? BRAND.green : BRAND.lucky }} />
       ))}
+    </div>
+  );
+}
+
+function ComboboxDemo() {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState<string | null>(null);
+  const ports = [
+    { v: "rotterdam", l: "Rotterdam, NL" },
+    { v: "singapore", l: "Singapore, SG" },
+    { v: "jebel-ali", l: "Jebel Ali, AE" },
+    { v: "hamburg", l: "Hamburg, DE" },
+    { v: "algeciras", l: "Algeciras, ES" },
+    { v: "kingston", l: "Kingston, JM" },
+  ];
+  const selected = ports.find((p) => p.v === value);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          aria-expanded={open}
+          className="cursor-pointer w-full inline-flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors"
+          style={{ fontFamily: "Inter, sans-serif" }}
+        >
+          <span className={selected ? "" : "text-muted-foreground"}>
+            {selected ? selected.l : "Search & pick a port…"}
+          </span>
+          <ChevronDown className="h-4 w-4 opacity-60" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[260px] p-0">
+        <Command>
+          <CommandInput placeholder="Type to filter…" />
+          <CommandList>
+            <CommandEmpty>No port found.</CommandEmpty>
+            <CommandGroup>
+              {ports.map((p) => (
+                <CommandItem key={p.v} value={p.l} onSelect={() => { setValue(p.v); setOpen(false); }} className="cursor-pointer">
+                  <Check className={`h-4 w-4 ${value === p.v ? "opacity-100" : "opacity-0"}`} />
+                  {p.l}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function DatePickerDemo() {
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState<Date | undefined>(new Date(2026, 4, 8));
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="cursor-pointer w-full inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors"
+          style={{ fontFamily: "Inter, sans-serif" }}
+        >
+          <CalendarIcon className="h-4 w-4 opacity-60" />
+          <span className={date ? "" : "text-muted-foreground"}>
+            {date ? date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "Pick a date"}
+          </span>
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar mode="single" selected={date} onSelect={(d) => { setDate(d); setOpen(false); }} />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function FileUploadDemo() {
+  const [files, setFiles] = useState<File[]>([]);
+  const [over, setOver] = useState(false);
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault(); setOver(false);
+    setFiles(Array.from(e.dataTransfer.files));
+  };
+  return (
+    <div>
+      <label
+        onDragOver={(e) => { e.preventDefault(); setOver(true); }}
+        onDragLeave={() => setOver(false)}
+        onDrop={onDrop}
+        className={`cursor-pointer flex flex-col items-center justify-center rounded-lg border-2 border-dashed px-6 py-8 text-center transition-colors focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2`}
+        style={over ? { borderColor: BRAND.lucky, backgroundColor: "rgba(30,20,80,0.04)" } : { borderColor: "hsl(var(--border))" }}
+      >
+        <UploadCloud className="h-7 w-7 mb-2" style={{ color: BRAND.lucky }} />
+        <div className="text-sm" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Drop manifest files here</div>
+        <div className="text-xs text-muted-foreground mt-1" style={{ fontFamily: "Inter, sans-serif" }}>or click to browse · CSV, XLSX up to 10 MB</div>
+        <input type="file" multiple className="sr-only" onChange={(e) => setFiles(Array.from(e.target.files ?? []))} />
+      </label>
+      {files.length > 0 && (
+        <ul className="mt-3 space-y-1">
+          {files.map((f, i) => (
+            <li key={i} className="flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-muted/40" style={{ fontFamily: "Inter, sans-serif" }}>
+              <FileText className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="truncate">{f.name}</span>
+              <span className="ml-auto text-muted-foreground font-mono">{Math.max(1, Math.round(f.size / 1024))} KB</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function CommandPaletteDemo() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); setOpen((o) => !o); }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="cursor-pointer inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors"
+        style={{ fontFamily: "Inter, sans-serif" }}
+      >
+        <Search className="h-4 w-4" />
+        <span>Search anything…</span>
+        <span className="ml-6 inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] font-mono">⌘K</span>
+      </button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandInput placeholder="Type a command or search…" />
+        <CommandList>
+          <CommandEmpty>No results.</CommandEmpty>
+          <CommandGroup heading="Navigate">
+            <CommandItem className="cursor-pointer"><LayoutDashboard className="h-4 w-4" />Dashboard <CommandShortcut>G D</CommandShortcut></CommandItem>
+            <CommandItem className="cursor-pointer"><Ship className="h-4 w-4" />Vessels <CommandShortcut>G V</CommandShortcut></CommandItem>
+            <CommandItem className="cursor-pointer"><Map className="h-4 w-4" />Ports <CommandShortcut>G P</CommandShortcut></CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Actions">
+            <CommandItem className="cursor-pointer"><Plus className="h-4 w-4" />New voyage</CommandItem>
+            <CommandItem className="cursor-pointer"><Settings className="h-4 w-4" />Settings</CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
+  );
+}
+
+function MiniSidebarDemo() {
+  const items = [
+    { icon: LayoutDashboard, label: "Dashboard", active: true },
+    { icon: Ship, label: "Vessels" },
+    { icon: Map, label: "Ports" },
+    { icon: Package, label: "Cargo" },
+    { icon: Users, label: "Crew" },
+    { icon: BarChart3, label: "Reports" },
+  ];
+  return (
+    <div className="rounded-xl bg-card overflow-hidden border border-border/30">
+      <div className="grid grid-cols-[180px_1fr] min-h-[260px]">
+        <aside className="border-r border-border/30 p-3 flex flex-col gap-0.5 bg-muted/30">
+          <div className="px-2 py-2 text-[10px] uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Workspace</div>
+          {items.map((it) => (
+            <button
+              key={it.label}
+              className={`cursor-pointer flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors ${it.active ? "" : "text-muted-foreground"}`}
+              style={it.active ? { backgroundColor: "rgba(30,20,80,0.08)", color: BRAND.lucky } : {}}
+            >
+              <it.icon className="h-4 w-4" />
+              {it.label}
+            </button>
+          ))}
+        </aside>
+        <main className="p-6">
+          <div className="text-xs uppercase tracking-widest text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Dashboard</div>
+          <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Marine operations</div>
+          <p className="text-sm text-muted-foreground mt-2" style={{ fontFamily: "Inter, sans-serif" }}>Side nav left, content right. Nav items use the canonical four-state interactive class.</p>
+        </main>
+      </div>
     </div>
   );
 }
@@ -648,6 +839,42 @@ export default function DesignSystem() {
                     </div>
                   </div>
                 </div>
+                <Subsection label="Combobox · date picker · OTP">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="rounded-xl bg-card p-6 space-y-2">
+                      <Label>Origin port</Label>
+                      <ComboboxDemo />
+                      <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Searchable single-select. Use this any time the list has &gt; 6 options.</p>
+                    </div>
+                    <div className="rounded-xl bg-card p-6 space-y-2">
+                      <Label>ETA window opens</Label>
+                      <DatePickerDemo />
+                      <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Calendar in a popover. Closes on selection.</p>
+                    </div>
+                    <div className="rounded-xl bg-card p-6 space-y-2">
+                      <Label>Verification code</Label>
+                      <InputOTP maxLength={6}>
+                        <InputOTPGroup>
+                          <InputOTPSlot index={0} />
+                          <InputOTPSlot index={1} />
+                          <InputOTPSlot index={2} />
+                        </InputOTPGroup>
+                        <InputOTPSeparator />
+                        <InputOTPGroup>
+                          <InputOTPSlot index={3} />
+                          <InputOTPSlot index={4} />
+                          <InputOTPSlot index={5} />
+                        </InputOTPGroup>
+                      </InputOTP>
+                      <p className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>One-time codes. Auto-advance, paste-friendly.</p>
+                    </div>
+                  </div>
+                </Subsection>
+                <Subsection label="File upload">
+                  <div className="rounded-xl bg-card p-6">
+                    <FileUploadDemo />
+                  </div>
+                </Subsection>
               </section>
 
               {/* CARDS */}
@@ -725,6 +952,15 @@ export default function DesignSystem() {
                       <AccordionItem value="b"><AccordionTrigger className="cursor-pointer">How are berth slots assigned?</AccordionTrigger><AccordionContent className="text-sm text-muted-foreground">By priority tier and arrival window.</AccordionContent></AccordionItem>
                     </Accordion>
                   </div>
+                </Subsection>
+                <Subsection label="Command palette (⌘K)">
+                  <div className="rounded-xl bg-card p-6 flex items-center gap-3">
+                    <CommandPaletteDemo />
+                    <span className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Press ⌘K (or Ctrl+K) anywhere on this page.</span>
+                  </div>
+                </Subsection>
+                <Subsection label="Sidebar shell">
+                  <MiniSidebarDemo />
                 </Subsection>
               </section>
 
@@ -825,6 +1061,39 @@ export default function DesignSystem() {
                       <DropdownMenuItem className="cursor-pointer text-destructive">Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
+                  <Drawer>
+                    <DrawerTrigger asChild><Button variant="outline">Open drawer</Button></DrawerTrigger>
+                    <DrawerContent>
+                      <div className="mx-auto w-full max-w-md">
+                        <DrawerHeader>
+                          <DrawerTitle style={{ fontFamily: "Pilat Demi" }}>Voyage details</DrawerTitle>
+                          <DrawerDescription>Slides up from the bottom on mobile, side on desktop. Use for quick views, not destinations.</DrawerDescription>
+                        </DrawerHeader>
+                        <div className="px-4 pb-2 text-sm text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>
+                          Atlantic Pioneer · Rotterdam → Singapore · ETA May 14, 2026.
+                        </div>
+                        <DrawerFooter>
+                          <Button>Open full view</Button>
+                        </DrawerFooter>
+                      </div>
+                    </DrawerContent>
+                  </Drawer>
+                  <ContextMenu>
+                    <ContextMenuTrigger asChild>
+                      <div className="cursor-context-menu select-none rounded-md border border-dashed border-border px-4 py-3 text-sm text-muted-foreground hover:bg-accent transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>
+                        Right-click this row
+                      </div>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent>
+                      <ContextMenuLabel>Vessel actions</ContextMenuLabel>
+                      <ContextMenuSeparator />
+                      <ContextMenuItem className="cursor-pointer">Open</ContextMenuItem>
+                      <ContextMenuItem className="cursor-pointer">Pin to top</ContextMenuItem>
+                      <ContextMenuItem className="cursor-pointer">Share link</ContextMenuItem>
+                      <ContextMenuSeparator />
+                      <ContextMenuItem className="cursor-pointer text-destructive">Archive</ContextMenuItem>
+                    </ContextMenuContent>
+                  </ContextMenu>
                 </div>
               </section>
 
@@ -847,9 +1116,93 @@ export default function DesignSystem() {
                 </div>
               </section>
 
-              {/* PATTERNS */}
+              {/* LAYOUTS */}
+              <section id="layouts" className="scroll-mt-24 mt-32">
+                <SectionHeader index="14" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content." />
+                <Subsection label="App shell — sidebar + main">
+                  <MiniSidebarDemo />
+                </Subsection>
+                <Subsection label="Dashboard grid — KPI row + chart + list">
+                  <div className="rounded-xl bg-card p-6 space-y-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {[
+                        { l: "Vessels at sea", v: "24", d: "+3" },
+                        { l: "In port", v: "11", d: "−1" },
+                        { l: "Late arrivals", v: "2", d: "0" },
+                        { l: "Fuel saved (mt)", v: "1,284", d: "+82" },
+                      ].map((k) => (
+                        <div key={k.l} className="rounded-lg bg-muted/30 p-3">
+                          <div className="text-[10px] uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>{k.l}</div>
+                          <div className="mt-1 text-xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>{k.v}</div>
+                          <div className="text-[11px]" style={{ color: BRAND.lucky, fontFamily: "Inter, sans-serif" }}>{k.d} this week</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div className="md:col-span-2 rounded-lg bg-muted/30 p-3">
+                        <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Voyages — last 30 days</div>
+                        <BarChartDemo />
+                      </div>
+                      <div className="rounded-lg bg-muted/30 p-3">
+                        <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Berth utilization</div>
+                        <DonutChartDemo />
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+                <Subsection label="List + detail (split)">
+                  <div className="rounded-xl bg-card overflow-hidden border border-border/30">
+                    <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-[260px]">
+                      <div className="border-r border-border/30">
+                        <div className="px-4 py-3 border-b border-border/30 flex items-center gap-2">
+                          <Search className="h-4 w-4 text-muted-foreground" />
+                          <input placeholder="Search vessels…" className="bg-transparent text-sm focus:outline-none w-full" style={{ fontFamily: "Inter, sans-serif" }} />
+                        </div>
+                        {[
+                          { n: "Atlantic Pioneer", s: "At sea" },
+                          { n: "Pacific Crown", s: "Berthed" },
+                          { n: "Indian Wave", s: "At sea" },
+                          { n: "Arctic Spirit", s: "Maintenance" },
+                        ].map((r, i) => (
+                          <button key={r.n} className={`cursor-pointer w-full text-left px-4 py-3 text-sm border-b border-border/20 hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset transition-colors ${i === 0 ? "bg-muted/40" : ""}`} style={{ fontFamily: "Inter, sans-serif" }}>
+                            <div style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>{r.n}</div>
+                            <div className="text-xs text-muted-foreground">{r.s}</div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="p-6">
+                        <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Vessel</div>
+                        <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Atlantic Pioneer</div>
+                        <div className="text-sm text-muted-foreground mt-1" style={{ fontFamily: "Inter, sans-serif" }}>Container · 9,400 TEU · IMO 9876543</div>
+                        <div className="grid grid-cols-2 gap-3 mt-4 text-sm">
+                          <div className="rounded-md bg-muted/30 p-3"><div className="text-[10px] uppercase tracking-widest text-muted-foreground">From</div><div style={{ fontFamily: "Pilat Demi" }}>Rotterdam, NL</div></div>
+                          <div className="rounded-md bg-muted/30 p-3"><div className="text-[10px] uppercase tracking-widest text-muted-foreground">To</div><div style={{ fontFamily: "Pilat Demi" }}>Singapore, SG</div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+                <Subsection label="Centered form — single-column focus">
+                  <div className="rounded-xl bg-card p-8">
+                    <div className="mx-auto max-w-md space-y-4">
+                      <div>
+                        <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>New voyage</div>
+                        <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Schedule a sailing</div>
+                      </div>
+                      <div className="space-y-2"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" /></div>
+                      <div className="space-y-2"><Label>Origin</Label><ComboboxDemo /></div>
+                      <div className="space-y-2"><Label>Departure</Label><DatePickerDemo /></div>
+                      <div className="flex items-center justify-end gap-2 pt-2">
+                        <Button variant="ghost">Cancel</Button>
+                        <Button>Schedule</Button>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+              </section>
+
               <section id="patterns" className="scroll-mt-24 mt-32 mb-24">
-                <SectionHeader index="14" eyebrow="UX Patterns" title="The rules behind the components." lede="Recipes that aren't a single component — they're how the system behaves. Follow these and the apps stay coherent." />
+                <SectionHeader index="15" eyebrow="UX Patterns" title="The rules behind the components." lede="Recipes that aren't a single component — they're how the system behaves. Follow these and the apps stay coherent." />
 
                 <Subsection label="Filtering — the canonical layout">
                   <div className="grid md:grid-cols-2 gap-4">
