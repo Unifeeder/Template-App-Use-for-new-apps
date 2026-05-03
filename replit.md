@@ -55,7 +55,7 @@ Files synced from GitHub:
 
 Every Shipping Solutions app exposes a `/designsystem` route backed by `src/pages/design-system.tsx`. It is the canonical, live specimen for the brand: colors, typography, spacing, radius, shadow, buttons, forms, cards, tables (with the canonical search-left/filter-right toolbar), navigation, feedback (loading/empty/error trio), overlays, charts, and UX patterns (cursor-pointer/hover/focus/active, color contrast, no grey-on-grey).
 
-**Open it before designing or building any new screen.** Copy patterns from it instead of inventing. The page is single-file and only imports from `@/components/ui/*` and `lucide-react`, so it's portable across every app the daily sync touches.
+**Open it before designing or building any new screen.** Copy patterns from it instead of inventing. The page is single-file with a strict import contract — only `react` and `@/components/ui/*` (icons are inline SVG, toasts are local state) — so it's portable across every app the daily sync touches with zero extra dependencies. 15 sections: Color, Typography, Spacing, Radius, Shadow, Buttons, Forms, Cards, Tables, Navigation, Feedback, Overlays, Data Display, Page Layouts, UX Patterns.
 
 ## New App Creation Checklist
 
