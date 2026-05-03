@@ -59,6 +59,20 @@ fi
 for target in "${DS_TARGETS[@]}"; do
   sync_file "artifacts/starter-app/src/pages/design-system.tsx" "$target"
 done
+
+# Fixed shadcn primitives — restore standard hover/active states that the
+# original Replit-customized variants stripped (see button.tsx / badge.tsx).
+# Looks for src/components/ui/ in any artifact; falls back to root.
+UI_TARGET_DIRS=()
+if compgen -G "artifacts/*/src/components/ui" > /dev/null; then
+  for d in artifacts/*/src/components/ui; do UI_TARGET_DIRS+=("$d"); done
+elif [ -d "src/components/ui" ]; then
+  UI_TARGET_DIRS+=("src/components/ui")
+fi
+for d in "${UI_TARGET_DIRS[@]}"; do
+  sync_file "artifacts/starter-app/src/components/ui/button.tsx" "$d/button.tsx"
+  sync_file "artifacts/starter-app/src/components/ui/badge.tsx" "$d/badge.tsx"
+done
 sync_file "public/assets/fonts/PilatDemi.ttf" "public/assets/fonts/PilatDemi.ttf"
 sync_file "public/assets/fonts/PilatWideBook.ttf" "public/assets/fonts/PilatWideBook.ttf"
 sync_file "public/assets/fonts/PilatWideHeavy.ttf" "public/assets/fonts/PilatWideHeavy.ttf"
