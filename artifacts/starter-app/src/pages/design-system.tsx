@@ -1,3 +1,15 @@
+/**
+ * /designsystem — DP World Shipping Solutions canonical design reference.
+ *
+ * IMPORT CONTRACT (do not break — this file is delivered to every app by
+ * scripts/sync-from-github.sh and must work in any shadcn-based DP World
+ * template app):
+ *   - react
+ *   - lucide-react           (universal in all template apps)
+ *   - @/components/ui/*      (shadcn primitives — present in every app)
+ *   - @/hooks/use-toast      (paired with <Toaster /> in App.tsx — universal)
+ * No other imports. No app-specific components, no data layer, no router.
+ */
 import { useEffect, useState, useMemo } from "react";
 import {
   Search, Filter, X, ChevronRight, ChevronDown, Check, Plus, Trash2, Settings,
@@ -38,7 +50,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from "@/components/ui/input-otp";
 import { Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "@/components/ui/context-menu";
-import { toast } from "sonner";
+import { toast } from "@/hooks/use-toast";
 
 const BRAND = {
   lucky: "#1E1450",
@@ -1009,9 +1021,9 @@ export default function DesignSystem() {
                 </Subsection>
                 <Subsection label="Toast notifications">
                   <div className="rounded-xl bg-card p-6 flex flex-wrap items-center gap-3">
-                    <Button variant="outline" onClick={() => toast("Schedule saved", { description: "Atlantic Pioneer · departs May 14, 2026 14:00 UTC." })}>Show toast</Button>
-                    <Button variant="outline" onClick={() => toast.success("Berthed", { description: "Slot 7B at 14:32 UTC." })}>Success</Button>
-                    <Button variant="outline" onClick={() => toast.error("Couldn't reach AIS feed", { description: "We'll retry automatically." })}>Error</Button>
+                    <Button variant="outline" onClick={() => toast({ title: "Schedule saved", description: "Atlantic Pioneer · departs May 14, 2026 14:00 UTC." })}>Show toast</Button>
+                    <Button variant="outline" onClick={() => toast({ title: "Berthed", description: "Slot 7B at 14:32 UTC." })}>Success</Button>
+                    <Button variant="outline" onClick={() => toast({ variant: "destructive", title: "Couldn't reach AIS feed", description: "We'll retry automatically." })}>Error</Button>
                     <span className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Toasts auto-dismiss. Use for confirmations, not for blocking decisions.</span>
                   </div>
                 </Subsection>
