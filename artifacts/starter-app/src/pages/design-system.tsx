@@ -90,7 +90,8 @@ const BRAND = {
 };
 
 const SECTIONS = [
-  { id: "header", label: "Header" },
+  { id: "header", label: "App Shell" },
+  { id: "layouts", label: "Page Layouts" },
   { id: "color", label: "Color" },
   { id: "typography", label: "Type" },
   { id: "spacing", label: "Spacing" },
@@ -105,7 +106,6 @@ const SECTIONS = [
   { id: "feedback", label: "Feedback" },
   { id: "overlays", label: "Overlays" },
   { id: "charts", label: "Data Display" },
-  { id: "layouts", label: "Page Layouts" },
   { id: "patterns", label: "UX Patterns" },
 ];
 
@@ -732,7 +732,7 @@ export default function DesignSystem() {
 
               {/* HEADER */}
               <section id="header" className="scroll-mt-24">
-                <SectionHeader index="01" eyebrow="Header" title="The bar that binds every app." lede="Logo, title, nav, theme toggle — same structure in every Shipping Solutions app. Don't rearrange it." />
+                <SectionHeader index="01" eyebrow="App Shell" title="The UI that feels familiar." lede="Every Shipping Solutions app shares this header bar — logo, title, nav, theme toggle. Same structure, same spacing, same behaviour. Users never have to relearn where things are." />
 
                 <Subsection label="Live specimen — the actual header above this page">
                   <div className="rounded-xl bg-card overflow-hidden">
@@ -964,9 +964,94 @@ export default function DesignSystem() {
                 </Subsection>
               </section>
 
+              {/* PAGE LAYOUTS */}
+              <section id="layouts" className="scroll-mt-24 mt-32">
+                <SectionHeader index="02" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content inside the app shell above." />
+                <Subsection label="App shell — sidebar + main">
+                  <MiniSidebarDemo />
+                </Subsection>
+                <Subsection label="Dashboard grid — KPI row + chart + list">
+                  <div className="rounded-xl bg-card p-6 space-y-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {[
+                        { l: "Vessels at sea", v: "24", d: "+3" },
+                        { l: "In port", v: "11", d: "−1" },
+                        { l: "Late arrivals", v: "2", d: "0" },
+                        { l: "Fuel saved (mt)", v: "1,284", d: "+82" },
+                      ].map((k) => (
+                        <div key={k.l} className="rounded-lg bg-muted/30 p-3">
+                          <div className="text-[10px] uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>{k.l}</div>
+                          <div className="mt-1 text-xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>{k.v}</div>
+                          <div className="text-[11px]" style={{ color: BRAND.lucky, fontFamily: "Inter, sans-serif" }}>{k.d} this week</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div className="md:col-span-2 rounded-lg bg-muted/30 p-3">
+                        <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Voyages — last 30 days</div>
+                        <InView><BarChartDemo /></InView>
+                      </div>
+                      <div className="rounded-lg bg-muted/30 p-3">
+                        <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Berth utilization</div>
+                        <InView><DonutChartDemo /></InView>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+                <Subsection label="List + detail (split)">
+                  <div className="rounded-xl bg-card overflow-hidden border border-border/30">
+                    <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-[260px]">
+                      <div className="border-r border-border/30">
+                        <div className="px-4 py-3 border-b border-border/30 flex items-center gap-2">
+                          <Search className="h-4 w-4 text-muted-foreground" />
+                          <input placeholder="Search vessels…" className="bg-transparent text-sm focus:outline-none w-full" style={{ fontFamily: "Inter, sans-serif" }} />
+                        </div>
+                        {[
+                          { n: "Atlantic Pioneer", s: "At sea" },
+                          { n: "Pacific Crown", s: "Berthed" },
+                          { n: "Indian Wave", s: "At sea" },
+                          { n: "Arctic Spirit", s: "Maintenance" },
+                        ].map((r, i) => (
+                          <button key={r.n} className={`cursor-pointer w-full text-left px-4 py-3 text-sm border-b border-border/20 hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset transition-colors ${i === 0 ? "bg-muted/40" : ""}`} style={{ fontFamily: "Inter, sans-serif" }}>
+                            <div style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>{r.n}</div>
+                            <div className="text-xs text-muted-foreground">{r.s}</div>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="p-6">
+                        <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Vessel</div>
+                        <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Atlantic Pioneer</div>
+                        <div className="text-sm text-muted-foreground mt-1" style={{ fontFamily: "Inter, sans-serif" }}>Container · 9,400 TEU · IMO 9876543</div>
+                        <div className="grid grid-cols-2 gap-3 mt-4 text-sm">
+                          <div className="rounded-md bg-muted/30 p-3"><div className="text-[10px] uppercase tracking-widest text-muted-foreground">From</div><div style={{ fontFamily: "Pilat Demi" }}>Rotterdam, NL</div></div>
+                          <div className="rounded-md bg-muted/30 p-3"><div className="text-[10px] uppercase tracking-widest text-muted-foreground">To</div><div style={{ fontFamily: "Pilat Demi" }}>Singapore, SG</div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+                <Subsection label="Centered form — single-column focus">
+                  <div className="rounded-xl bg-card p-8">
+                    <div className="mx-auto max-w-md space-y-4">
+                      <div>
+                        <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>New voyage</div>
+                        <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Schedule a sailing</div>
+                      </div>
+                      <div className="space-y-8"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" className="mt-2" /></div>
+                      <div className="space-y-8"><Label>Origin</Label><div className="pt-2"><ComboboxDemo /></div></div>
+                      <div className="space-y-8"><Label>Departure</Label><div className="pt-2"><DatePickerDemo /></div></div>
+                      <div className="flex items-center justify-end gap-2 pt-2">
+                        <Button variant="ghost">Cancel</Button>
+                        <Button>Schedule</Button>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+              </section>
+
               {/* COLOR */}
               <section id="color" className="scroll-mt-24 mt-32">
-                <SectionHeader index="02" eyebrow="Color" title="Colors with conviction." lede="Five official colors. No tints, no remixing. Indigo carries action; coral and green do the talking when something needs attention." />
+                <SectionHeader index="03" eyebrow="Color" title="Colors with conviction." lede="Five official colors. No tints, no remixing. Indigo carries action; coral and green do the talking when something needs attention." />
                 <Subsection label="Brand">
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     <Swatch name="Lucky Point" hex={BRAND.lucky} role="Primary action · headlines" dark />
@@ -1014,7 +1099,7 @@ export default function DesignSystem() {
 
               {/* TYPOGRAPHY */}
               <section id="typography" className="scroll-mt-24 mt-32">
-                <SectionHeader index="03" eyebrow="Typography" title="Two voices, one system." lede="Pilat Demi sets the headline. Inter does the work. Mono only for IDs, codes, and timestamps." />
+                <SectionHeader index="04" eyebrow="Typography" title="Two voices, one system." lede="Pilat Demi sets the headline. Inter does the work. Mono only for IDs, codes, and timestamps." />
                 <Subsection label="Heading scale (Pilat Demi)">
                   <div className="space-y-6 rounded-xl bg-card p-8">
                     {[
@@ -1054,7 +1139,7 @@ export default function DesignSystem() {
 
               {/* SPACING */}
               <section id="spacing" className="scroll-mt-24 mt-32">
-                <SectionHeader index="04" eyebrow="Spacing" title="Space is the design." lede="Most layouts need space, not borders. The 4px scale keeps rhythm consistent across pages." />
+                <SectionHeader index="05" eyebrow="Spacing" title="Space is the design." lede="Most layouts need space, not borders. The 4px scale keeps rhythm consistent across pages." />
                 <div className="rounded-xl bg-card p-8 space-y-3">
                   {[1, 2, 3, 4, 6, 8, 12, 16].map((s) => (
                     <div key={s} className="flex items-center gap-4">
@@ -1068,7 +1153,7 @@ export default function DesignSystem() {
 
               {/* RADIUS */}
               <section id="radius" className="scroll-mt-24 mt-32">
-                <SectionHeader index="05" eyebrow="Radius" title="Soft, not bubbly." lede="Cards and surfaces use lg. Pills use full. Inputs match buttons." />
+                <SectionHeader index="06" eyebrow="Radius" title="Soft, not bubbly." lede="Cards and surfaces use lg. Pills use full. Inputs match buttons." />
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   {[{ l: "sm", v: "4px", r: "rounded-sm" }, { l: "md", v: "6px", r: "rounded-md" }, { l: "lg", v: "10px", r: "rounded-lg" }, { l: "xl", v: "12px", r: "rounded-xl" }, { l: "full", v: "9999px", r: "rounded-full" }].map((r) => (
                     <div key={r.l} className="rounded-xl bg-card p-4 text-center">
@@ -1082,7 +1167,7 @@ export default function DesignSystem() {
 
               {/* SHADOW */}
               <section id="shadow" className="scroll-mt-24 mt-32">
-                <SectionHeader index="06" eyebrow="Shadow" title="Whisper, don't shout." lede="Use shadow OR border. Never both. Most surfaces need neither." />
+                <SectionHeader index="07" eyebrow="Shadow" title="Whisper, don't shout." lede="Use shadow OR border. Never both. Most surfaces need neither." />
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl" style={{ backgroundColor: "rgba(15,15,25,0.04)" }}>
                   {[{ l: "xs", c: "shadow-xs" }, { l: "sm", c: "shadow-sm" }, { l: "md", c: "shadow-md" }, { l: "lg", c: "shadow-lg" }].map((s) => (
                     <div key={s.l} className={`bg-card rounded-lg h-24 flex items-center justify-center ${s.c}`}>
@@ -1094,7 +1179,7 @@ export default function DesignSystem() {
 
               {/* BUTTONS */}
               <section id="buttons" className="scroll-mt-24 mt-32">
-                <SectionHeader index="07" eyebrow="Buttons" title="Click feels good, or it doesn't ship." lede="Every button must show pointer cursor, hover, focus-ring, and active feedback. Test with the keyboard." />
+                <SectionHeader index="08" eyebrow="Buttons" title="Click feels good, or it doesn't ship." lede="Every button must show pointer cursor, hover, focus-ring, and active feedback. Test with the keyboard." />
                 <Subsection label="Variants">
                   <div className="flex flex-wrap items-center gap-3 rounded-xl bg-card p-6">
                     <Button>Primary</Button>
@@ -1137,7 +1222,7 @@ export default function DesignSystem() {
 
               {/* FORMS */}
               <section id="forms" className="scroll-mt-24 mt-32">
-                <SectionHeader index="08" eyebrow="Forms" title="Forms that don't fight back." lede="Labels above inputs, hint text below, error text replaces hint. Always validate on blur, never on every keystroke." />
+                <SectionHeader index="09" eyebrow="Forms" title="Forms that don't fight back." lede="Labels above inputs, hint text below, error text replaces hint. Always validate on blur, never on every keystroke." />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="rounded-xl bg-card p-6 space-y-8">
                     <div className="space-y-8">
@@ -1251,7 +1336,7 @@ export default function DesignSystem() {
 
               {/* CARDS */}
               <section id="cards" className="scroll-mt-24 mt-32">
-                <SectionHeader index="09" eyebrow="Cards" title="Surfaces that earn their wrapper." lede="A card means: this content is one unit. If you're using a card just to add a border, delete the border instead." />
+                <SectionHeader index="10" eyebrow="Cards" title="Surfaces that earn their wrapper." lede="A card means: this content is one unit. If you're using a card just to add a border, delete the border instead." />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card>
                     <CardHeader>
@@ -1283,13 +1368,13 @@ export default function DesignSystem() {
 
               {/* TABLES */}
               <section id="tables" className="scroll-mt-24 mt-32">
-                <SectionHeader index="10" eyebrow="Tables" title="Tables, with search and filter built in." lede="Search top-left, filter chips top-right, sort by clicking column headers, paginate at the bottom. This is the canonical pattern — don't reinvent it." />
+                <SectionHeader index="11" eyebrow="Tables" title="Tables, with search and filter built in." lede="Search top-left, filter chips top-right, sort by clicking column headers, paginate at the bottom. This is the canonical pattern — don't reinvent it." />
                 <VesselTable />
               </section>
 
               {/* FILTERS & SORT */}
               <section id="filters" className="scroll-mt-24 mt-32">
-                <SectionHeader index="11" eyebrow="Filters & Sort" title="Search left. Filters right. Always." lede="The canonical toolbar anatomy for every data view — tables, lists, grids, dashboards. Copy this layout. Don't improvise placement." />
+                <SectionHeader index="12" eyebrow="Filters & Sort" title="Search left. Filters right. Always." lede="The canonical toolbar anatomy for every data view — tables, lists, grids, dashboards. Copy this layout. Don't improvise placement." />
 
                 <Subsection label="Toolbar anatomy — the canonical layout">
                   <div className="rounded-xl bg-card p-6 space-y-6">
@@ -1433,7 +1518,7 @@ export default function DesignSystem() {
 
               {/* NAVIGATION */}
               <section id="navigation" className="scroll-mt-24 mt-32">
-                <SectionHeader index="12" eyebrow="Navigation" title="Wayfinding, no surprises." lede="Breadcrumbs for hierarchy, tabs for sibling views, accordions for dense reference." />
+                <SectionHeader index="13" eyebrow="Navigation" title="Wayfinding, no surprises." lede="Breadcrumbs for hierarchy, tabs for sibling views, accordions for dense reference." />
                 <Subsection label="Breadcrumbs">
                   <div className="rounded-xl bg-card p-6">
                     <Breadcrumb>
@@ -1482,7 +1567,7 @@ export default function DesignSystem() {
 
               {/* FEEDBACK */}
               <section id="feedback" className="scroll-mt-24 mt-32">
-                <SectionHeader index="13" eyebrow="Feedback" title="Tell users what's happening." lede="Loading, empty, and error states are not optional. They are the contract." />
+                <SectionHeader index="14" eyebrow="Feedback" title="Tell users what's happening." lede="Loading, empty, and error states are not optional. They are the contract." />
                 <Subsection label="Alerts">
                   <div className="space-y-8">
                     <Alert><Info className="h-4 w-4" /><AlertTitle>Heads up</AlertTitle><AlertDescription>The schedule refreshes every 5 minutes from AIS data.</AlertDescription></Alert>
@@ -1535,7 +1620,7 @@ export default function DesignSystem() {
 
               {/* OVERLAYS */}
               <section id="overlays" className="scroll-mt-24 mt-32">
-                <SectionHeader index="14" eyebrow="Overlays" title="Overlays for focus, not for noise." lede="Dialog for a decision, sheet for a sub-task, popover for context, tooltip for a label." />
+                <SectionHeader index="15" eyebrow="Overlays" title="Overlays for focus, not for noise." lede="Dialog for a decision, sheet for a sub-task, popover for context, tooltip for a label." />
                 <div className="rounded-xl bg-card p-6 flex flex-wrap items-center gap-3">
                   <Dialog>
                     <DialogTrigger asChild><Button variant="outline">Open dialog</Button></DialogTrigger>
@@ -1618,7 +1703,7 @@ export default function DesignSystem() {
 
               {/* CHARTS */}
               <section id="charts" className="scroll-mt-24 mt-32">
-                <SectionHeader index="15" eyebrow="Charts" title="Color the data, not the chrome." lede="Lucky Point is the default series. Caribbean Green highlights positives. Radical Red highlights anomalies. Avoid grey-on-grey." />
+                <SectionHeader index="16" eyebrow="Charts" title="Color the data, not the chrome." lede="Lucky Point is the default series. Caribbean Green highlights positives. Radical Red highlights anomalies. Avoid grey-on-grey." />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card>
                     <CardHeader className="pb-2"><CardDescription>Voyages this year</CardDescription><CardTitle className="text-2xl" style={{ fontFamily: "Pilat Demi" }}>1,284</CardTitle></CardHeader>
@@ -1633,91 +1718,6 @@ export default function DesignSystem() {
                     <CardContent><InView><DonutChartDemo /></InView></CardContent>
                   </Card>
                 </div>
-              </section>
-
-              {/* LAYOUTS */}
-              <section id="layouts" className="scroll-mt-24 mt-32">
-                <SectionHeader index="16" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content." />
-                <Subsection label="App shell — sidebar + main">
-                  <MiniSidebarDemo />
-                </Subsection>
-                <Subsection label="Dashboard grid — KPI row + chart + list">
-                  <div className="rounded-xl bg-card p-6 space-y-8">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {[
-                        { l: "Vessels at sea", v: "24", d: "+3" },
-                        { l: "In port", v: "11", d: "−1" },
-                        { l: "Late arrivals", v: "2", d: "0" },
-                        { l: "Fuel saved (mt)", v: "1,284", d: "+82" },
-                      ].map((k) => (
-                        <div key={k.l} className="rounded-lg bg-muted/30 p-3">
-                          <div className="text-[10px] uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>{k.l}</div>
-                          <div className="mt-1 text-xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>{k.v}</div>
-                          <div className="text-[11px]" style={{ color: BRAND.lucky, fontFamily: "Inter, sans-serif" }}>{k.d} this week</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                      <div className="md:col-span-2 rounded-lg bg-muted/30 p-3">
-                        <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Voyages — last 30 days</div>
-                        <InView><BarChartDemo /></InView>
-                      </div>
-                      <div className="rounded-lg bg-muted/30 p-3">
-                        <div className="text-xs text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Berth utilization</div>
-                        <InView><DonutChartDemo /></InView>
-                      </div>
-                    </div>
-                  </div>
-                </Subsection>
-                <Subsection label="List + detail (split)">
-                  <div className="rounded-xl bg-card overflow-hidden border border-border/30">
-                    <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-[260px]">
-                      <div className="border-r border-border/30">
-                        <div className="px-4 py-3 border-b border-border/30 flex items-center gap-2">
-                          <Search className="h-4 w-4 text-muted-foreground" />
-                          <input placeholder="Search vessels…" className="bg-transparent text-sm focus:outline-none w-full" style={{ fontFamily: "Inter, sans-serif" }} />
-                        </div>
-                        {[
-                          { n: "Atlantic Pioneer", s: "At sea" },
-                          { n: "Pacific Crown", s: "Berthed" },
-                          { n: "Indian Wave", s: "At sea" },
-                          { n: "Arctic Spirit", s: "Maintenance" },
-                        ].map((r, i) => (
-                          <button key={r.n} className={`cursor-pointer w-full text-left px-4 py-3 text-sm border-b border-border/20 hover:bg-accent active:bg-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset transition-colors ${i === 0 ? "bg-muted/40" : ""}`} style={{ fontFamily: "Inter, sans-serif" }}>
-                            <div style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>{r.n}</div>
-                            <div className="text-xs text-muted-foreground">{r.s}</div>
-                          </button>
-                        ))}
-                      </div>
-                      <div className="p-6">
-                        <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Vessel</div>
-                        <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Atlantic Pioneer</div>
-                        <div className="text-sm text-muted-foreground mt-1" style={{ fontFamily: "Inter, sans-serif" }}>Container · 9,400 TEU · IMO 9876543</div>
-                        <div className="grid grid-cols-2 gap-3 mt-4 text-sm">
-                          <div className="rounded-md bg-muted/30 p-3"><div className="text-[10px] uppercase tracking-widest text-muted-foreground">From</div><div style={{ fontFamily: "Pilat Demi" }}>Rotterdam, NL</div></div>
-                          <div className="rounded-md bg-muted/30 p-3"><div className="text-[10px] uppercase tracking-widest text-muted-foreground">To</div><div style={{ fontFamily: "Pilat Demi" }}>Singapore, SG</div></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Subsection>
-                <Subsection label="Centered form — single-column focus">
-                  <div className="rounded-xl bg-card p-8">
-                    <div className="mx-auto max-w-md space-y-4">
-                      <div>
-                        <div className="text-xs uppercase tracking-widest text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>New voyage</div>
-                        <div className="text-2xl tracking-tight" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Schedule a sailing</div>
-                      </div>
-                      <div className="space-y-8"><Label htmlFor="ds-vessel">Vessel</Label><Input id="ds-vessel" placeholder="Atlantic Pioneer" className="mt-2" /></div>
-                      <div className="space-y-8"><Label>Origin</Label><div className="pt-2"><ComboboxDemo /></div></div>
-                      <div className="space-y-8"><Label>Departure</Label><div className="pt-2"><DatePickerDemo /></div></div>
-                      <div className="flex items-center justify-end gap-2 pt-2">
-                        <Button variant="ghost">Cancel</Button>
-                        <Button>Schedule</Button>
-                      </div>
-                    </div>
-                  </div>
-                </Subsection>
               </section>
 
               <section id="patterns" className="scroll-mt-24 mt-32 mb-24">

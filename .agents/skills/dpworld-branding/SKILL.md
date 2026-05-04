@@ -209,7 +209,7 @@ These patterns are enforced. The live specimen for each is on `/designsystem`. C
 
 ### 6.1 Filtering & Search — the canonical layout
 
-**See `/designsystem` § Filters & Sort (section 10) for the annotated visual blueprint — copy the layout from there.**
+**See `/designsystem` § Filters & Sort (section 12) for the annotated visual blueprint — copy the layout from there.**
 
 #### Toolbar anatomy (non-negotiable placement)
 
