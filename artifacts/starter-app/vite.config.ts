@@ -32,6 +32,7 @@ export default defineConfig({
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
     },
+    conditions: ["workspace"],
     dedupe: ["react", "react-dom"],
   },
   root: path.resolve(import.meta.dirname),
@@ -52,6 +53,11 @@ export default defineConfig({
     fs: {
       strict: true,
       deny: ["**/.*"],
+      allow: [
+        path.resolve(import.meta.dirname, ".."),
+        path.resolve(import.meta.dirname, "..", "..", "lib"),
+        path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
+      ],
     },
   },
   preview: {

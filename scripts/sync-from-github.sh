@@ -60,33 +60,25 @@ for target in "${DS_TARGETS[@]}"; do
   sync_file "artifacts/starter-app/src/pages/design-system.tsx" "$target"
 done
 
-# Fixed shadcn primitives — restore standard hover/active states that the
-# original Replit-customized variants stripped (see button.tsx / badge.tsx).
-# Looks for src/components/ui/ in any artifact; falls back to root.
-UI_TARGET_DIRS=()
-if compgen -G "artifacts/*/src/components/ui" > /dev/null; then
-  for d in artifacts/*/src/components/ui; do UI_TARGET_DIRS+=("$d"); done
-elif [ -d "src/components/ui" ]; then
-  UI_TARGET_DIRS+=("src/components/ui")
-fi
-for d in "${UI_TARGET_DIRS[@]}"; do
-  sync_file "artifacts/starter-app/src/components/ui/button.tsx" "$d/button.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/badge.tsx" "$d/badge.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/checkbox.tsx" "$d/checkbox.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/radio-group.tsx" "$d/radio-group.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/slider.tsx" "$d/slider.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/select.tsx" "$d/select.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/tabs.tsx" "$d/tabs.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/card.tsx" "$d/card.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/dialog.tsx" "$d/dialog.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/sheet.tsx" "$d/sheet.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/toast.tsx" "$d/toast.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/popover.tsx" "$d/popover.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/hover-card.tsx" "$d/hover-card.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/dropdown-menu.tsx" "$d/dropdown-menu.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/context-menu.tsx" "$d/context-menu.tsx"
-  sync_file "artifacts/starter-app/src/components/ui/calendar.tsx" "$d/calendar.tsx"
-done
+# Shared UI component library — all components live in lib/ui/src/components/.
+# Every app depends on @workspace/ui, so syncing here updates them all at once.
+UI_LIB="lib/ui/src/components"
+sync_file "lib/ui/src/components/button.tsx" "$UI_LIB/button.tsx"
+sync_file "lib/ui/src/components/badge.tsx" "$UI_LIB/badge.tsx"
+sync_file "lib/ui/src/components/checkbox.tsx" "$UI_LIB/checkbox.tsx"
+sync_file "lib/ui/src/components/radio-group.tsx" "$UI_LIB/radio-group.tsx"
+sync_file "lib/ui/src/components/slider.tsx" "$UI_LIB/slider.tsx"
+sync_file "lib/ui/src/components/select.tsx" "$UI_LIB/select.tsx"
+sync_file "lib/ui/src/components/tabs.tsx" "$UI_LIB/tabs.tsx"
+sync_file "lib/ui/src/components/card.tsx" "$UI_LIB/card.tsx"
+sync_file "lib/ui/src/components/dialog.tsx" "$UI_LIB/dialog.tsx"
+sync_file "lib/ui/src/components/sheet.tsx" "$UI_LIB/sheet.tsx"
+sync_file "lib/ui/src/components/toast.tsx" "$UI_LIB/toast.tsx"
+sync_file "lib/ui/src/components/popover.tsx" "$UI_LIB/popover.tsx"
+sync_file "lib/ui/src/components/hover-card.tsx" "$UI_LIB/hover-card.tsx"
+sync_file "lib/ui/src/components/dropdown-menu.tsx" "$UI_LIB/dropdown-menu.tsx"
+sync_file "lib/ui/src/components/context-menu.tsx" "$UI_LIB/context-menu.tsx"
+sync_file "lib/ui/src/components/calendar.tsx" "$UI_LIB/calendar.tsx"
 sync_file "public/assets/fonts/PilatDemi.ttf" "public/assets/fonts/PilatDemi.ttf"
 sync_file "public/assets/fonts/PilatWideBook.ttf" "public/assets/fonts/PilatWideBook.ttf"
 sync_file "public/assets/fonts/PilatWideHeavy.ttf" "public/assets/fonts/PilatWideHeavy.ttf"

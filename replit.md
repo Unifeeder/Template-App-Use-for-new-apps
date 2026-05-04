@@ -108,7 +108,7 @@ The complete design system is in `design.md`. Key files:
 - **Validation**: Zod (`zod/v4`), `drizzle-zod`
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: Vite (frontend) + esbuild (server, CJS bundle)
-- **UI Components**: shadcn/ui
+- **UI Components**: shadcn/ui via shared `@workspace/ui` library (`lib/ui`)
 - **Design System**: DP World Marine Services (Pilat fonts, brand colors, clean airy design)
 
 ## Structure
@@ -135,6 +135,12 @@ artifacts-monorepo/
 │       ├── vite.config.ts   # Vite config (with /api proxy to Express)
 │       └── package.json     # Unified dependencies
 ├── lib/                    # Shared libraries
+│   ├── ui/                 # Shared UI component library (@workspace/ui)
+│   │   └── src/
+│   │       ├── components/ # All shadcn/ui primitives (button, card, dialog, etc.)
+│   │       ├── hooks/      # use-mobile, use-toast
+│   │       ├── lib/        # cn() utility
+│   │       └── index.ts    # Barrel export
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks
 │   ├── api-zod/            # Generated Zod schemas from OpenAPI
@@ -199,6 +205,10 @@ Every package extends `tsconfig.base.json` which sets `composite: true`. The roo
 ### `artifacts/starter-app` (`@workspace/starter-app`)
 
 Unified full-stack app. React + Vite frontend with Express API backend in a single package. In development, Vite serves the frontend and proxies `/api` to Express. In production, Express serves both the static frontend build and API routes. PostgreSQL database is wired via `@workspace/db` dependency — import `{ db }` in server routes to query.
+
+### `lib/ui` (`@workspace/ui`)
+
+Shared UI component library. Contains all shadcn/ui primitives, hooks (`use-mobile`, `use-toast`), theme-provider, and the `cn()` utility. All Radix UI and component dependencies live here. Apps depend on `@workspace/ui` and re-export from it — changing a component or color here propagates to every app automatically. The barrel export is `lib/ui/src/index.ts`. Note: the Sonner toaster is exported as `SonnerToaster` (not `Toaster`) to avoid conflicting with the toast-based `Toaster` component.
 
 ### `lib/db` (`@workspace/db`)
 

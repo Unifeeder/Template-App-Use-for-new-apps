@@ -12,7 +12,8 @@
   "dependencies": {
     "express": "^5",
     "cors": "^2",
-    "@workspace/db": "workspace:*"
+    "@workspace/db": "workspace:*",
+    "@workspace/ui": "workspace:*"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
