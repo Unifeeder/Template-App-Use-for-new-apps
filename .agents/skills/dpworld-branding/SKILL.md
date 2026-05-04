@@ -209,21 +209,41 @@ These patterns are enforced. The live specimen for each is on `/designsystem`. C
 
 ### 6.1 Filtering & Search — the canonical layout
 
-For any data view (table, list, grid):
+**See `/designsystem` § Filters & Sort (section 10) for the annotated visual blueprint — copy the layout from there.**
 
-- **Search input top-left** of the data region, with a `Search` icon inside on the left
-- **Filter chips top-right** of the data region (status pills, category toggles)
-- **Active filters are visible** as chips with an `X` to remove individually
-- **"Clear all"** link appears only when at least one filter or query is active
-- **Empty results** show an explicit "no match" state — never an empty table with no message
+#### Toolbar anatomy (non-negotiable placement)
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│ 🔍 Search input          [Chip] [Chip] [Chip]  Clear all   │
+│ ← ALWAYS LEFT                          ALWAYS RIGHT →      │
+└──────────────────────────────────────────────────────────────┘
+```
+
+- **Search input** — top-left of the data region, with a `Search` icon inside on the left
+- **Filter chips** — top-right, same row as search (status pills, category toggles)
+- **Sort controls** — in column headers only. Click to toggle asc → desc → unsorted. Active column shows an arrow. **Never put a "Sort by" dropdown in the toolbar.**
+- **Active filters** — chip turns solid (Lucky Point bg, Maverick text) with an `X` to remove individually
+- **"Clear all"** — text link (not a button), appears after chips only when at least one filter or query is active
+- **Pagination footer** — "Showing X of Y" left, page controls right
+- **Action buttons** (Add, Export) — far right if present, never left
+- **Empty results** — show an explicit "no match" state with icon + headline + lede — never an empty table with no message
+
+#### Debounce rules
+
 - **Inline filtering** (client-side, ≤500 items): filter on every keystroke, no debounce
 - **Inline filtering** (client-side, >500 items): debounce 150ms
 - **Server-backed search**: debounce 300ms; show a subtle spinner inside the input while loading
 - **Global cross-app search** belongs in the ⌘K command palette, not in inline search
 
-Don't:
+#### Don't
+
+- Put search on the right or center it
+- Put filters on the left or below the search
+- Stack search and filters vertically on desktop — they must be on one row
 - Hide all filters behind a single "Filters" button by default — surface the common ones
 - Mount a filter sheet for ≤4 filter dimensions; chips inline are better
+- Add a separate sort dropdown in the toolbar — use column headers
 - Show an empty table when nothing matches — show the no-match state
 
 ### 6.2 The required trio: loading · empty · error

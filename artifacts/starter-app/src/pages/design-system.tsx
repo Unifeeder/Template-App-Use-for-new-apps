@@ -96,6 +96,7 @@ const SECTIONS = [
   { id: "forms", label: "Forms" },
   { id: "cards", label: "Cards" },
   { id: "tables", label: "Tables" },
+  { id: "filters", label: "Filters & Sort" },
   { id: "navigation", label: "Navigation" },
   { id: "feedback", label: "Feedback" },
   { id: "overlays", label: "Overlays" },
@@ -709,7 +710,7 @@ export default function DesignSystem() {
               <MetaRow label="Type" value="Pilat Demi · Inter" />
               <MetaRow label="Primary" value="Lucky Point #1E1450" />
               <MetaRow label="Accent" value="Radical Red · Caribbean Green" />
-              <MetaRow label="Components" value="14 sections" />
+              <MetaRow label="Components" value="16 sections" />
               <MetaRow label="Spec" value="Single-page · scrollable" />
               <MetaRow label="Updated" value="May 2026" />
               <div className="mt-4 rounded-lg p-3" style={{ backgroundColor: "rgba(255, 34, 97, 0.06)", border: "1px solid rgba(255, 34, 97, 0.2)" }}>
@@ -1048,9 +1049,153 @@ export default function DesignSystem() {
                 <VesselTable />
               </section>
 
+              {/* FILTERS & SORT */}
+              <section id="filters" className="scroll-mt-24 mt-32">
+                <SectionHeader index="10" eyebrow="Filters & Sort" title="Search left. Filters right. Always." lede="The canonical toolbar anatomy for every data view — tables, lists, grids, dashboards. Copy this layout. Don't improvise placement." />
+
+                <Subsection label="Toolbar anatomy — the canonical layout">
+                  <div className="rounded-xl bg-card p-6 space-y-6">
+                    <div className="rounded-lg border border-dashed border-border/50 p-4 relative">
+                      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                        <div className="relative w-full sm:max-w-xs">
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input placeholder="Search vessels, ports…" className="pl-9" readOnly />
+                          <div className="absolute -top-6 left-0 text-[10px] uppercase tracking-widest" style={{ color: BRAND.lucky, fontFamily: "Inter, sans-serif" }}>Search — always left</div>
+                        </div>
+                        <div className="flex items-center gap-2 flex-wrap relative">
+                          <div className="absolute -top-6 right-0 text-[10px] uppercase tracking-widest" style={{ color: BRAND.lucky, fontFamily: "Inter, sans-serif" }}>Filters — always right</div>
+                          {["Berthed", "In Transit", "Departed"].map((s) => (
+                            <span key={s} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs border border-border" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
+                              <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: s === "Berthed" ? BRAND.green : s === "In Transit" ? BRAND.lucky : "rgba(15,15,25,0.4)" }} />
+                              {s}
+                            </span>
+                          ))}
+                          <span className="text-xs text-muted-foreground cursor-pointer hover:text-foreground transition-colors px-2 py-1 rounded" style={{ fontFamily: "Inter, sans-serif" }}>Clear all</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid sm:grid-cols-3 gap-4 text-xs" style={{ fontFamily: "Inter, sans-serif" }}>
+                      <div className="flex gap-2 items-start">
+                        <Search className="h-3.5 w-3.5 mt-0.5 shrink-0" style={{ color: BRAND.lucky }} />
+                        <div>
+                          <div className="font-medium" style={{ color: BRAND.cinder }}>Search input</div>
+                          <div className="text-muted-foreground mt-0.5">Top-left. Icon inside left. Scoped to the current view — not global.</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-start">
+                        <Filter className="h-3.5 w-3.5 mt-0.5 shrink-0" style={{ color: BRAND.lucky }} />
+                        <div>
+                          <div className="font-medium" style={{ color: BRAND.cinder }}>Filter chips</div>
+                          <div className="text-muted-foreground mt-0.5">Top-right. Status pills with colored dots. Active chip goes solid Lucky Point.</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-start">
+                        <X className="h-3.5 w-3.5 mt-0.5 shrink-0" style={{ color: BRAND.lucky }} />
+                        <div>
+                          <div className="font-medium" style={{ color: BRAND.cinder }}>Clear all</div>
+                          <div className="text-muted-foreground mt-0.5">After chips, only visible when a filter or search is active. Text link, not a button.</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Placement rules">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="rounded-xl bg-card p-6">
+                      <div className="text-xs uppercase tracking-widest mb-3" style={{ color: "#006d4a", fontFamily: "Inter, sans-serif" }}>Do</div>
+                      <ul className="space-y-2 text-sm" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
+                        <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Search always top-left of the data region.</li>
+                        <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Filter chips always top-right, same row as search.</li>
+                        <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Sort controls live in column headers, not in the toolbar.</li>
+                        <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Active filter chip turns solid (Lucky Point bg, Maverick text) with an X.</li>
+                        <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Pagination footer: "Showing X of Y" left, page controls right.</li>
+                        <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Surface common filters inline for ≤ 4 dimensions.</li>
+                      </ul>
+                    </div>
+                    <div className="rounded-xl bg-card p-6">
+                      <div className="text-xs uppercase tracking-widest mb-3" style={{ color: BRAND.red, fontFamily: "Inter, sans-serif" }}>Don't</div>
+                      <ul className="space-y-2 text-sm" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
+                        <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Put search on the right or center it.</li>
+                        <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Put filters on the left or below the search.</li>
+                        <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Add a separate sort dropdown in the toolbar — use column headers.</li>
+                        <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Hide all filters behind a single "Filters" button.</li>
+                        <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Put action buttons (Add, Export) on the left — they go far right if needed.</li>
+                        <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Stack search and filters vertically on desktop — they must be on one row.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Filter chip states">
+                  <div className="rounded-xl bg-card p-6">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="space-y-1 text-center">
+                        <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs border border-border cursor-pointer hover:bg-accent transition-colors" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: BRAND.green }} /> Berthed
+                        </span>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Default</div>
+                      </div>
+                      <div className="space-y-1 text-center">
+                        <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs cursor-pointer" style={{ fontFamily: "Inter, sans-serif", backgroundColor: BRAND.lucky, color: BRAND.maverick }}>
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: BRAND.green }} /> Berthed <X className="h-3 w-3" />
+                        </span>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Active</div>
+                      </div>
+                      <div className="space-y-1 text-center">
+                        <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs border border-border cursor-pointer" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder, backgroundColor: "rgba(30,20,80,0.06)" }}>
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: BRAND.green }} /> Berthed
+                        </span>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Hover</div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-4" style={{ fontFamily: "Inter, sans-serif" }}>Chips use <code className="font-mono text-[11px]">rounded-full</code>, status dot + label. Active state swaps to Lucky Point bg with an X icon to dismiss.</p>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Sort — column headers only">
+                  <div className="rounded-xl bg-card p-6">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <button className="cursor-pointer inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] uppercase tracking-wider text-muted-foreground hover:text-foreground active:bg-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>
+                        Vessel <ArrowUp className="h-3 w-3" />
+                      </button>
+                      <button className="cursor-pointer inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] uppercase tracking-wider text-muted-foreground hover:text-foreground active:bg-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>
+                        ETA <ArrowDown className="h-3 w-3" />
+                      </button>
+                      <button className="cursor-pointer inline-flex items-center gap-1 rounded px-2 py-1 text-[11px] uppercase tracking-wider text-muted-foreground hover:text-foreground active:bg-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>
+                        Port
+                      </button>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-4" style={{ fontFamily: "Inter, sans-serif" }}>
+                      Sort is toggled by clicking column headers — <code className="font-mono text-[11px]">asc → desc → unsorted</code>. Active column shows an arrow. Never put a standalone "Sort by" dropdown in the toolbar.
+                    </p>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Debounce rules">
+                  <div className="rounded-xl bg-card p-6">
+                    <div className="grid sm:grid-cols-3 gap-4 text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: "rgba(0,230,140,0.06)" }}>
+                        <div className="font-medium mb-1" style={{ color: BRAND.cinder }}>≤ 500 items</div>
+                        <div className="text-xs text-muted-foreground">Filter on every keystroke. No debounce needed.</div>
+                      </div>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: "rgba(30,20,80,0.06)" }}>
+                        <div className="font-medium mb-1" style={{ color: BRAND.cinder }}>&gt; 500 items</div>
+                        <div className="text-xs text-muted-foreground">Debounce 150ms. Still instant feel.</div>
+                      </div>
+                      <div className="rounded-lg p-3" style={{ backgroundColor: "rgba(255,34,97,0.04)" }}>
+                        <div className="font-medium mb-1" style={{ color: BRAND.cinder }}>Server-backed</div>
+                        <div className="text-xs text-muted-foreground">Debounce 300ms. Show spinner in input while loading.</div>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+              </section>
+
               {/* NAVIGATION */}
               <section id="navigation" className="scroll-mt-24 mt-32">
-                <SectionHeader index="10" eyebrow="Navigation" title="Wayfinding, no surprises." lede="Breadcrumbs for hierarchy, tabs for sibling views, accordions for dense reference." />
+                <SectionHeader index="11" eyebrow="Navigation" title="Wayfinding, no surprises." lede="Breadcrumbs for hierarchy, tabs for sibling views, accordions for dense reference." />
                 <Subsection label="Breadcrumbs">
                   <div className="rounded-xl bg-card p-6">
                     <Breadcrumb>
@@ -1099,7 +1244,7 @@ export default function DesignSystem() {
 
               {/* FEEDBACK */}
               <section id="feedback" className="scroll-mt-24 mt-32">
-                <SectionHeader index="11" eyebrow="Feedback" title="Tell users what's happening." lede="Loading, empty, and error states are not optional. They are the contract." />
+                <SectionHeader index="12" eyebrow="Feedback" title="Tell users what's happening." lede="Loading, empty, and error states are not optional. They are the contract." />
                 <Subsection label="Alerts">
                   <div className="space-y-8">
                     <Alert><Info className="h-4 w-4" /><AlertTitle>Heads up</AlertTitle><AlertDescription>The schedule refreshes every 5 minutes from AIS data.</AlertDescription></Alert>
@@ -1152,7 +1297,7 @@ export default function DesignSystem() {
 
               {/* OVERLAYS */}
               <section id="overlays" className="scroll-mt-24 mt-32">
-                <SectionHeader index="12" eyebrow="Overlays" title="Overlays for focus, not for noise." lede="Dialog for a decision, sheet for a sub-task, popover for context, tooltip for a label." />
+                <SectionHeader index="13" eyebrow="Overlays" title="Overlays for focus, not for noise." lede="Dialog for a decision, sheet for a sub-task, popover for context, tooltip for a label." />
                 <div className="rounded-xl bg-card p-6 flex flex-wrap items-center gap-3">
                   <Dialog>
                     <DialogTrigger asChild><Button variant="outline">Open dialog</Button></DialogTrigger>
@@ -1235,7 +1380,7 @@ export default function DesignSystem() {
 
               {/* CHARTS */}
               <section id="charts" className="scroll-mt-24 mt-32">
-                <SectionHeader index="13" eyebrow="Charts" title="Color the data, not the chrome." lede="Lucky Point is the default series. Caribbean Green highlights positives. Radical Red highlights anomalies. Avoid grey-on-grey." />
+                <SectionHeader index="14" eyebrow="Charts" title="Color the data, not the chrome." lede="Lucky Point is the default series. Caribbean Green highlights positives. Radical Red highlights anomalies. Avoid grey-on-grey." />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card>
                     <CardHeader className="pb-2"><CardDescription>Voyages this year</CardDescription><CardTitle className="text-2xl" style={{ fontFamily: "Pilat Demi" }}>1,284</CardTitle></CardHeader>
@@ -1254,7 +1399,7 @@ export default function DesignSystem() {
 
               {/* LAYOUTS */}
               <section id="layouts" className="scroll-mt-24 mt-32">
-                <SectionHeader index="14" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content." />
+                <SectionHeader index="15" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content." />
                 <Subsection label="App shell — sidebar + main">
                   <MiniSidebarDemo />
                 </Subsection>
@@ -1338,7 +1483,7 @@ export default function DesignSystem() {
               </section>
 
               <section id="patterns" className="scroll-mt-24 mt-32 mb-24">
-                <SectionHeader index="15" eyebrow="UX Patterns" title="The rules behind the components." lede="Recipes that aren't a single component — they're how the system behaves. Follow these and the apps stay coherent." />
+                <SectionHeader index="16" eyebrow="UX Patterns" title="The rules behind the components." lede="Recipes that aren't a single component — they're how the system behaves. Follow these and the apps stay coherent." />
 
                 <Subsection label="Filtering — the canonical layout">
                   <div className="grid md:grid-cols-2 gap-4">
