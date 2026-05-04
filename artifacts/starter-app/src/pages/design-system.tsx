@@ -796,6 +796,45 @@ export default function DesignSystem() {
                   </div>
                 </Subsection>
 
+                <Subsection label="Frosted-glass surface — the glassy header">
+                  <div className="rounded-xl bg-card p-6 space-y-4">
+                    <div className="relative rounded-lg overflow-hidden h-48">
+                      <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${BRAND.lucky} 0%, ${BRAND.green} 50%, ${BRAND.red} 100%)` }}>
+                        <div className="absolute inset-0 flex items-center justify-center gap-6 p-4">
+                          {[1,2,3,4,5,6].map(i => (
+                            <div key={i} className="h-20 w-20 rounded-xl bg-white/20" />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="absolute top-0 left-0 right-0 h-14 border-b border-white/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="h-6 w-6 rounded bg-muted/50" />
+                          <div className="text-sm" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>App Name</div>
+                        </div>
+                        <div className="ml-auto flex items-center gap-2">
+                          <div className="h-6 w-14 rounded bg-muted/50" />
+                          <div className="h-6 w-14 rounded bg-muted/50" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="rounded-lg border border-border/30 p-4">
+                        <div className="text-[11px] uppercase tracking-widest text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Recipe</div>
+                        <code className="text-xs font-mono block space-y-1" style={{ color: BRAND.cinder }}>
+                          <div>bg-background<span style={{ color: BRAND.lucky }}>/95</span></div>
+                          <div>backdrop-blur</div>
+                          <div>supports-[backdrop-filter]:bg-background<span style={{ color: BRAND.lucky }}>/60</span></div>
+                          <div>border-b border-border<span style={{ color: BRAND.lucky }}>/50</span></div>
+                        </code>
+                      </div>
+                      <div className="rounded-lg border border-border/30 p-4">
+                        <div className="text-[11px] uppercase tracking-widest text-muted-foreground mb-2" style={{ fontFamily: "Inter, sans-serif" }}>Why</div>
+                        <p className="text-sm text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Content scrolls behind the header and shows through. The /95 opacity is the fallback for browsers without backdrop-filter; /60 kicks in when blur is supported, making the glass more transparent. Never use a fully opaque bg on the header bar.</p>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+
                 <Subsection label="Anatomy — mandatory layout">
                   <div className="rounded-xl bg-card p-6 space-y-6">
                     <div className="rounded-lg border border-dashed border-border/50 p-4">
@@ -834,11 +873,13 @@ export default function DesignSystem() {
                           <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Use 1px dividers (bg-border/50) between logo, title, and nav.</li>
                           <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Include a "Design System" nav link to /designsystem.</li>
                           <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Switch logo variant by theme (WhiteBG / BlackBG).</li>
+                          <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Keep the glassy frosted-glass effect — backdrop-blur + semi-transparent bg.</li>
                         </ul>
                       </div>
                       <div>
                         <div className="text-xs uppercase tracking-widest mb-3" style={{ color: BRAND.red, fontFamily: "Inter, sans-serif" }}>Don't</div>
                         <ul className="space-y-2 text-sm" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
+                          <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Use a fully opaque header background — always keep bg-background/95 or /60.</li>
                           <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Put icons in nav buttons — text only.</li>
                           <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Uppercase the app name in the header.</li>
                           <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Use Pilat Wide Heavy for the title — Pilat Demi only.</li>
@@ -866,7 +907,7 @@ export default function DesignSystem() {
                           <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Header bar</td>
                           <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">h-14 · sticky top-0 z-50</td>
                           <td className="py-3 pr-4 text-muted-foreground">—</td>
-                          <td className="py-3 text-muted-foreground">border-b border-border/50 · backdrop-blur</td>
+                          <td className="py-3 text-muted-foreground">Glassy: bg-background/95 · backdrop-blur · supports-[backdrop-filter]:bg-background/60 · border-b border-border/50</td>
                         </tr>
                         <tr>
                           <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Logo</td>

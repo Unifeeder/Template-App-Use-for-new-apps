@@ -196,6 +196,7 @@ const logoSrc = theme === "dark"
 Switch with React state via `useTheme()`, NOT CSS `dark:hidden` classes (unreliable).
 
 ### Header rules
+- **Frosted-glass surface** — the header is always glassy: `bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60`. The `/95` is the fallback for browsers without backdrop-filter; `/60` activates when blur is supported. **Never use a fully opaque background on the header bar.**
 - Nav items are **text-only** — no icons in header nav buttons
 - Desktop nav hidden on mobile (`hidden md:flex`), mobile menu hidden on desktop (`md:hidden`)
 - All interactive elements must have `cursor-pointer`, hover, active, and focus-visible states
