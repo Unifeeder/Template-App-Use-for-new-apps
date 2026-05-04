@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check:barrel": "node scripts/check-barrel-exports.js"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./utils": "./src/lib/utils.ts",

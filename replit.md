@@ -208,7 +208,7 @@ Unified full-stack app. React + Vite frontend with Express API backend in a sing
 
 ### `lib/ui` (`@workspace/ui`)
 
-Shared UI component library. Contains all shadcn/ui primitives, hooks (`use-mobile`, `use-toast`), theme-provider, and the `cn()` utility. All Radix UI and component dependencies live here. Apps depend on `@workspace/ui` and re-export from it — changing a component or color here propagates to every app automatically. The barrel export is `lib/ui/src/index.ts`. Note: the Sonner toaster is exported as `SonnerToaster` (not `Toaster`) to avoid conflicting with the toast-based `Toaster` component.
+Shared UI component library. Contains all shadcn/ui primitives, hooks (`use-mobile`, `use-toast`), theme-provider, and the `cn()` utility. All Radix UI and component dependencies live here. Apps depend on `@workspace/ui` and re-export from it — changing a component or color here propagates to every app automatically. The barrel export is `lib/ui/src/index.ts`. Note: the Sonner toaster is exported as `SonnerToaster` (not `Toaster`) to avoid conflicting with the toast-based `Toaster` component. Run `pnpm --filter @workspace/ui run check:barrel` to verify all component files are exported in the barrel (catches drift automatically).
 
 ### `lib/db` (`@workspace/db`)
 
