@@ -77,6 +77,9 @@ const Map = (p: IconProps) => <Svg {...p}><path d="M9 4 3 6v15l6-2 6 2 6-2V4l-6 
 const BarChart3 = (p: IconProps) => <Svg {...p}><path d="M3 3v18h18M8 17V9M13 17V5M18 17v-7" /></Svg>;
 const Users = (p: IconProps) => <Svg {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></Svg>;
 const LayoutDashboard = (p: IconProps) => <Svg {...p}><rect x="3" y="3" width="7" height="9" /><rect x="14" y="3" width="7" height="5" /><rect x="14" y="12" width="7" height="9" /><rect x="3" y="16" width="7" height="5" /></Svg>;
+const MoonIcon = (p: IconProps) => <Svg {...p}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" /></Svg>;
+const SunIcon = (p: IconProps) => <Svg {...p}><circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></Svg>;
+const MenuIcon = (p: IconProps) => <Svg {...p}><path d="M4 6h16M4 12h16M4 18h16" /></Svg>;
 
 const BRAND = {
   lucky: "#1E1450",
@@ -87,6 +90,7 @@ const BRAND = {
 };
 
 const SECTIONS = [
+  { id: "header", label: "Header" },
   { id: "color", label: "Color" },
   { id: "typography", label: "Type" },
   { id: "spacing", label: "Spacing" },
@@ -710,7 +714,7 @@ export default function DesignSystem() {
               <MetaRow label="Type" value="Pilat Demi · Inter" />
               <MetaRow label="Primary" value="Lucky Point #1E1450" />
               <MetaRow label="Accent" value="Radical Red · Caribbean Green" />
-              <MetaRow label="Components" value="16 sections" />
+              <MetaRow label="Components" value="17 sections" />
               <MetaRow label="Spec" value="Single-page · scrollable" />
               <MetaRow label="Updated" value="May 2026" />
               <div className="mt-4 rounded-lg p-3" style={{ backgroundColor: "rgba(255, 34, 97, 0.06)", border: "1px solid rgba(255, 34, 97, 0.2)" }}>
@@ -726,9 +730,243 @@ export default function DesignSystem() {
           <div className="mt-24 grid grid-cols-1 lg:grid-cols-[1fr_180px] gap-12">
             <div className="min-w-0">
 
+              {/* HEADER */}
+              <section id="header" className="scroll-mt-24">
+                <SectionHeader index="01" eyebrow="Header" title="The bar that binds every app." lede="Logo, title, nav, theme toggle — same structure in every Shipping Solutions app. Don't rearrange it." />
+
+                <Subsection label="Live specimen — the actual header above this page">
+                  <div className="rounded-xl bg-card overflow-hidden">
+                    <div className="border-b border-border/50 bg-background">
+                      <div className="flex h-14 items-center px-3 sm:px-4">
+                        <div className="flex items-center gap-2">
+                          <img src={`${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png`} alt="DP World" className="h-8 sm:h-9 lg:h-12" />
+                          <div className="h-6 w-px bg-border/50" />
+                          <div>
+                            <div className="font-normal text-[16px]" style={{ fontFamily: "Pilat Demi" }}>Shipping Solutions</div>
+                            <div className="text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Marine Services</div>
+                          </div>
+                          <div className="h-6 w-px bg-border/50" />
+                          <nav className="flex items-center gap-1">
+                            <span className="cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>Dashboard</span>
+                            <span className="cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>Vessels</span>
+                            <span className="cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>Design System</span>
+                          </nav>
+                        </div>
+                        <div className="flex items-center gap-2 ml-auto">
+                          <button className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" aria-label="Toggle theme">
+                            <MoonIcon className="h-4 w-4" />
+                          </button>
+                          <button className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" aria-label="Mobile menu">
+                            <MenuIcon className="h-5 w-5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs" style={{ fontFamily: "Inter, sans-serif" }}>
+                      <div className="flex gap-2 items-start">
+                        <div className="h-1.5 w-1.5 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: BRAND.lucky }} />
+                        <div>
+                          <div className="font-medium" style={{ color: BRAND.cinder }}>Logo</div>
+                          <div className="text-muted-foreground mt-0.5">h-8 · sm:h-9 · lg:h-12</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-start">
+                        <div className="h-1.5 w-1.5 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: BRAND.lucky }} />
+                        <div>
+                          <div className="font-medium" style={{ color: BRAND.cinder }}>App title</div>
+                          <div className="text-muted-foreground mt-0.5">Pilat Demi · 16px</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-start">
+                        <div className="h-1.5 w-1.5 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: BRAND.lucky }} />
+                        <div>
+                          <div className="font-medium" style={{ color: BRAND.cinder }}>Subtitle</div>
+                          <div className="text-muted-foreground mt-0.5">Inter · text-xs · muted</div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-start">
+                        <div className="h-1.5 w-1.5 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: BRAND.lucky }} />
+                        <div>
+                          <div className="font-medium" style={{ color: BRAND.cinder }}>Bar height</div>
+                          <div className="text-muted-foreground mt-0.5">h-14 (56px) · sticky</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Anatomy — mandatory layout">
+                  <div className="rounded-xl bg-card p-6 space-y-6">
+                    <div className="rounded-lg border border-dashed border-border/50 p-4">
+                      <div className="flex items-center text-[10px] uppercase tracking-widest" style={{ fontFamily: "Inter, sans-serif", color: BRAND.lucky }}>
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center h-6 w-16 rounded border border-border/50 text-[9px]">Logo</span>
+                          <span className="h-4 w-px bg-border/50" />
+                          <span className="inline-flex flex-col leading-tight">
+                            <span className="text-[10px]" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Title</span>
+                            <span className="text-[8px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Subtitle</span>
+                          </span>
+                          <span className="h-4 w-px bg-border/50" />
+                          <span className="inline-flex gap-1">
+                            <span className="rounded bg-accent/50 px-2 py-0.5 text-[9px]">Nav</span>
+                            <span className="rounded bg-accent/50 px-2 py-0.5 text-[9px]">Nav</span>
+                            <span className="rounded bg-accent/50 px-2 py-0.5 text-[9px]">Nav</span>
+                          </span>
+                        </div>
+                        <div className="ml-auto flex items-center gap-1">
+                          <span className="rounded bg-accent/50 h-6 w-6 flex items-center justify-center text-[9px]">🌙</span>
+                          <span className="rounded bg-accent/50 h-6 w-6 flex items-center justify-center text-[9px]">☰</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center mt-2 text-[9px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>
+                        <span>← Left: Logo + Title + Nav grouped together</span>
+                        <span className="ml-auto">Right: Theme toggle + Mobile menu →</span>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <div className="text-xs uppercase tracking-widest mb-3" style={{ color: "#006d4a", fontFamily: "Inter, sans-serif" }}>Do</div>
+                        <ul className="space-y-2 text-sm" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
+                          <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Group logo, title, and nav on the left side.</li>
+                          <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Put theme toggle and mobile menu on the far right.</li>
+                          <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Use 1px dividers (bg-border/50) between logo, title, and nav.</li>
+                          <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Include a "Design System" nav link to /designsystem.</li>
+                          <li className="flex gap-2"><Check className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.green }} /> Switch logo variant by theme (WhiteBG / BlackBG).</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <div className="text-xs uppercase tracking-widest mb-3" style={{ color: BRAND.red, fontFamily: "Inter, sans-serif" }}>Don't</div>
+                        <ul className="space-y-2 text-sm" style={{ fontFamily: "Inter, sans-serif", color: BRAND.cinder }}>
+                          <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Put icons in nav buttons — text only.</li>
+                          <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Uppercase the app name in the header.</li>
+                          <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Use Pilat Wide Heavy for the title — Pilat Demi only.</li>
+                          <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Center-align or float nav items to the right.</li>
+                          <li className="flex gap-2"><X className="h-4 w-4 mt-0.5 shrink-0" style={{ color: BRAND.red }} /> Use truncate on app name — use clamp() for fluid sizing.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Element specs">
+                  <div className="rounded-xl bg-card p-6 overflow-x-auto">
+                    <table className="w-full text-sm" style={{ fontFamily: "Inter, sans-serif" }}>
+                      <thead>
+                        <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground border-b border-border/30">
+                          <th className="pb-3 pr-4">Element</th>
+                          <th className="pb-3 pr-4">Size / class</th>
+                          <th className="pb-3 pr-4">Font</th>
+                          <th className="pb-3">Interactive states</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border/20">
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Header bar</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">h-14 · sticky top-0 z-50</td>
+                          <td className="py-3 pr-4 text-muted-foreground">—</td>
+                          <td className="py-3 text-muted-foreground">border-b border-border/50 · backdrop-blur</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Logo</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">h-8 sm:h-9 lg:h-12</td>
+                          <td className="py-3 pr-4 text-muted-foreground">—</td>
+                          <td className="py-3 text-muted-foreground">Theme-aware: WhiteBG / BlackBG variant</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Dividers</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">h-6 w-px</td>
+                          <td className="py-3 pr-4 text-muted-foreground">—</td>
+                          <td className="py-3 text-muted-foreground">bg-border/50</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>App title (h1)</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">text-[16px] · font-normal</td>
+                          <td className="py-3 pr-4 text-muted-foreground">Pilat Demi</td>
+                          <td className="py-3 text-muted-foreground">Not uppercase · clamp() for responsive</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Subtitle (p)</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">text-xs</td>
+                          <td className="py-3 pr-4 text-muted-foreground">Inter</td>
+                          <td className="py-3 text-muted-foreground">text-muted-foreground</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Nav button</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">h-9 · px-3 · rounded-md</td>
+                          <td className="py-3 pr-4 text-muted-foreground">Inter · text-sm</td>
+                          <td className="py-3 text-muted-foreground">cursor-pointer · hover:bg-accent · active:bg-accent/80 · focus ring</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Theme toggle</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">h-9 w-9 · rounded-md</td>
+                          <td className="py-3 pr-4 text-muted-foreground">—</td>
+                          <td className="py-3 text-muted-foreground">Same as nav button + icon 4×4</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium" style={{ color: BRAND.cinder }}>Mobile menu btn</td>
+                          <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">h-9 w-9 · md:hidden</td>
+                          <td className="py-3 pr-4 text-muted-foreground">—</td>
+                          <td className="py-3 text-muted-foreground">Same as theme toggle · icon 5×5</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Button specimens — nav, theme toggle, mobile menu">
+                  <div className="rounded-xl bg-card p-6">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <div className="space-y-1 text-center">
+                        <button className="cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif" }}>Dashboard</button>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Nav button</div>
+                      </div>
+                      <div className="space-y-1 text-center">
+                        <button className="cursor-pointer inline-flex h-9 items-center justify-center rounded-md px-3 text-sm hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" style={{ fontFamily: "Inter, sans-serif", backgroundColor: "rgba(30,20,80,0.08)", color: BRAND.lucky }}>Design System</button>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Nav active</div>
+                      </div>
+                      <div className="space-y-1 text-center">
+                        <button className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+                          <MoonIcon className="h-4 w-4" />
+                        </button>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Theme toggle</div>
+                      </div>
+                      <div className="space-y-1 text-center">
+                        <button className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+                          <SunIcon className="h-4 w-4" />
+                        </button>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Theme (dark)</div>
+                      </div>
+                      <div className="space-y-1 text-center">
+                        <button className="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground active:bg-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors">
+                          <MenuIcon className="h-5 w-5" />
+                        </button>
+                        <div className="text-[10px] text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>Mobile menu</div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-4" style={{ fontFamily: "Inter, sans-serif" }}>All header buttons share the same interactive class: <code className="font-mono text-[11px]">cursor-pointer h-9 rounded-md hover:bg-accent active:bg-accent/80 focus-visible:ring-2</code>. Nav buttons add <code className="font-mono text-[11px]">px-3 text-sm</code>; icon buttons add <code className="font-mono text-[11px]">w-9</code>.</p>
+                  </div>
+                </Subsection>
+
+                <Subsection label="Logo — theme-aware switching">
+                  <div className="rounded-xl bg-card p-6">
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="rounded-lg p-6 flex items-center justify-center" style={{ backgroundColor: BRAND.maverick }}>
+                        <img src={`${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_WhiteBG_Vertical_CMYK-01.png`} alt="DP World light" className="h-12" />
+                      </div>
+                      <div className="rounded-lg p-6 flex items-center justify-center" style={{ backgroundColor: BRAND.cinder }}>
+                        <img src={`${import.meta.env.BASE_URL}assets/logos/DP_World_Logo_Colour_BlackBG_Vertical_CMYK-01.png`} alt="DP World dark" className="h-12" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-4" style={{ fontFamily: "Inter, sans-serif" }}>Switch with <code className="font-mono text-[11px]">useTheme()</code> React hook — NOT with CSS <code className="font-mono text-[11px]">dark:hidden</code> classes (unreliable).</p>
+                  </div>
+                </Subsection>
+              </section>
+
               {/* COLOR */}
-              <section id="color" className="scroll-mt-24">
-                <SectionHeader index="01" eyebrow="Color" title="Colors with conviction." lede="Five official colors. No tints, no remixing. Indigo carries action; coral and green do the talking when something needs attention." />
+              <section id="color" className="scroll-mt-24 mt-32">
+                <SectionHeader index="02" eyebrow="Color" title="Colors with conviction." lede="Five official colors. No tints, no remixing. Indigo carries action; coral and green do the talking when something needs attention." />
                 <Subsection label="Brand">
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     <Swatch name="Lucky Point" hex={BRAND.lucky} role="Primary action · headlines" dark />
@@ -776,7 +1014,7 @@ export default function DesignSystem() {
 
               {/* TYPOGRAPHY */}
               <section id="typography" className="scroll-mt-24 mt-32">
-                <SectionHeader index="02" eyebrow="Typography" title="Two voices, one system." lede="Pilat Demi sets the headline. Inter does the work. Mono only for IDs, codes, and timestamps." />
+                <SectionHeader index="03" eyebrow="Typography" title="Two voices, one system." lede="Pilat Demi sets the headline. Inter does the work. Mono only for IDs, codes, and timestamps." />
                 <Subsection label="Heading scale (Pilat Demi)">
                   <div className="space-y-6 rounded-xl bg-card p-8">
                     {[
@@ -816,7 +1054,7 @@ export default function DesignSystem() {
 
               {/* SPACING */}
               <section id="spacing" className="scroll-mt-24 mt-32">
-                <SectionHeader index="03" eyebrow="Spacing" title="Space is the design." lede="Most layouts need space, not borders. The 4px scale keeps rhythm consistent across pages." />
+                <SectionHeader index="04" eyebrow="Spacing" title="Space is the design." lede="Most layouts need space, not borders. The 4px scale keeps rhythm consistent across pages." />
                 <div className="rounded-xl bg-card p-8 space-y-3">
                   {[1, 2, 3, 4, 6, 8, 12, 16].map((s) => (
                     <div key={s} className="flex items-center gap-4">
@@ -830,7 +1068,7 @@ export default function DesignSystem() {
 
               {/* RADIUS */}
               <section id="radius" className="scroll-mt-24 mt-32">
-                <SectionHeader index="04" eyebrow="Radius" title="Soft, not bubbly." lede="Cards and surfaces use lg. Pills use full. Inputs match buttons." />
+                <SectionHeader index="05" eyebrow="Radius" title="Soft, not bubbly." lede="Cards and surfaces use lg. Pills use full. Inputs match buttons." />
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   {[{ l: "sm", v: "4px", r: "rounded-sm" }, { l: "md", v: "6px", r: "rounded-md" }, { l: "lg", v: "10px", r: "rounded-lg" }, { l: "xl", v: "12px", r: "rounded-xl" }, { l: "full", v: "9999px", r: "rounded-full" }].map((r) => (
                     <div key={r.l} className="rounded-xl bg-card p-4 text-center">
@@ -844,7 +1082,7 @@ export default function DesignSystem() {
 
               {/* SHADOW */}
               <section id="shadow" className="scroll-mt-24 mt-32">
-                <SectionHeader index="05" eyebrow="Shadow" title="Whisper, don't shout." lede="Use shadow OR border. Never both. Most surfaces need neither." />
+                <SectionHeader index="06" eyebrow="Shadow" title="Whisper, don't shout." lede="Use shadow OR border. Never both. Most surfaces need neither." />
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl" style={{ backgroundColor: "rgba(15,15,25,0.04)" }}>
                   {[{ l: "xs", c: "shadow-xs" }, { l: "sm", c: "shadow-sm" }, { l: "md", c: "shadow-md" }, { l: "lg", c: "shadow-lg" }].map((s) => (
                     <div key={s.l} className={`bg-card rounded-lg h-24 flex items-center justify-center ${s.c}`}>
@@ -856,7 +1094,7 @@ export default function DesignSystem() {
 
               {/* BUTTONS */}
               <section id="buttons" className="scroll-mt-24 mt-32">
-                <SectionHeader index="06" eyebrow="Buttons" title="Click feels good, or it doesn't ship." lede="Every button must show pointer cursor, hover, focus-ring, and active feedback. Test with the keyboard." />
+                <SectionHeader index="07" eyebrow="Buttons" title="Click feels good, or it doesn't ship." lede="Every button must show pointer cursor, hover, focus-ring, and active feedback. Test with the keyboard." />
                 <Subsection label="Variants">
                   <div className="flex flex-wrap items-center gap-3 rounded-xl bg-card p-6">
                     <Button>Primary</Button>
@@ -899,7 +1137,7 @@ export default function DesignSystem() {
 
               {/* FORMS */}
               <section id="forms" className="scroll-mt-24 mt-32">
-                <SectionHeader index="07" eyebrow="Forms" title="Forms that don't fight back." lede="Labels above inputs, hint text below, error text replaces hint. Always validate on blur, never on every keystroke." />
+                <SectionHeader index="08" eyebrow="Forms" title="Forms that don't fight back." lede="Labels above inputs, hint text below, error text replaces hint. Always validate on blur, never on every keystroke." />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="rounded-xl bg-card p-6 space-y-8">
                     <div className="space-y-8">
@@ -1013,7 +1251,7 @@ export default function DesignSystem() {
 
               {/* CARDS */}
               <section id="cards" className="scroll-mt-24 mt-32">
-                <SectionHeader index="08" eyebrow="Cards" title="Surfaces that earn their wrapper." lede="A card means: this content is one unit. If you're using a card just to add a border, delete the border instead." />
+                <SectionHeader index="09" eyebrow="Cards" title="Surfaces that earn their wrapper." lede="A card means: this content is one unit. If you're using a card just to add a border, delete the border instead." />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card>
                     <CardHeader>
@@ -1045,13 +1283,13 @@ export default function DesignSystem() {
 
               {/* TABLES */}
               <section id="tables" className="scroll-mt-24 mt-32">
-                <SectionHeader index="09" eyebrow="Tables" title="Tables, with search and filter built in." lede="Search top-left, filter chips top-right, sort by clicking column headers, paginate at the bottom. This is the canonical pattern — don't reinvent it." />
+                <SectionHeader index="10" eyebrow="Tables" title="Tables, with search and filter built in." lede="Search top-left, filter chips top-right, sort by clicking column headers, paginate at the bottom. This is the canonical pattern — don't reinvent it." />
                 <VesselTable />
               </section>
 
               {/* FILTERS & SORT */}
               <section id="filters" className="scroll-mt-24 mt-32">
-                <SectionHeader index="10" eyebrow="Filters & Sort" title="Search left. Filters right. Always." lede="The canonical toolbar anatomy for every data view — tables, lists, grids, dashboards. Copy this layout. Don't improvise placement." />
+                <SectionHeader index="11" eyebrow="Filters & Sort" title="Search left. Filters right. Always." lede="The canonical toolbar anatomy for every data view — tables, lists, grids, dashboards. Copy this layout. Don't improvise placement." />
 
                 <Subsection label="Toolbar anatomy — the canonical layout">
                   <div className="rounded-xl bg-card p-6 space-y-6">
@@ -1195,7 +1433,7 @@ export default function DesignSystem() {
 
               {/* NAVIGATION */}
               <section id="navigation" className="scroll-mt-24 mt-32">
-                <SectionHeader index="11" eyebrow="Navigation" title="Wayfinding, no surprises." lede="Breadcrumbs for hierarchy, tabs for sibling views, accordions for dense reference." />
+                <SectionHeader index="12" eyebrow="Navigation" title="Wayfinding, no surprises." lede="Breadcrumbs for hierarchy, tabs for sibling views, accordions for dense reference." />
                 <Subsection label="Breadcrumbs">
                   <div className="rounded-xl bg-card p-6">
                     <Breadcrumb>
@@ -1244,7 +1482,7 @@ export default function DesignSystem() {
 
               {/* FEEDBACK */}
               <section id="feedback" className="scroll-mt-24 mt-32">
-                <SectionHeader index="12" eyebrow="Feedback" title="Tell users what's happening." lede="Loading, empty, and error states are not optional. They are the contract." />
+                <SectionHeader index="13" eyebrow="Feedback" title="Tell users what's happening." lede="Loading, empty, and error states are not optional. They are the contract." />
                 <Subsection label="Alerts">
                   <div className="space-y-8">
                     <Alert><Info className="h-4 w-4" /><AlertTitle>Heads up</AlertTitle><AlertDescription>The schedule refreshes every 5 minutes from AIS data.</AlertDescription></Alert>
@@ -1297,7 +1535,7 @@ export default function DesignSystem() {
 
               {/* OVERLAYS */}
               <section id="overlays" className="scroll-mt-24 mt-32">
-                <SectionHeader index="13" eyebrow="Overlays" title="Overlays for focus, not for noise." lede="Dialog for a decision, sheet for a sub-task, popover for context, tooltip for a label." />
+                <SectionHeader index="14" eyebrow="Overlays" title="Overlays for focus, not for noise." lede="Dialog for a decision, sheet for a sub-task, popover for context, tooltip for a label." />
                 <div className="rounded-xl bg-card p-6 flex flex-wrap items-center gap-3">
                   <Dialog>
                     <DialogTrigger asChild><Button variant="outline">Open dialog</Button></DialogTrigger>
@@ -1380,7 +1618,7 @@ export default function DesignSystem() {
 
               {/* CHARTS */}
               <section id="charts" className="scroll-mt-24 mt-32">
-                <SectionHeader index="14" eyebrow="Charts" title="Color the data, not the chrome." lede="Lucky Point is the default series. Caribbean Green highlights positives. Radical Red highlights anomalies. Avoid grey-on-grey." />
+                <SectionHeader index="15" eyebrow="Charts" title="Color the data, not the chrome." lede="Lucky Point is the default series. Caribbean Green highlights positives. Radical Red highlights anomalies. Avoid grey-on-grey." />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card>
                     <CardHeader className="pb-2"><CardDescription>Voyages this year</CardDescription><CardTitle className="text-2xl" style={{ fontFamily: "Pilat Demi" }}>1,284</CardTitle></CardHeader>
@@ -1399,7 +1637,7 @@ export default function DesignSystem() {
 
               {/* LAYOUTS */}
               <section id="layouts" className="scroll-mt-24 mt-32">
-                <SectionHeader index="15" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content." />
+                <SectionHeader index="16" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content." />
                 <Subsection label="App shell — sidebar + main">
                   <MiniSidebarDemo />
                 </Subsection>
@@ -1483,7 +1721,7 @@ export default function DesignSystem() {
               </section>
 
               <section id="patterns" className="scroll-mt-24 mt-32 mb-24">
-                <SectionHeader index="16" eyebrow="UX Patterns" title="The rules behind the components." lede="Recipes that aren't a single component — they're how the system behaves. Follow these and the apps stay coherent." />
+                <SectionHeader index="17" eyebrow="UX Patterns" title="The rules behind the components." lede="Recipes that aren't a single component — they're how the system behaves. Follow these and the apps stay coherent." />
 
                 <Subsection label="Filtering — the canonical layout">
                   <div className="grid md:grid-cols-2 gap-4">
