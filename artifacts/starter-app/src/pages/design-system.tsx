@@ -798,23 +798,59 @@ export default function DesignSystem() {
 
                 <Subsection label="Frosted-glass surface — the glassy header">
                   <div className="rounded-xl bg-card p-6 space-y-4">
-                    <div className="relative rounded-lg overflow-hidden h-48">
-                      <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${BRAND.lucky} 0%, ${BRAND.green} 50%, ${BRAND.red} 100%)` }}>
-                        <div className="absolute inset-0 flex items-center justify-center gap-6 p-4">
-                          {[1,2,3,4,5,6].map(i => (
-                            <div key={i} className="h-20 w-20 rounded-xl bg-white/20" />
-                          ))}
+                    <div className="relative rounded-lg overflow-hidden h-64 border border-border/30">
+                      <div className="absolute inset-0 bg-muted/30 p-6 pt-20 space-y-3">
+                        <div className="flex gap-3">
+                          <div className="rounded-lg bg-background p-4 flex-1 space-y-2">
+                            <div className="h-2 w-24 rounded bg-foreground/20" />
+                            <div className="h-2 w-full rounded bg-foreground/10" />
+                            <div className="h-2 w-3/4 rounded bg-foreground/10" />
+                          </div>
+                          <div className="rounded-lg bg-background p-4 flex-1 space-y-2">
+                            <div className="h-2 w-20 rounded bg-foreground/20" />
+                            <div className="h-2 w-full rounded bg-foreground/10" />
+                            <div className="h-2 w-2/3 rounded bg-foreground/10" />
+                          </div>
+                          <div className="rounded-lg bg-background p-4 flex-1 space-y-2">
+                            <div className="h-2 w-16 rounded bg-foreground/20" />
+                            <div className="h-2 w-full rounded bg-foreground/10" />
+                            <div className="h-2 w-4/5 rounded bg-foreground/10" />
+                          </div>
+                        </div>
+                        <div className="rounded-lg bg-background p-4 space-y-2">
+                          <div className="h-2 w-32 rounded bg-foreground/20" />
+                          <div className="h-2 w-full rounded bg-foreground/10" />
+                          <div className="h-2 w-full rounded bg-foreground/10" />
+                          <div className="h-2 w-2/3 rounded bg-foreground/10" />
+                        </div>
+                        <div className="flex gap-3">
+                          <div className="rounded-lg p-3 flex-1" style={{ backgroundColor: `${BRAND.lucky}15` }}>
+                            <div className="h-2 w-12 rounded" style={{ backgroundColor: `${BRAND.lucky}40` }} />
+                            <div className="h-6 w-16 rounded mt-1" style={{ backgroundColor: `${BRAND.lucky}25` }} />
+                          </div>
+                          <div className="rounded-lg p-3 flex-1" style={{ backgroundColor: `${BRAND.green}15` }}>
+                            <div className="h-2 w-12 rounded" style={{ backgroundColor: `${BRAND.green}40` }} />
+                            <div className="h-6 w-20 rounded mt-1" style={{ backgroundColor: `${BRAND.green}25` }} />
+                          </div>
+                          <div className="rounded-lg p-3 flex-1" style={{ backgroundColor: `${BRAND.red}15` }}>
+                            <div className="h-2 w-12 rounded" style={{ backgroundColor: `${BRAND.red}40` }} />
+                            <div className="h-6 w-14 rounded mt-1" style={{ backgroundColor: `${BRAND.red}25` }} />
+                          </div>
                         </div>
                       </div>
-                      <div className="absolute top-0 left-0 right-0 h-14 border-b border-white/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center px-4">
+                      <div className="absolute top-0 left-0 right-0 h-14 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center px-4">
                         <div className="flex items-center gap-2">
-                          <div className="h-6 w-6 rounded bg-muted/50" />
-                          <div className="text-sm" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>App Name</div>
+                          <div className="h-7 w-7 rounded" style={{ backgroundColor: `${BRAND.lucky}20` }} />
+                          <div className="h-4 w-px bg-border/50" />
+                          <div className="text-sm" style={{ fontFamily: "Pilat Demi", color: BRAND.cinder }}>Shipping Solutions</div>
                         </div>
-                        <div className="ml-auto flex items-center gap-2">
-                          <div className="h-6 w-14 rounded bg-muted/50" />
-                          <div className="h-6 w-14 rounded bg-muted/50" />
+                        <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>
+                          <span className="rounded-md px-2 py-1 hover:bg-accent transition-colors cursor-pointer">Dashboard</span>
+                          <span className="rounded-md px-2 py-1 hover:bg-accent transition-colors cursor-pointer">Vessels</span>
                         </div>
+                      </div>
+                      <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                        <span className="text-[10px] uppercase tracking-widest px-3 py-1 rounded-full bg-background/80 backdrop-blur text-muted-foreground" style={{ fontFamily: "Inter, sans-serif" }}>↑ content shows through the header as you scroll</span>
                       </div>
                     </div>
                     <div className="grid md:grid-cols-2 gap-4">
@@ -1007,7 +1043,7 @@ export default function DesignSystem() {
 
               {/* PAGE LAYOUTS */}
               <section id="layouts" className="scroll-mt-24 mt-32">
-                <SectionHeader index="02" eyebrow="Page Layouts" title="The four shells you'll reach for." lede="Every screen in a Shipping Solutions app is one of these. Pick the shell first, then build the content inside the app shell above." />
+                <SectionHeader index="02" eyebrow="Page Layouts" title="Pick the frame, then fill it in." lede="Every screen in a Shipping Solutions app starts with one of these layouts. Choose the structure first, then build the content inside the app shell above." />
                 <Subsection label="App shell — sidebar + main">
                   <MiniSidebarDemo />
                 </Subsection>
